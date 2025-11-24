@@ -7,7 +7,7 @@ import { UserDb } from "../models/userModel.js";
 export const CreateBooking = async(req,res)=>{
     try {
         const clientId= req.user.id;
-    const {trainerId} = req.body;
+       const {trainerId} = req.body;
 
     const client = await UserDb.findById(clientId);
     if(!client){

@@ -7,6 +7,7 @@ import { logRouter } from './logRoutes.js';
 import { paymentRouter } from './paymentRoutes.js';
 import { bookingRouter } from './bookingRoutes.js';
 import { adminRouter } from './adminRoutes.js';
+import { SessionRouter } from './sessionRoutes.js';
 
 export const indexRouter= express.Router();
 
@@ -18,3 +19,4 @@ indexRouter.use('/plan',planRouter);
 indexRouter.use('/log',logRouter);
 indexRouter.use('/payment',paymentRouter);
 indexRouter.use('/booking',bookingRouter);
+indexRouter.use('/session',SessionRouter);

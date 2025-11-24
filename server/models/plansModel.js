@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose";
 
 const PlanSchema= new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
+    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     fitnessGoal: String,
     focusArea: [String],
     duration: String,

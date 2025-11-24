@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose";
 
 const PaymentSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "Trainer" },
+    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     amount: Number,
     paymentMethod: String,
     transactionId: String,
