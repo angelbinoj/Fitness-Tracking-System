@@ -7,5 +7,7 @@ export const authRouter= express.Router();
 
 authRouter.post('/register',upload.single('profilePic'), UserRegister);
 authRouter.post('/login',UserLogin);
-authRouter.put('/Updatedetails/:id',UserInfo);
+authRouter.put('/Updatedetails/:id', upload.array('certifications'), UserInfo);
 authRouter.post('/logout',UserLogout);
+
+

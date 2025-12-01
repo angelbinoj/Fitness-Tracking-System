@@ -33,6 +33,14 @@ export const CreateBooking = async(req,res)=>{
 
     await booking.save();
 
+    if(!client.assignedTrainer){
+       client.assignedTrainer = trainerId; 
+      }
+        if (!trainer.assignedClients.includes(client._id))
+           { trainer.assignedClients.push(client._id); } 
+        await client.save();
+         await trainer.save(); 
+
     res.status(201).json({message: "Booking request sent",booking});
 
 
@@ -47,60 +55,16 @@ export const getTrainerBookings = async (req, res) => {
   try {
     const trainerId = req.user.id;
 
-    const bookings= await BookingsDb.find({ trainerId ,status: "Pending"})
+    const bookings = await BookingsDb.find({ trainerId })
       .populate("clientId", "name profilePic goal");
 
-    if(bookings.length === 0){
-        res.json({message: "No pending bookings found!"})
-    }else{
-         res.status(200).json({message: "Successfully fetched pending bookings", bookings});
+    if (bookings.length === 0) {
+      return res.json({ message: "No bookings found!" });
     }
+
+    res.status(200).json({ message: "Successfully fetched bookings", bookings });
 
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-export const updateBookingStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
-    const id  = req.params.id;
-    const trainerId= req.user.id;
-
-    const booking = await BookingsDb.findById(id);
-    if (!booking) {
-      return res.status(404).json({ error: "Booking not found" });
-    }
-    if (booking.trainerId.toString() !== trainerId) {
-      return res.status(403).json({ error: "Not authorized for this booking" });
-    }
-
-    booking.status = status;
-    await booking.save();
-
-    if (status === "Accept") {
-      const client = await UserDb.findById(booking.clientId);
-      const trainer = await UserDb.findById(booking.trainerId);
-
-      if (client && trainer) {
-        if(!client.assignedTrainer){
-            client.assignedTrainer = trainerId;
-        }
-
-        if (!trainer.assignedClients.includes(client._id)) {
-          trainer.assignedClients.push(client._id);
-        }
-
-        await client.save();
-        await trainer.save();
-      }
-    }
-
-    res.json({ message: "Booking updated", booking });
-
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
- 

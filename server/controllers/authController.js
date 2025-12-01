@@ -83,7 +83,16 @@ export const UserInfo = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found!" });
     }
+
     const updatedData = req.body;
+    if (req.files && req.files.length > 0) {
+      updatedData.trainerInfo = updatedData.trainerInfo || {};
+      updatedData.trainerInfo.certifications = req.files.map((file, index) => ({
+        file: file.path,
+        description: req.body[`description_${index}`]
+      }));
+    }
+
     const updatedUser = await UserDb.findByIdAndUpdate(
       userId,
       updatedData,

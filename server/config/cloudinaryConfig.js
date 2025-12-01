@@ -1,34 +1,3 @@
-// console.log("Cloudinary config file LOADED");
-// import cloudinary from "cloudinary";
-
-// cloudinary.v2.config({
-//     cloud_name: process.env.CLOUD_NAME,
-//     api_key: process.env.CLOUD_API_KEY,
-//     api_secret: process.env.CLOUD_API_SECRET
-// })
-
-// console.log("ENV CHECK:", {
-//   name: process.env.CLOUD_NAME,
-//   key: process.env.CLOUD_API_KEY,
-//   secret: process.env.CLOUD_API_SECRET
-// });
-
-
-// const uploadToCloudinary= (filepath)=>{
-//     return new Promise((resolve,reject)=>{
-//         cloudinary.v2.uploader.upload(
-//             filepath,
-//             {folder:"user-profiles"},
-//             (error,result)=>{
-//                 if(error) return reject(error)
-//                     resolve(result.secure_url)
-//             }
-//         )
-//     })
-// }
-
-// export default uploadToCloudinary;
-
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
@@ -74,9 +43,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
-  }
+ limits: { fileSize: 10 * 1024 * 1024 } 
 });
 
 // Utility function to delete image from Cloudinary

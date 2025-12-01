@@ -4,10 +4,8 @@ const BookingSchema = new mongoose.Schema({
     clientId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     date: { type: Date, default: Date.now },
-    status: {
-        type: String,
-        enum: ["Accept", "Pending", "Reject"],
-        default: "Pending"
+    status: {type: String,
+        default: "Booked"
     }
 },{ timestamps: true });
 

@@ -5,7 +5,7 @@ import { indexRouter } from './routes/indexRouters.js';
 // import { authRouter } from './routes/userRoutes.js';
 // import { taskRouter } from './routes/taskRoutes.js';
 // import { globalErrorHandler } from './middlewares/errorMiddlewares.js';
-// import cors from 'cors';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -14,20 +14,20 @@ connectDB()
 const app=express();
 app.use((express.json()));
 app.use(cookieParser());
-// const allowOrigins = ['http://localhost:5173','https://mern-task-manager-frontend-pearl.vercel.app']
+const allowOrigins = ['http://localhost:5173']
 
-// // app.use(cors({
-//     origin: function (origin, callback) {
+app.use(cors({
+    origin: function (origin, callback) {
 
-//         if (!origin) return callback(null, true)
+        if (!origin) return callback(null, true)
 
-//         if (allowOrigins.includes(origin)) {
-//             return callback(null, true)
-//         } else {
-//             return callback(new Error('Not allowed by CORS'))
-//         }
-// },credentials: true
-// }))
+        if (allowOrigins.includes(origin)) {
+            return callback(null, true)
+        } else {
+            return callback(new Error('Not allowed by CORS'))
+        }
+},credentials: true
+}))
 
 app.use('/api',indexRouter);
 // app.use('/api/tasks',taskRouter);

@@ -17,20 +17,25 @@ const UserSchema = new mongoose.Schema({
   },
 
   // Client Profile Info
-  fitnessGoal: { type: String, enum: ["gain", "lose", "maintain", 'rehabilation'] },
+  fitnessGoal: { type: String, enum: ["gain", "lose", "maintain", 'rehabilitation'] },
   focusArea: [String], // ["Abs", "Glutes"]
   profileMetrics: {
     height: Number,
     weight: Number,
   },
-  healthIssues: String,
+  healthIssues: {type: String},
 
   // Trainer Info
   trainerInfo: {
-    specialization: String,
-    experience: Number,
-    certifications: [String],
-    availability: String,
+    specialization: {type: String},
+    experience: {type: String},
+     certifications: [
+    {
+      file: String,
+      description: String
+    }
+  ],
+    availability: {type: String},
   },
   
   assignedTrainer: {

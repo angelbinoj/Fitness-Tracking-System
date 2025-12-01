@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -40,3 +42,14 @@
 .read-the-docs {
   color: #888;
 } */
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;             
+ -webkit-text-stroke: 0.8px #D5FF00;
+ text-shadow:
+    0 0 2px #d5ff00,
+    0 0 4px rgba(213, 255, 0, 0.6);
+}
