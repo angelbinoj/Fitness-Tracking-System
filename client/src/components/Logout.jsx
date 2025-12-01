@@ -1,11 +1,13 @@
 
 import axios from "axios";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
   const navigate = useNavigate(); 
 
-  const logoutUser = async () => {
+  useEffect(() => {
+     const logoutUser = async () => {
     try {
       await axios.post("https://fitness-system-backend.vercel.app/api/auth/logout", {}, { withCredentials: true });
       localStorage.clear();
@@ -16,8 +18,8 @@ const Logout = () => {
       navigate("/login"); 
     }
   };
-
-  return logoutUser;
+  logoutUser();
+  }, [navigate])
 };
 
 export default Logout;
