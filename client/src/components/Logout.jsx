@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Logout = async () => {
     try {
            const navigate = useNavigate();
-  await axios.post("https://fitness-system-backend.vercel.app/auth/logout", {}, { withCredentials: true });
+  await axios.post("https://fitness-system-backend.vercel.app/api/auth/logout", {}, { withCredentials: true });
   localStorage.clear();
   navigate("/login");
 

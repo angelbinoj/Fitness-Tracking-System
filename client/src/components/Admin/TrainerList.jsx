@@ -10,7 +10,7 @@ function TrainerList(){
 
   const fetchTrainers= async()=>{
     try {
-       const {data} = await axios.get("https://fitness-system-backend.vercel.app/admin/trainers",
+       const {data} = await axios.get("https://fitness-system-backend.vercel.app/api/admin/trainers",
       {    headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }         

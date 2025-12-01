@@ -65,11 +65,11 @@ const handleSubmit = async (e) => {
 
   try {
     const { data } = await axios.post(
-      "https://fitness-system-backend.vercel.app/auth/register",
+      "https://fitness-system-backend.vercel.app/api/auth/register",
       userData,
       { withCredentials: true }
     );
-    console.log(data.message);
+    console.log(data);
     
     if (data?.message) {
       setAlertMessage(data.message);
