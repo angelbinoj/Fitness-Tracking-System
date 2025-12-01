@@ -1,15 +1,14 @@
-import mongoose from "mongoose"
+// This assumes this code is in a file like './config/connectDatabase.js'
+import mongoose from "mongoose";
 
-
-export const connectDB= async()=>{
+export const connectDB = async () => {
     try {
-         await mongoose.connect(process.env.MONGODB_URL).then((res)=>{
-        console.log("database connected",res);
-        }).catch((err)=>{
-        console.log("database connection failed",err);
-        })
-    } catch (error) {
-        console.log(error);
+        // Await the connection call itself and let the parent try/catch handle it
+        await mongoose.connect(process.env.MONGODB_URL);
+        console.log("Database connected successfully");
         
+    } catch (error) {
+        console.log("Database connection failed", error.message);
+        throw error; // Re-throw the error so startServer catch block catches it
     }
-}
+};
