@@ -16,7 +16,7 @@ const trainerId = user.assignedTrainer;
     const fetchTrainerDetails = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/user/trainer/${trainerId}`,
+          `https://fitness-system-backend.vercel.app/user/trainer/${trainerId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,

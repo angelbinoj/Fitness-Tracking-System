@@ -22,7 +22,7 @@ function UserUpdateProfile() {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/user/profile",
+          "https://fitness-system-backend.vercel.app/user/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
@@ -74,7 +74,7 @@ const enableEdit = () => {
       }
 
       const { data } = await axios.put(
-        "http://localhost:4000/api/user/profile",
+        "https://fitness-system-backend.vercel.app/user/profile",
         formData,
         {
           headers: {

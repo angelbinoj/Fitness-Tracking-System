@@ -93,7 +93,7 @@ const handleSubmitOnboarding = async () => {
 
   try {
     const res = await axios.put(
-      `http://localhost:4000/api/auth/Updatedetails/${user._id}`,
+      `https://fitness-system-backend.vercel.app/auth/Updatedetails/${user._id}`,
       form,
       { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
     );

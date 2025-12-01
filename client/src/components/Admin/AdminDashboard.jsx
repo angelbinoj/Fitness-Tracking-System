@@ -2,7 +2,7 @@
 
 function AdminDashboard(){
     return(
-        <div>tfyghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgggggggggggggggg hhhhhhhhhhhhhhhhhhhhhhhhh</div>
+        <div>Welcome to Admin Dashboard!</div>
     )
 }
 

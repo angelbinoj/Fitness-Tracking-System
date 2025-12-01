@@ -18,7 +18,7 @@ const UserDashboard = () => {
   const bookTrainer =async(trainerId)=>{
     try {
       setViewTrainerSelection(false);
-      const response = await axios.post("http://localhost:4000/api/booking",
+      const response = await axios.post("https://fitness-system-backend.vercel.app/booking",
         { trainerId },
         {    headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
@@ -43,7 +43,7 @@ const UserDashboard = () => {
 
   const fetchTrainers= async()=>{
     try {
-       const {data} = await axios.get("http://localhost:4000/api/user/trainers",
+       const {data} = await axios.get("https://fitness-system-backend.vercel.app/user/trainers",
       {    headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }         

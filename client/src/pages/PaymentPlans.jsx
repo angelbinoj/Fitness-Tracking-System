@@ -40,7 +40,7 @@ const handleCheckout = async (plan) => {
 
   try {
     const { data } = await axios.post(
-      "http://localhost:4000/api/payment/makePayment",
+      "https://fitness-system-backend.vercel.app/payment/makePayment",
       {
         userId: user._id,
         trainerId,

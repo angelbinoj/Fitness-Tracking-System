@@ -38,7 +38,6 @@ const user = JSON.parse(localStorage.getItem("user"));
         </p>
 
         {hasClients ? (
-          //==================== DASHBOARD WITH CLIENTS ====================//
           <div>
             <section className="bg-green-600 text-white p-6 rounded-xl mb-6 grid grid-cols-3 gap-6">
               <div className="bg-yellow-400 text-center p-4 rounded-xl">

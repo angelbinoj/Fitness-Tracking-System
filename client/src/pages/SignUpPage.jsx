@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
 
   try {
     const { data } = await axios.post(
-      "http://localhost:4000/api/auth/register",
+      "https://fitness-system-backend.vercel.app/auth/register",
       userData,
       { withCredentials: true }
     );
