@@ -1,18 +1,23 @@
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const Logout = () => {
+  const navigate = useNavigate(); 
 
-const Logout = async () => {
+  const logoutUser = async () => {
     try {
-           const navigate = useNavigate();
-  await axios.post("https://fitness-system-backend.vercel.app/api/auth/logout", {}, { withCredentials: true });
-  localStorage.clear();
-  navigate("/login");
-
+      await axios.post("https://fitness-system-backend.vercel.app/api/auth/logout", {}, { withCredentials: true });
+      localStorage.clear();
+      navigate("/login"); 
     } catch (error) {
-        console.log(error);
-        
+      console.error("Logout failed:", error);
+      localStorage.clear();
+      navigate("/login"); 
     }
-}
+  };
+
+  return logoutUser;
+};
 
 export default Logout;
