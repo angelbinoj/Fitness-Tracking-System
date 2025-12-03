@@ -23,6 +23,7 @@ import ClientList from './components/Admin/ClientList';
 import Logout from './components/Logout';
 import PaymentPlans from './pages/PaymentPlans';
 import PaymentStatusPage from './pages/PaymentStatusPage';
+import AssignedClient from './components/Trainer/AssignedClient';
 
 
 function App() {
@@ -54,8 +55,8 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["trainer"]}><TrainerLayout /></ProtectedRoute>}>
           <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
           <Route path='/trainer/updateProfile' element={<TrainerUpdateProfile/>}/>
-          {/* <Route path="/trainer/clients" element={<ClientList />} />
-          <Route path="/trainer/client-logs/:id" element={<ClientLogs />} /> */}
+          <Route path="/trainer/clients" element={<AssignedClient/>} />
+          {/* <Route path="/trainer/client-logs/:id" element={<ClientLogs />} /> */}
         </Route>
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
 

@@ -35,7 +35,7 @@ export const findAssignedClients = async (req, res) => {
     const trainerId = req.user.id;
     const clients = await UserDb.find({
       role: "client",
-      assignedTrainer: trainerId
+       assignedTrainer: mongoose.Types.ObjectId(trainerId)
     });
     if(!clients){
       return res.status(400).json({error:error.message || "No Clients Found!"})

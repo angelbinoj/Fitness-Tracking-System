@@ -10,7 +10,7 @@ export default function TrainerSidebar(){
             text: "Update Profile"
         },
         {
-            url: "/",
+            url: "/trainer/clients",
             text: "Clients"
         },
     {

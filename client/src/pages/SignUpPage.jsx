@@ -9,7 +9,7 @@ import avatar from '../assets/avatar.png';
 
 function SignUpPage(){
 
-const [userData, setUserData] = useState({name:"", email:"", contact:"", age:"", gender:"", profilePic:"", role:"", password:"", confirmPassword:""});
+const [userData, setUserData] = useState({name:"", email:"", contact:"", age:"", gender:"", profilePic:"", role:"client", password:"", confirmPassword:""});
 const [alertMessage,setAlertMessage]= useState("");
 const [showAlert, setShowAlert]=useState(false);
 const [alertColor, setAlertColor]=useState("");
@@ -155,12 +155,12 @@ const handleSubmit = async (e) => {
 
   <div className="flex gap-4">
     <label className="flex items-center gap-2 cursor-pointer">
-      <input type="radio" name="role"value="client" className="accent-[#78B424] w-4 h-4" defaultChecked onChange={handleChange}/>
+      <input type="radio" name="role"value="client" className="accent-[#78B424] w-4 h-4" checked={userData.role=="client"} onChange={handleChange}/>
       <span className="text-slate-800 ">Client</span>
     </label>
 
     <label className="flex items-center gap-1">
-      <input type="radio" name="role" value="trainer" className="accent-[#78B424] w-4 h-4" onChange={handleChange} />
+      <input type="radio" name="role" value="trainer" className="accent-[#78B424] w-4 h-4" checked={userData.role=="trainer"} onChange={handleChange} />
      <span className="text-slate-800">Trainer</span>
     </label>
   </div>

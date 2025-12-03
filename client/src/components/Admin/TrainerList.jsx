@@ -6,7 +6,6 @@ function TrainerList(){
 
   const [trainers,setTrainers] =useState([]);
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const fetchTrainers= async()=>{
     try {

@@ -31,9 +31,9 @@ const UserDashboard = () => {
       assignedTrainer: response.data.booking.trainerId, 
     };
 
+    navigate('/paymentPlans')
     localStorage.setItem("user", JSON.stringify(updatedUser));
     console.log("Trainer assigned:", updatedUser);
-    navigate('/paymentPlans')
 
     } catch (error) {
       console.log(error);

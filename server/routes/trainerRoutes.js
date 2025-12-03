@@ -11,6 +11,6 @@ trainerRouter.use(authorizeRole(["trainer"]));
 // trainerRouter.get('/dashboard', TrainerDashboard);
 trainerRouter.get('/profile',getProfile);
 trainerRouter.put('/profile',upload.single('profilePic'), updateProfile);
-trainerRouter.get('/clients',isClientAssignedToTrainer, findAssignedClients);
+trainerRouter.get('/clients',findAssignedClients);
 trainerRouter.get('/client/:id',isClientAssignedToTrainer, getProfileById);
 // trainerRouter.get('/progress/:clientId',UserProgress);
