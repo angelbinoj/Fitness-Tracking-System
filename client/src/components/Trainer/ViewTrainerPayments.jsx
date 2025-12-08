@@ -20,15 +20,17 @@ const ViewTrainerPayments = () => {
       );
       console.log(data.payments);
       setPayments(data.payments);
-     
-    const total = payments.reduce((sum, payment) => sum + (payment.trainerShare || 0), 0);
-    setTotalEarnings(total);
-  
-      
+   
     } catch (err) {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+  const total = payments.reduce((sum, payment) => sum + (payment.trainerShare || 0), 0);
+  setTotalEarnings(total);
+}, [payments]);
+
 
   useEffect(() => {
     fetchPayments()
