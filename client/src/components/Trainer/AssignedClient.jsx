@@ -1,34 +1,54 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AssignedClient = () => {
   const [assignedClients, setAssignedClients] = useState([]);
   const token = localStorage.getItem("token");
   const [viewClients, setViewClients] = useState(false);
+  const navigate= useNavigate();
 
   const fetchAssignedClients = async () => {
     try {
       const { data } = await axios.get(
-        "https://fitness-system-backend.vercel.app/api/trainer/clients",
+        `${import.meta.env.VITE_API_URL}/trainer/clients`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
-      console.log("API Response:", data);
-      setAssignedClients(data.assignedClients);
-      if (data.assignedClients.length > 0) {
-  setViewClients(true);
-} 
+
+      const clients = data.AssignedClients;
+
+      const clientsWithPlan = [];
+      for (let i = 0; i < clients.length; i++) {
+        const client = clients[i];
+        try {
+          const planRes = await axios.get(
+            `${import.meta.env.VITE_API_URL}/plan/${client._id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+              withCredentials: true,
+            }
+          );
+          console.log(planRes);
+
+          clientsWithPlan.push({ ...client, hasPlan: true });
+        } catch (err) {
+          clientsWithPlan.push({ ...client, hasPlan: false });
+        }
+      }
+
+      setAssignedClients(clientsWithPlan);
+      setViewClients(clientsWithPlan.length > 0);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching assigned clients:", error);
     }
   };
 
   useEffect(() => {
     fetchAssignedClients();
-     console.log("Assigned Clients State:", assignedClients);
-  }, []);
+  }, [viewClients]);
 
   return (
     <div className="h-full">
@@ -38,11 +58,11 @@ const AssignedClient = () => {
             Below is the list of Users
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          <div className="grid grid-cols-1 gap-5 mt-5">
             {assignedClients.map((user) => (
               <div
                 key={user._id}
-                className="bg-white shadow-xl p-5 rounded-xl border border-gray-300 flex gap-5 items-center hover:shadow-2xl hover:scale-[1.01] transition-all bg-gradient-to-r from-white to-green-50"
+                className="bg-white shadow-xl p-5 rounded-xl border border-gray-300 flex gap-5 justify-between items-center hover:shadow-2xl hover:scale-[1.01] transition-all bg-gradient-to-r from-white to-green-50"
               >
                 <img
                   src={user.profilePic || "https://via.placeholder.com/100"}
@@ -50,32 +70,61 @@ const AssignedClient = () => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-green-500 shadow-md"
                 />
 
-                <div className="flex flex-col flex-1">
-                  <h4 className="text-xl font-bold capitalize text-gray-900">{user.name}</h4>
-                  <p className="text-gray-700 text-sm capitalize">
-                    fitness goal: <span className="font-medium">{user.fitnessGoal}</span>
-                  </p>
-                  <p className="text-gray-700 text-sm">
-                    focus area: <span className="font-medium">{user?.focusArea?.join(", ")}</span>
-                  </p>
-                  <p className="text-gray-700 text-sm">
-                    health issues: <span className="font-medium">{user.healthIssues}</span>
-                  </p>
+                <div className="flex w-3/4 justify-between">
+                  <div>
+                  <h4 className="text-xl font-bold capitalize text-gray-900">
+                    {user.name}
+                  </h4>
+                    <p className=" text-gray-700 capitalize">Age: {user.age} | Gender: {user.gender}</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-gray-800">Fitness Details</h5>
+                    <p className=" text-gray-700 capitalize">Goal: {user.fitnessGoal}</p>
+                    <p className="capitalize text-gray-700">
+                      Focus Area: {user.focusArea?.join(", ")}
+                    </p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-gray-800">Health & Metrics</h5>
+                    <p className="capitalize text-gray-700">
+                      Health Issues: {user.healthIssues || "Not mentioned"}
+                    </p>
+                    <p className="capitalize text-gray-700">
+                      Height: {user.profileMetrics?.height} cm | Weight: {user.profileMetrics?.weight} kg
+                    </p>
+                  </div>
                 </div>
+
+
+                {user.hasPlan ? (
+                  <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold shadow-md transition-all"
+                    onClick={() => navigate(`/trainer/viewPlan/${user._id}`)}
+                  >
+                    View Plan
+                  </button>
+                ) : (
+                  <button
+                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-semibold shadow-md transition-all"
+                    onClick={() =>  navigate(`/trainer/createPlan/${user._id}`)}
+                  >
+                    Assign Plan
+                  </button>
+                )}
               </div>
             ))}
           </div>
         </div>
       ) : (
         <div className="bg-gradient-to-br from-green-100 to-gray-200 p-6 h-full flex justify-center items-center rounded-xl">
-            <div className="border-2 w-2/4 p-10 rounded-xl bg-slate-100 border-white shadow-lg text-center">
-                <h2 className="text-2xl font-bold text-green-900">No Clients Yet!</h2>
-          <p className="mt-2 text-gray-700 text-lg">
-            You don't have any assigned clients yet. Once users choose you as their trainer,
-            their profiles, workout details, and scheduling options will appear here.
-            Stay active and ready to guide new clients on their fitness journey.
-          </p>
-            </div>
+          <div className="border-2 w-2/4 p-10 rounded-xl bg-slate-100 border-white shadow-lg text-center">
+            <h2 className="text-2xl font-bold text-green-900">No Clients Yet!</h2>
+            <p className="mt-2 text-gray-700 text-lg">
+              You don't have any assigned clients yet. Once users choose you as their trainer,
+              their profiles, workout details, and scheduling options will appear here.
+              Stay active and ready to guide new clients on their fitness journey.
+            </p>
+          </div>
         </div>
       )}
     </div>

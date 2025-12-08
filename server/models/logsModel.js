@@ -1,39 +1,32 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose from "mongoose";
 
-const UserLogSchema= new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
-  trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+const UserLogSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+
   logs: [
     {
-      date: { type: Date, default: Date.now },
+      date: { type: String, required: true },
 
-      workout: {
-        exercises: [
-          {
-            name: String,
-            sets: Number,
-            reps: Number
-          }
-        ],
-        totalCaloriesBurned: { type: Number, default: 0 }
+      workout: { 
+        description: String,    
+        caloriesBurned: Number   
       },
 
-      nutrition: {
-        meals: [
-          {
-            meal: String,
-            foods: [
-              {
-                item: String, 
-                totalCalories: Number
-              }
-            ]
-          }
-        ],
-        totalCalories: { type: Number, default: 0 }
-      }
+     nutrition: {
+  meals: [
+    {
+      mealType: String,
+      description: String,
+      calories: Number
+    }
+  ],
+  totalCalories: Number
+},
+      energyLevel: String,           
+      notes: String  
     }
   ]
 }, { timestamps: true });
 
-export const UserLogDb = mongoose.model("UserLog",UserLogSchema);
+export const UserLogDb = mongoose.model("UserLog", UserLogSchema);

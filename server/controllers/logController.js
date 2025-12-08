@@ -1,90 +1,126 @@
 import { UserLogDb } from "../models/logsModel.js";
-import { UserDb } from "../models/userModel.js";
 
 
-
-export const  CreateUserLogs= async(req,res)=>{
-    try {
-        const {trainerId, logs} = req.body;
-            if(!trainerId || !logs){
-                return res.status(400).json({error:"All fields are required!"})
-            }
-    
-            const trainer = await UserDb.findById(trainerId);
-                if (!trainer) {
-                  return res.status(404).json({ error: "Trainer not found!" });
-                }
+export const createOrUpdateLog = async (req, res) => {
+  try {
+    const { trainerId, workout, nutrition, energyLevel, notes } = req.body;
     const userId = req.user.id;
-    const newLogs = Array.isArray(logs) ? logs : [logs];
-    let userLog= await UserLogDb.findOne({ userId });
+
+    if (!workout || !nutrition) {
+      return res.status(400).json({ error: "All fields are required!" });
+    }
+
+    const meals = nutrition.meals || [];
+    const totalCalories = meals.reduce((sum, meal) => sum + Number(meal.calories || 0), 0);
+
+    const nutritionWithTotal = {
+      ...nutrition,
+      totalCalories,
+    };
+
+    const today = new Date().toISOString().split("T")[0];
+
+    let userLog = await UserLogDb.findOne({ userId });
+
     if (userLog) {
-      newLogs.forEach(log => {
-        userLog.logs.push(log);
-      });
+      const existingLog = userLog.logs.find((log) => log.date === today);
+
+      if (existingLog) {
+        existingLog.workout = workout;
+        existingLog.nutrition = nutritionWithTotal;
+        existingLog.energyLevel = energyLevel;
+        existingLog.notes = notes;
+      } else {
+        userLog.logs.push({
+          date: today,
+          workout,
+          nutrition: nutritionWithTotal,
+          energyLevel,
+          notes,
+        });
+      }
+
       await userLog.save();
-    }else{
-         userLog = new UserLogDb({userId, trainerId, logs: newLogs})
-         await userLog.save();
+      return res
+        .status(200)
+        .json({ message: "Today's log saved successfully", userLog });
     }
-            
-            if(userLog){
-                return res.status(200).json({message:"Daily workout and nutrition logged successfully",LogDetails: userLog});
-            }
-    } catch (error) {
-        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
-    }
-}
 
-export const getUserLogsList= async(req,res)=>{
-    try {
-    const user = await UserDb.findById(req.user.id);
+    const newLog = new UserLogDb({
+      userId,
+      trainerId,
+      logs: [
+        {
+          date: today,
+          workout,
+          nutrition: nutritionWithTotal,
+          energyLevel,
+          notes,
+        },
+      ],
+    });
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    const logs= await UserLogDb.findOne({ userId: user._id });
-    if(!logs){
-        return res.status(404).json({error:"No logs found!"})
-    }else{
-    return res.status(200).json({message:"User logs fetched successfully",Logs: logs});
-    }
+    await newLog.save();
+    return res
+      .status(200)
+      .json({ message: "Log created successfully", userLog: newLog });
   } catch (error) {
-    res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    return res
+      .status(500)
+      .json({ error: error.message || "Internal Server Error" });
   }
+};
 
-}
-    
-export const getUsersWithLogs= async(req,res)=>{
-    try {
+
+export const getUserLogsList = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const logs = await UserLogDb.findOne({ userId });
+
+    if (!logs) {
+      return res.status(404).json({ error: "No logs found" });
+    }
+
+    return res.status(200).json({ message: "Logs fetched successfully", logs });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
+export const getUsersWithLogs = async (req, res) => {
+  try {
     const trainerId = req.user.id;
-    const logs = await UserLogDb.find({ trainerId })
-    if(logs.length === 0){
-        return res.status(404).json({error:"No logs found!"})
-    }else{
-    return res.status(200).json({message:"Logs fetched successfully",Logs: logs});
+    const logs = await UserLogDb.find({ trainerId });
+
+    if (logs.length === 0) {
+      return res.status(404).json({ error: "No logs found!" });
     }
+
+    return res.status(200).json({ message: "Logs fetched successfully", logs });
+
   } catch (error) {
-    res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    res.status(500).json({ error: error.message || "Internal Server Error" });
   }
+};
 
-}
+export const getUserLogs = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const log = await UserLogDb.findOne({ userId });
 
-export const getUserLogs= async(req,res)=>{
-    try {
-      const userId= req.params.id;
-      const log= await UserLogDb.findOne({userId})
-      if(!log){
-        return res.status(404).json({error:"No logs found from this user!"})
-      }
+    if (!log) {
+      return res.status(404).json({ error: "No logs found from this user!" });
+    }
 
-      const trainerId = req.user.id;
-      if(log.trainerId.toString() !== trainerId){
-        return res.status(401).json({error:"You are not assigned to this user!"})
-      }
-    return res.status(200).json({message:"User Log fetched successfully",Log: log});
-    
+    const trainerId = req.user.id;
+    if (log.trainerId.toString() !== trainerId) {
+      return res.status(401).json({ error: "You are not assigned to this user!" });
+    }
+
+    return res.status(200).json({ message: "User Log fetched successfully", log });
+
   } catch (error) {
-    res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    res.status(500).json({ error: error.message || "Internal Server Error" });
   }
-
-}
+};

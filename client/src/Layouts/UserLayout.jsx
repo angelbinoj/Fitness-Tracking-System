@@ -6,15 +6,15 @@ import UserSidebar from '../components/User/UserSidebar'
 function UserLayout() {
     return (
         <>
-        <div className='grid grid-cols-[20%_80%] w-full'>
-
-            <UserSidebar/>
-            <main> 
-                <Outlet />
-            </main>
+      <div className="flex">
+        <div className="fixed top-0 left-0 w-[20%] h-screen">
+          <UserSidebar />
         </div>
-            
-        </>
+        <div className="ml-[20%] w-[80%] h-screen overflow-y-auto">
+          <Outlet />
+        </div>
+      </div>
+    </>
     )
 }
 

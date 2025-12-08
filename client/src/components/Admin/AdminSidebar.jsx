@@ -22,7 +22,7 @@ export default function AdminSidebar(){
         text: "Sessions"
     },
     {
-        url: "/",
+        url: "/admin/viewAllPayments",
         text: "Payments"
     },
     {

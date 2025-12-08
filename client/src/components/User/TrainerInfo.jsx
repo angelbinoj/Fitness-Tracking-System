@@ -44,7 +44,7 @@ const trainerId = user.assignedTrainer;
 
   return (
     <div className="flex justify-center items-center h-full">
-      <div className="flex flex-col mx-auto mb-5 items-center bg-[#e7ebd3] shadow-lg border border-[#a3b30f] rounded-md font-medium w-3/5 pb-10">
+      <div className="flex flex-col mx-auto my-10 items-center bg-[#e7ebd3] shadow-lg border border-[#a3b30f] rounded-md font-medium w-3/5 pb-10">
         
         <h1 className="text-3xl mt-8 font-bold text-slate-900 uppercase">
           Trainer Information

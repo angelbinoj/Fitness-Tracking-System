@@ -24,6 +24,17 @@ import Logout from './components/Logout';
 import PaymentPlans from './pages/PaymentPlans';
 import PaymentStatusPage from './pages/PaymentStatusPage';
 import AssignedClient from './components/Trainer/AssignedClient';
+import UserLogsList from './components/Trainer/UserLogsList';
+import ViewLogs from './components/User/ViewLogs';
+import ViewWorkoutPlan from './components/User/ViewWorkoutPlan';
+import ViewNutritionPlan from './components/User/ViewNutritionPlan';
+import CreatePlan from './components/Trainer/CreatePlan';
+import ViewUserPlan from './components/Trainer/ViewUserPlan';
+import CreateLog from './components/User/CreateLog';
+import ViewUserLogs from './components/Trainer/ViewUserLog';
+import ViewUserPayments from './components/User/ViewUserPayments';
+import ViewTrainerPayments from './components/Trainer/ViewTrainerPayments';
+import ViewAllPayments from './components/Admin/ViewAllPayments';
 
 
 function App() {
@@ -46,8 +57,11 @@ function App() {
           <Route path='/paymentPlans' element={<PaymentPlans/>}/>
           <Route path="/payment/success" element={<PaymentStatusPage/>} />
           <Route path="/payment/cancel" element={<PaymentStatusPage />} />
-          {/* <Route path="/user/logs" element={<UserLogs />} />
-          <Route path="/user/plans" element={<UserPlans />} /> */}
+          <Route path="/user/logs" element={<ViewLogs/>} />
+          <Route path="/user/createLog" element={<CreateLog/>} />
+          <Route path="/user/workoutPlan" element={<ViewWorkoutPlan/>} />
+          <Route path="/user/nutritionPlan" element={<ViewNutritionPlan/>} />
+          <Route path="/user/viewPayments" element={<ViewUserPayments/>} />
           </Route>
           <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
@@ -56,7 +70,11 @@ function App() {
           <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
           <Route path='/trainer/updateProfile' element={<TrainerUpdateProfile/>}/>
           <Route path="/trainer/clients" element={<AssignedClient/>} />
-          {/* <Route path="/trainer/client-logs/:id" element={<ClientLogs />} /> */}
+          <Route path="/trainer/createPlan/:id" element={<CreatePlan/>} />
+          <Route path="/trainer/viewPlan/:id" element={<ViewUserPlan/>} />
+          <Route path="/trainer/client/logs" element={<UserLogsList/>} />
+          <Route path="/trainer/viewLog/:id" element={<ViewUserLogs />} />
+          <Route path="/trainer/viewPayments" element={<ViewTrainerPayments/>} />
         </Route>
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
 
@@ -66,6 +84,7 @@ function App() {
           <Route path='/admin/updateProfile' element={<AdminUpdateProfile/>}/>
           <Route path="/trainerList" element={<TrainerList/>} />
           <Route path="/clientList" element={<ClientList/>} />
+          <Route path="/admin/viewAllPayments" element={<ViewAllPayments/>} />
           {/* <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/trainers" element={<ManageTrainers />} /> */}
         </Route> 

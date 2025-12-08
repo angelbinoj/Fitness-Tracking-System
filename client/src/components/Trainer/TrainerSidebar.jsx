@@ -13,12 +13,16 @@ export default function TrainerSidebar(){
             url: "/trainer/clients",
             text: "Clients"
         },
+        {
+            url: "/trainer/client/logs",
+            text: "View Client Logs"
+        },
     {
         url: "/",
         text: "Sessions"
     },
     {
-        url: "/",
+        url: "/trainer/viewPayments",
         text: "Payments"
     },
     {

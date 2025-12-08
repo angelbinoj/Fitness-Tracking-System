@@ -5,6 +5,6 @@ import { createPlan, getUserPlan } from '../controllers/planController.js';
 export const planRouter = express.Router();
 
 planRouter.use(authMiddleWare);
-planRouter.post("/",authorizeRole(["trainer"]), createPlan);
-planRouter.get("/:id",authorizeRole(["client"]), getUserPlan);
+planRouter.post("/:id",authorizeRole(["trainer"]), createPlan);
+planRouter.get("/:id",authorizeRole(["client","trainer"]), getUserPlan);
 

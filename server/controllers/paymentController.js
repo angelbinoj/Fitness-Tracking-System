@@ -28,11 +28,11 @@ export const createCheckoutSession = async (req, res) => {
         trainerId,
         plan,
       },
-       success_url: `${process.env.CLIENT_URL}/payment/success`,
+       success_url: `${process.env.CLIENT_URL}/payment/success?paymentId=${paymentDetails._id}`,
       cancel_url: `${process.env.CLIENT_URL}/payment/cancel`,
     });
 
-    const platformCommission = amount * 0.1; // example
+    const platformCommission = amount * 0.1; 
     const trainerShare = amount - platformCommission;
 
      const paymentDetails=await PaymentDb.create({
@@ -43,7 +43,7 @@ export const createCheckoutSession = async (req, res) => {
       platformCommission,
       trainerShare,
       paymentMethod: "Stripe",
-      transactionId: session.id, // store the session id for reference
+      transactionId: session.id,
       paymentStatus: "Pending",
       startDate: new Date(),
       expiryDate: plan === "Monthly"
@@ -57,5 +57,71 @@ export const createCheckoutSession = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const updatePayment = async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+    const payment = await PaymentDb.findByIdAndUpdate(
+      paymentId,
+      { paymentStatus: "Success" },
+      { new: true }
+    );
+    res.status(200).json({ success: true, payment });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+export const getUserPayments = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const payments = await PaymentDb.find({ userId })
+      .sort({ createdAt: -1 })
+      .populate("trainerId", "name email");
+
+      
+      if(payments.length===0){
+        return res.status(404).json({ error: "No Payments found!"});
+      }
+
+    res.status(200).json({ success: true, payments });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+export const getTrainerPayments = async (req, res) => {
+  try {
+     const trainerId = req.user.id; 
+
+    const payments = await PaymentDb.find({ trainerId })
+      .sort({ createdAt: -1 })
+      .populate("userId", "name email");
+
+      if(payments.length===0){
+        return res.status(404).json({ error: "No Payments found!"});
+      }
+    res.status(200).json({ success: true, payments });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+export const getAllPayments = async (req, res) => {
+  try {
+    const payments = await PaymentDb.find()
+      .sort({ createdAt: -1 })
+      .populate("userId", "name email")
+      .populate("trainerId", "name email");
+
+    res.status(200).json({ success: true, payments });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };

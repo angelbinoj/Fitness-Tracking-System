@@ -1,19 +1,34 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PaymentStatusPage = () => {
   const location = useLocation();
   const isSuccess = location.pathname === "/payment/success";
-  const navigate=useNavigate();
-  function goTo(){
-    if(isSuccess){
-        navigate('/user/dashboard')
-    }else{
-        navigate('/paymentPlans')
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const paymentId = localStorage.getItem("paymentId");
+
+    if (isSuccess && paymentId) {
+      axios.patch(
+        `${import.meta.env.VITE_API_URL}/payment/update/${paymentId}`,
+        { status: "Success" },
+        {  headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true, }
+      );
     }
-  }
-  setTimeout(() => {
-    goTo();
-  }, 2000);
+
+    setTimeout(() => {
+      if (isSuccess) {
+        navigate("/user/dashboard");
+      } else {
+        navigate("/paymentPlans");
+      }
+      localStorage.removeItem("paymentId");
+    }, 2000);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">

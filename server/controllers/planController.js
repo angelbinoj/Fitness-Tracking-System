@@ -5,8 +5,9 @@ import { UserDb } from "../models/userModel.js";
 
 export const createPlan= async(req,res)=>{
     try {
-        const {userId, workout, nutrition, duration} = req.body;
-        if(!userId || !workout || !nutrition || !duration){
+        const {workout, nutrition, duration} = req.body;
+        const userId = req.params.id;
+        if(!workout || !nutrition || !duration){
             return res.status(400).json({error:"All fields are required!"})
         }
 
@@ -34,7 +35,8 @@ export const createPlan= async(req,res)=>{
 
 export const getUserPlan= async(req,res)=>{
     try {
-        const user = await UserDb.findById(req.user.id);
+        const userId = req.params.id;
+        const user = await UserDb.findById(userId);
 
         if (!user) {
           return res.status(404).json({ error: "User not found" });

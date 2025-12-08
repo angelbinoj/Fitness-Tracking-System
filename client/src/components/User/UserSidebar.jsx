@@ -14,19 +14,23 @@ export default function UserSidebar(){
             text: "Trainer Info"
         },
     {
-        url: "/",
+        url: "/user/workoutPlan",
         text: "Workout Plan"
     },
     {
-        url: "/",
+        url: "/user/nutritionPlan",
         text: "Nutrition Plan"
+    },
+    {
+        url: "/user/logs",
+        text: "View Logs"
     },
     {
         url: "/",
         text: "Sessions"
     },
    {
-        url: "/",
+        url: "/user/viewPayments",
         text: "Payments"
     },
     {
@@ -36,7 +40,7 @@ export default function UserSidebar(){
 ]
 
     return(
-        <div className="w-full h-screen bg-[#0f5707] grid grid-rows-[20%_70%_10%] border">
+        <div className="w-full h-screen bg-[#0f5707] grid grid-rows-[20%_70%_10%]">
            <div className='flex justify-center items-center'>
           <h1 className='logo'>ElevFit</h1>
         </div>
@@ -49,7 +53,7 @@ export default function UserSidebar(){
             ))}
         </div>
         <div>
-            <Link to='/logout' className='text-xl pt-4 border-t-2 border-green-700 font-semibold flex justify-center items-center gap-1 text-[#dff51c] hover:font-bold  '>Logout<FiLogOut /></Link>
+            <Link to='/logout' className='font-semibold border-t text-xl border-green-700 text-[#dff51c] hover:font-bold flex justify-center items-center gap-3 pt-3'>Logout<FiLogOut /></Link>
         </div>
         </div>
     )

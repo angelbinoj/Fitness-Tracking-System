@@ -51,6 +51,7 @@ const handleCheckout = async (plan) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    localStorage.setItem("paymentId", data.PaymentDetails._id);
 
     console.log("Stripe session data:", data);
 
