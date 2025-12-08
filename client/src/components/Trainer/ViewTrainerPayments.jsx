@@ -20,8 +20,10 @@ const ViewTrainerPayments = () => {
       );
       console.log(data.payments);
       setPayments(data.payments);
-      const total = data.payments.reduce((sum, payment) => sum + payment.trainerShare, 0);
+       if (payments && payments?.length > 0) {
+    const total = payments.reduce((sum, payment) => sum + (payment.trainerShare || 0), 0);
     setTotalEarnings(total);
+  }
       
     } catch (err) {
       console.error(err);
@@ -32,7 +34,7 @@ const ViewTrainerPayments = () => {
     fetchPayments()
   }, []);
 
-if(payments.length === 0){
+if(!payments || payments?.length === 0){
     return (
           <div className="bg-gradient-to-br from-green-200 to-gray-300 p-6 h-full flex justify-center items-center rounded-xl">
             <div className="border-2 w-2/4 p-10 rounded-xl flex flex-col bg-slate-100 border-white shadow-lg text-center">

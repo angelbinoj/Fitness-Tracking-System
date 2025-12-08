@@ -18,7 +18,9 @@ const AssignedClient = () => {
         }
       );
 
-      const clients = data.AssignedClients;
+      const clients = Array.isArray(data?.AssignedClients)
+        ? data.AssignedClients
+        : [];
 
       const clientsWithPlan = [];
       for (let i = 0; i < clients.length; i++) {
@@ -40,7 +42,7 @@ const AssignedClient = () => {
       }
 
       setAssignedClients(clientsWithPlan);
-      setViewClients(clientsWithPlan.length > 0);
+      setViewClients(clientsWithPlan?.length > 0);
     } catch (error) {
       console.log("Error fetching assigned clients:", error);
     }
@@ -48,7 +50,7 @@ const AssignedClient = () => {
 
   useEffect(() => {
     fetchAssignedClients();
-  }, [viewClients]);
+  }, []);
 
   return (
     <div className="h-full">
