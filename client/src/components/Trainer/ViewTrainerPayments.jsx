@@ -20,10 +20,10 @@ const ViewTrainerPayments = () => {
       );
       console.log(data.payments);
       setPayments(data.payments);
-       if (payments && payments?.length > 0) {
+     
     const total = payments.reduce((sum, payment) => sum + (payment.trainerShare || 0), 0);
     setTotalEarnings(total);
-  }
+  
       
     } catch (err) {
       console.error(err);
@@ -32,6 +32,7 @@ const ViewTrainerPayments = () => {
 
   useEffect(() => {
     fetchPayments()
+
   }, []);
 
 if(!payments || payments?.length === 0){
