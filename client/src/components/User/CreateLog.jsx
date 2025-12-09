@@ -6,7 +6,8 @@ const CreateLog = () => {
 
 const token =localStorage.getItem('token');
 const user= JSON.parse(localStorage.getItem('user'));
-const trainerId= user.trainerId;
+const trainerId= user?.assignedTrainer;
+      console.log(trainerId);
 const navigate = useNavigate();
 
   const [workout, setWorkout] = useState("");
@@ -44,6 +45,7 @@ const navigate = useNavigate();
       );
       setMessage(response.data.message);
       console.log(response);
+      
        setTimeout(() => navigate("/user/logs"), 1500);
       
     } catch (err) {

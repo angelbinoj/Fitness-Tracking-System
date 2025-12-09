@@ -40,7 +40,7 @@ const handleCheckout = async (plan) => {
 
   try {
     const { data } = await axios.post(
-      "https://fitness-system-backend.vercel.app/api/payment/makePayment",
+      `${import.meta.env.VITE_API_URL}/payment/makePayment`,
       {
         userId: user._id,
         trainerId,
@@ -51,12 +51,12 @@ const handleCheckout = async (plan) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    localStorage.setItem("paymentId", data.PaymentDetails._id);
+    localStorage.setItem("paymentId", data.payment._id);
 
     console.log("Stripe session data:", data);
 
-    if (data.sessionId) {
-      window.location.href = data.sessionId;
+    if (data.url) {
+      window.location.href = data.url;
     } else {
       console.log("No sessionId returned from backend");
     }
