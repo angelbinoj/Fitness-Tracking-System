@@ -35,8 +35,10 @@
   color: #000 !important;
   font-size: 16px;
   background-color: #fff;
-  -moz-appearance: textfield; /* fix Firefox spin buttons */
+  -moz-appearance: none; /* allow editing in Firefox */
+  appearance: none;
 }
+
 
 .react-time-picker__inputGroup__divider {
   padding: 0 2px;
