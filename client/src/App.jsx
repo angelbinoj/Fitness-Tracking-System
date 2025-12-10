@@ -35,6 +35,11 @@ import ViewUserLogs from './components/Trainer/ViewUserLog';
 import ViewUserPayments from './components/User/ViewUserPayments';
 import ViewTrainerPayments from './components/Trainer/ViewTrainerPayments';
 import ViewAllPayments from './components/Admin/ViewAllPayments';
+import TrainerSessions from './components/Trainer/TrainerSessions';
+import TrainerCalendarPage from './components/Trainer/TrainerCalendarPage';
+import ClientCalendarPage from './components/User/ClientCalendarPage';
+import AdminCalendarPage from './components/Admin/AdminCalendarPage';
+import BookSession from './components/User/BookSession';
 
 
 function App() {
@@ -62,6 +67,8 @@ function App() {
           <Route path="/user/workoutPlan" element={<ViewWorkoutPlan/>} />
           <Route path="/user/nutritionPlan" element={<ViewNutritionPlan/>} />
           <Route path="/user/viewPayments" element={<ViewUserPayments/>} />
+          <Route path="/user/sessions" element={<BookSession/>} />
+          <Route path="/user/sessionCalender" element={<ClientCalendarPage/>} />
           </Route>
           <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
@@ -75,6 +82,8 @@ function App() {
           <Route path="/trainer/client/logs" element={<UserLogsList/>} />
           <Route path="/trainer/viewLog/:id" element={<ViewUserLogs />} />
           <Route path="/trainer/viewPayments" element={<ViewTrainerPayments/>} />
+          <Route path="/trainer/sessions" element={<TrainerSessions/>} />
+          <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage/>} />
         </Route>
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
 
@@ -85,6 +94,7 @@ function App() {
           <Route path="/trainerList" element={<TrainerList/>} />
           <Route path="/clientList" element={<ClientList/>} />
           <Route path="/admin/viewAllPayments" element={<ViewAllPayments/>} />
+          <Route path="/admin/sessionCalender" element={<AdminCalendarPage/>} />
           {/* <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/trainers" element={<ManageTrainers />} /> */}
         </Route> 

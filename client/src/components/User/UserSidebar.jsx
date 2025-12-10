@@ -26,7 +26,7 @@ export default function UserSidebar(){
         text: "View Logs"
     },
     {
-        url: "/",
+        url: "/user/sessions",
         text: "Sessions"
     },
    {

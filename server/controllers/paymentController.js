@@ -11,25 +11,6 @@ export const createCheckoutSession = async (req, res) => {
     const platformCommission = amount * 0.1;
     const trainerShare = amount - platformCommission;
 
-    const paymentDetails = await PaymentDb.create({
-      userId,
-      trainerId,
-      plan,
-      amount,
-      platformCommission,
-      trainerShare,
-      paymentMethod: "Stripe",
-      transactionId: "",
-      paymentStatus: "Pending",
-      startDate: new Date(),
-      expiryDate:
-        plan === "Monthly"
-          ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-          : plan === "Quarterly"
-          ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
-          : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-    });
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -47,19 +28,17 @@ export const createCheckoutSession = async (req, res) => {
         userId,
         trainerId,
         plan,
-        paymentId: paymentDetails._id.toString(),
+        amount,
+        platformCommission,
+        trainerShare,
       },
-      success_url: `${process.env.CLIENT_URL}/payment/success?paymentId=${paymentDetails._id}`,
+      success_url: `${process.env.CLIENT_URL}/payment/success`,
       cancel_url: `${process.env.CLIENT_URL}/payment/cancel`,
     });
 
-    paymentDetails.transactionId = session.id;
-    await paymentDetails.save();
-
     res.status(200).json({
       success: true,
-      url: session.url, 
-      payment: paymentDetails,
+      url: session.url,      
     });
 
   } catch (error) {
@@ -71,17 +50,36 @@ export const createCheckoutSession = async (req, res) => {
 
 export const updatePayment = async (req, res) => {
   try {
-    const { paymentId } = req.params;
-    const payment = await PaymentDb.findByIdAndUpdate(
-      paymentId,
-      { paymentStatus: "Success" },
-      { new: true }
-    );
-    res.status(200).json({ success: true, payment });
+    const { userId, trainerId, plan, amount } = req.body;
+
+    const platformCommission = amount * 0.1;
+    const trainerShare = amount - platformCommission;
+
+    const newPayment = await PaymentDb.create({
+      userId,
+      trainerId,
+      plan,
+      amount,
+      platformCommission,
+      trainerShare,
+      paymentStatus: "Success",
+      paymentMethod: "Stripe",
+      startDate: new Date(),
+      expiryDate:
+        plan === "Monthly"
+          ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+          : plan === "Quarterly"
+          ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+          : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+    });
+
+    res.status(200).json({ success: true, payment: newPayment });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 export const getUserPayments = async (req, res) => {

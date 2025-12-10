@@ -10,6 +10,7 @@ const SessionSchema = new mongoose.Schema({
     enum: ['Upcoming', 'Completed'],
     default: 'Upcoming'
   },
+  bookedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   createdAt: { type: Date, default: Date.now }
 });
 

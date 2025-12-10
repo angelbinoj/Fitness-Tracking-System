@@ -2,8 +2,6 @@ import { SessionsDb } from "../models/sessionModel.js";
 import { UserDb } from "../models/userModel.js";
 
 
-
-
 export const createSession = async(req,res)=>{
     try {
         const {date, time, title, duration} = req.body;
@@ -89,6 +87,31 @@ export const cancelSession = async(req,res)=>{
         res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
     }
 }
+
+export const UserbookSession = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { sessionId } = req.body;
+
+    const session = await SessionsDb.findById(sessionId);
+    if (!session) return res.status(404).json({ error: "Session not found!" });
+
+    if (!session.bookedUsers){
+        session.bookedUsers = [];
+    } 
+
+    if (session.bookedUsers.includes(userId)){
+        return res.status(400).json({ error: "Already booked!" });
+    }
+
+    session.bookedUsers.push(userId);
+    await session.save();
+
+    res.status(201).json({ message: "Session booked successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
 
 export const getUserSessions = async(req,res)=>{
     try {

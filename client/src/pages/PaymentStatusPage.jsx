@@ -9,16 +9,15 @@ const PaymentStatusPage = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const paymentId = localStorage.getItem("paymentId");
+    const planInfo = JSON.parse(localStorage.getItem("paymentInfo"));
 
-    if (isSuccess && paymentId) {
-      axios.patch(
-        `${import.meta.env.VITE_API_URL}/payment/update/${paymentId}`,
-        { status: "Success" },
-        {  headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true, }
-      );
-    }
+  if (isSuccess && planInfo) {
+    axios.post(
+      `${import.meta.env.VITE_API_URL}/payment/update`,
+      { ...planInfo },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  }
 
     setTimeout(() => {
       if (isSuccess) {

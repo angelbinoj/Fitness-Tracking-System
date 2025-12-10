@@ -51,7 +51,16 @@ const handleCheckout = async (plan) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    localStorage.setItem("paymentId", data.payment._id);
+
+    localStorage.setItem(
+      "paymentInfo",
+      JSON.stringify({
+        userId: user._id,
+        trainerId,
+        plan: plan.name,
+        amount: plan.price,
+      })
+    );
 
     console.log("Stripe session data:", data);
 
@@ -64,6 +73,7 @@ const handleCheckout = async (plan) => {
     console.error("Payment request failed:", err);
   }
 };
+
 
 
 

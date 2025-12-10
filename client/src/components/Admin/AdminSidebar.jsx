@@ -18,7 +18,7 @@ export default function AdminSidebar(){
             text: "View Trainers"
         },
     {
-        url: "/",
+        url: "/admin/sessionCalender",
         text: "Sessions"
     },
     {

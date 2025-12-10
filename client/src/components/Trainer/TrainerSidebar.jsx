@@ -18,7 +18,7 @@ export default function TrainerSidebar(){
             text: "View Client Logs"
         },
     {
-        url: "/",
+        url: "/trainer/sessions",
         text: "Sessions"
     },
     {
