@@ -5,6 +5,7 @@ import CalendarComponent from "../CalendarComponent"; // Adjust path if needed
 const ClientCalendarPage = () => {
   const [events, setEvents] = useState([]);
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -14,8 +15,9 @@ const ClientCalendarPage = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
+
         const upcoming = res.data.Sessions
-          .filter((s) => s.status === "Upcoming")
+          .filter((s) => s.status === "Upcoming" && s.bookedUsers?.includes(user._id))
           .map((s) => {
             const dateString = s.dateTime.substring(0, 19);
             const start = new Date(dateString);

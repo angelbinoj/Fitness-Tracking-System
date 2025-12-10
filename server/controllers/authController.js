@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserDb } from "../models/userModel.js";
+import crypto from 'crypto';;
+import { transporter } from '../utilities/nodemailer.js';
 
 
 
@@ -116,4 +118,41 @@ export const UserLogout = async (req, res) => {
   } catch (error) {
     res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
   }
+};
+
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await UserDb.findOne({ email });
+  if (!user) return res.status(404).json({message:'User not found'});
+
+  const token = crypto.randomBytes(32).toString('hex');
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  await user.save();
+
+  const resetLink = `${process.env.CLIENT_URL}/resetPassword/${token}`;
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Reset: <a href="${resetLink}">${resetLink}</a></p>`
+  });
+
+  res.json({message:'Reset link sent'});
+};
+
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+  const user = await UserDb.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() }
+  });
+  if (!user) return res.status(400).json({message:'Invalid/expired token'});
+  user.password = await bcrypt.hash(newPassword, 10);
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+  res.json({message:'Password updated'});
 };

@@ -40,6 +40,8 @@ import TrainerCalendarPage from './components/Trainer/TrainerCalendarPage';
 import ClientCalendarPage from './components/User/ClientCalendarPage';
 import AdminCalendarPage from './components/Admin/AdminCalendarPage';
 import BookSession from './components/User/BookSession';
+import ForgotPassword from './components/forgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 
 function App() {
@@ -53,6 +55,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/logout" element={<Logout/>} />
+        <Route path="/forgotPassword" element={<ForgotPassword/>} />
+        <Route path="/resetPassword/:token" element={<ResetPassword/>} />
+        
 
         {/* User Dashboard */}
         <Route element={<ProtectedRoute allowedRoles={["client"]} ><UserLayout /></ProtectedRoute>}>

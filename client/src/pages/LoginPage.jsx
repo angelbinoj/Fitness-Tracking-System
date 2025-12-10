@@ -62,7 +62,6 @@ const handleSubmit = async (e) => {
 };
 
 
-
     return(
         <>
         <div className="mt-10 ms-10 ">
@@ -77,7 +76,7 @@ const handleSubmit = async (e) => {
                 <input className='h-10 ps-4  rounded-md' type="password" name="password" placeholder='Password' onChange={handleChange} autoComplete='off' required />
                 <div className={`mt-1 text-base font-bold ${alertColor}`}>
                  {alertMessage}</div>
-                 <div className="text-end my-2 text-stone-900 hover:text-stone-700 hover:underline cursor-pointer">Forgot Password?</div>
+                 <div onClick={()=>navigate("/forgotPassword")} className="text-end my-2 text-stone-900 hover:text-stone-700 hover:underline cursor-pointer">Forgot Password?</div>
                 <div className=' mt-5 flex gap-3 justify-around'>
                 <button type='reset' className=' text-slate-100 px-10 py-2 rounded-md bg-slate-800 hover:bg-slate-600'>Reset</button>
                 <button type='submit' className='text-slate-100 px-10 py-2 rounded-md bg-[#78B424] hover:bg-[#8edb21]'>Login</button>
