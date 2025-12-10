@@ -3,23 +3,31 @@
 @tailwind utilities;
 
 
+.react-time-picker {
+  display: inline-flex;
+  width: auto !important;
+  font-family: inherit;
+}
+
 .react-time-picker__wrapper {
   display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: space-between;
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 6px;
-  background-color: white;
+  padding: 4px 6px;
+  background-color: #fff;
+  gap: 4px;
 }
 
 .react-time-picker__inputGroup {
   display: flex;
+  align-items: center;
   gap: 4px;
 }
 
 .react-time-picker__inputGroup__input {
-  width: 3rem !important; /* enough to see numbers */
+  width: 3rem !important; /* enough for numbers */
   padding: 2px 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -27,6 +35,20 @@
   color: #000 !important;
   font-size: 16px;
   background-color: #fff;
+  -moz-appearance: textfield; /* fix Firefox spin buttons */
+}
+
+.react-time-picker__inputGroup__divider {
+  padding: 0 2px;
+}
+
+.react-time-picker__amPm {
+  padding: 0 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #000 !important;
 }
 
 .react-time-picker__clock-button {

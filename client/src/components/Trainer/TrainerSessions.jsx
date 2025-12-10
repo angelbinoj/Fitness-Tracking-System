@@ -154,12 +154,14 @@ const TrainerSessions = () => {
           />
 
           <TimePicker
-            onChange={handleTimeChange} 
-            value={form.time}
-            disableClock={true}
-            clearIcon={null}
-            className="border sm:w-40 flex justify-center items-center"
-          />
+  onChange={handleTimeChange}
+  value={form.time}
+  disableClock={true}
+  clearIcon={null}
+  format="hh:mm a"  // 12-hour with AM/PM
+  className="w-full sm:w-auto"
+/>
+
 
           <input
             type="number"
