@@ -40,7 +40,7 @@ import TrainerCalendarPage from './components/Trainer/TrainerCalendarPage';
 import ClientCalendarPage from './components/User/ClientCalendarPage';
 import AdminCalendarPage from './components/Admin/AdminCalendarPage';
 import BookSession from './components/User/BookSession';
-import ForgotPassword from './components/forgotPassword';
+import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
 
