@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* FIX for time/date inputs not editable on hosting */
+input[type="time"],
+input[type="date"],
+input[type="datetime-local"] {
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+  pointer-events: auto !important;
+  min-width: 140px;  /* prevents shrinking on production */
+}
+
+/* Restore the internal time UI */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  cursor: pointer;
+}

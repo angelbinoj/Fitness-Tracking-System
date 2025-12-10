@@ -129,8 +129,8 @@ const TrainerSessions = () => {
           <input type="date" name="date" value={form.date} onChange={handleChange}
             className="border rounded px-3 py-2 w-40" />
 
-          <input type="time" name="time" value={form.time} onChange={handleChange}
-            className="border rounded px-3 py-2 w-36" />
+          <input type="time" name="time" value={form.time} onChange={handleChange} className="border rounded px-3 py-2 min-w-[140px] w-36"/>
+
 
           <input type="number" name="duration" value={form.duration} onChange={handleChange}
             className="border rounded px-3 py-2 w-28" />
