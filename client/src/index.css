@@ -2,21 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* FIX for time/date inputs not editable on hosting */
+/* FIX for time/date inputs on all browsers */
 input[type="time"],
 input[type="date"],
 input[type="datetime-local"] {
   -webkit-appearance: auto !important;
   appearance: auto !important;
   pointer-events: auto !important;
-  min-width: 140px;  /* prevents shrinking on production */
+  min-width: 140px;
 }
 
-/* Restore the internal time UI */
+/* Restore the internal time UI on Chrome/WebKit */
 input[type="time"]::-webkit-calendar-picker-indicator {
   display: block !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   cursor: pointer;
+}
+
+/* 🔥 Mandatory Firefox fix — allows editing/clicking */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  -moz-appearance: auto !important;
 }
