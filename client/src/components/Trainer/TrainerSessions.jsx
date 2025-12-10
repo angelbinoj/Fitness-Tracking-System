@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import TimePicker from "react-time-picker"; // NEW
+import TimePicker from "react-time-picker";
 
 const TrainerSessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -11,12 +11,12 @@ const TrainerSessions = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  // Fetch sessions
   const fetchSessions = async () => {
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/session/trainer`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/session/trainer`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setSessions(data.Sessions || []);
     } catch (err) {
       console.error(err);
@@ -27,35 +27,40 @@ const TrainerSessions = () => {
     fetchSessions();
   }, []);
 
+  // Normal input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // TimePicker change
+  const handleTimeChange = (time) => {
+    setForm({ ...form, time });
+  };
+
+  // Submit form
   const handleSubmit = async () => {
     try {
+      if (!form.date || !form.time) {
+        alert("Please select both date and time.");
+        return;
+      }
+
+      // Combine date + time into ISO string and convert to UTC
       const dateTime = new Date(`${form.date}T${form.time}`);
       const dateTimeUTC = new Date(dateTime.getTime() - dateTime.getTimezoneOffset() * 60000);
 
       if (editingId) {
         await axios.put(
           `${import.meta.env.VITE_API_URL}/session/trainer/${editingId}`,
-          {
-            title: form.title,
-            duration: form.duration,
-            dateTime: dateTimeUTC,
-          },
+          { title: form.title, duration: form.duration, dateTime: dateTimeUTC },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setEditingId(null);
         setMessage("Session updated successfully!");
+        setEditingId(null);
       } else {
         await axios.post(
           `${import.meta.env.VITE_API_URL}/session/trainer/create`,
-          {
-            title: form.title,
-            duration: form.duration,
-            dateTime: dateTimeUTC,
-          },
+          { title: form.title, duration: form.duration, dateTime: dateTimeUTC },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessage("Session created successfully!");
@@ -71,10 +76,9 @@ const TrainerSessions = () => {
   const handleCancel = async (id) => {
     if (!window.confirm("Are you sure you want to cancel this session?")) return;
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/session/trainer/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.delete(`${import.meta.env.VITE_API_URL}/session/trainer/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setMessage("Session cancelled successfully!");
       fetchSessions();
     } catch (err) {
@@ -85,7 +89,6 @@ const TrainerSessions = () => {
   const handleEdit = (session) => {
     setEditingId(session._id);
     const dt = new Date(session.dateTime);
-
     setForm({
       title: session.title,
       date: dt.toISOString().split("T")[0],
@@ -110,23 +113,20 @@ const TrainerSessions = () => {
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(""), 1000);
+      const timer = setTimeout(() => setMessage(""), 2000);
       return () => clearTimeout(timer);
     }
   }, [message]);
 
   return (
     <div className="p-6 bg-green-100 min-h-screen">
-
       {message && (
         <div className="bg-green-200 border border-green-400 text-green-700 px-4 py-2 rounded mb-3 text-center">
           {message}
         </div>
       )}
 
-      <h1 className="text-3xl font-bold mb-6 text-green-900 text-center">
-        Manage Sessions
-      </h1>
+      <h1 className="text-3xl font-bold mb-6 text-green-900 text-center">Manage Sessions</h1>
 
       {/* FORM */}
       <div className="mb-6 border p-4 rounded-lg shadow-md bg-green-200 border-green-400 max-w-3xl mx-auto">
@@ -154,18 +154,20 @@ const TrainerSessions = () => {
           />
 
           <TimePicker
-            onChange={(val) => setForm({ ...form, time: val })}
+            onChange={handleTimeChange} 
             value={form.time}
             disableClock={true}
-            className="w-full sm:w-36"
+            clearIcon={null}
+            className="border sm:w-40 flex justify-center items-center"
           />
 
           <input
             type="number"
             name="duration"
+            placeholder="duration.."
             value={form.duration}
             onChange={handleChange}
-            className="border rounded px-3 py-2 w-full sm:w-28"
+            className="border rounded px-3 py-2 w-28"
           />
 
           <button
@@ -208,9 +210,7 @@ const TrainerSessions = () => {
       {sessions.length === 0 ? (
         <div className="flex justify-center items-center ">
           <div className="w-full sm:w-2/4 p-10 rounded-xl flex flex-col text-center">
-            <h2 className="text-2xl font-bold text-green-900">
-              No Sessions Created Yet!
-            </h2>
+            <h2 className="text-2xl font-bold text-green-900">No Sessions Created Yet!</h2>
             <p className="mt-2 text-gray-700 text-lg">
               Start adding sessions so your clients can book and attend them.
             </p>
@@ -228,12 +228,10 @@ const TrainerSessions = () => {
                 <th className="border px-3 py-2">Actions</th>
               </tr>
             </thead>
-
             <tbody>
               {sessions.map((s) => (
                 <tr key={s._id}>
                   <td className="border px-3 py-2">{s.title}</td>
-
                   <td className="border px-3 py-2">
                     {(() => {
                       const dt = new Date(s.dateTime);
@@ -242,19 +240,14 @@ const TrainerSessions = () => {
                       return `${date} ${time}`;
                     })()}
                   </td>
-
                   <td className="border px-3 py-2">{s.duration} min</td>
                   <td className="border px-3 py-2 capitalize">{s.status}</td>
-
                   <td className="border px-3 py-2 flex justify-center gap-3 flex-wrap">
-
                     <button
                       disabled={s.status === "Completed"}
                       onClick={() => handleEdit(s)}
                       className={`px-4 py-1 rounded ${
-                        s.status === "Completed"
-                          ? "bg-gray-400 text-gray-700"
-                          : "bg-blue-600 text-white"
+                        s.status === "Completed" ? "bg-gray-400 text-gray-700" : "bg-blue-600 text-white"
                       }`}
                     >
                       Edit
@@ -264,9 +257,7 @@ const TrainerSessions = () => {
                       disabled={s.status === "Completed"}
                       onClick={() => handleCancel(s._id)}
                       className={`px-4 py-1 rounded ${
-                        s.status === "Completed"
-                          ? "bg-gray-400 text-gray-700"
-                          : "bg-red-600 text-white"
+                        s.status === "Completed" ? "bg-gray-400 text-gray-700" : "bg-red-600 text-white"
                       }`}
                     >
                       Cancel
@@ -280,16 +271,13 @@ const TrainerSessions = () => {
                         Mark Completed
                       </button>
                     )}
-
                   </td>
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       )}
-
     </div>
   );
 };

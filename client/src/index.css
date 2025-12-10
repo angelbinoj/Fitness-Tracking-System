@@ -2,26 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* general input reset */
-input, select {
-  pointer-events: auto !important;
-  -webkit-appearance: auto !important;
-  appearance: auto !important;
-}
-
-/* Remove Tailwind's conflict with Firefox */
-input[type="date"] {
-  -moz-appearance: textfield !important;
-}
-
-/* TIME PICKER FIX - react-time-picker styling */
-.react-time-picker {
-  width: 140px;
-}
 
 .react-time-picker__wrapper {
+  display: flex;
+  align-items: center;
+  justify-items: center;
   border: 1px solid #ccc;
-  padding: 6px 8px;
   border-radius: 6px;
-  background: white;
+  padding: 6px;
+  background-color: white;
+}
+
+.react-time-picker__inputGroup {
+  display: flex;
+  gap: 4px;
+}
+
+.react-time-picker__inputGroup__input {
+  width: 3rem !important; /* enough to see numbers */
+  padding: 2px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  color: #000 !important;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.react-time-picker__clock-button {
+  display: block !important;
+  margin-left: 4px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.react-time-picker__button__icon {
+  width: 16px;
+  height: 16px;
 }
