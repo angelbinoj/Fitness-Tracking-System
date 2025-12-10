@@ -2,27 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* FIX for time/date inputs on all browsers */
-input[type="time"],
-input[type="date"],
-input[type="datetime-local"] {
+/* general input reset */
+input, select {
+  pointer-events: auto !important;
   -webkit-appearance: auto !important;
   appearance: auto !important;
-  pointer-events: auto !important;
-  min-width: 140px;
 }
 
-/* Restore the internal time UI on Chrome/WebKit */
-input[type="time"]::-webkit-calendar-picker-indicator {
-  display: block !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  cursor: pointer;
+/* Remove Tailwind's conflict with Firefox */
+input[type="date"] {
+  -moz-appearance: textfield !important;
 }
 
-/* 🔥 Mandatory Firefox fix — allows editing/clicking */
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"] {
-  -moz-appearance: auto !important;
+/* TIME PICKER FIX - react-time-picker styling */
+.react-time-picker {
+  width: 140px;
+}
+
+.react-time-picker__wrapper {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: white;
 }
