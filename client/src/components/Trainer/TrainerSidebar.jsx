@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiLogOut } from "react-icons/fi";
 import '../../App.css';
 
 export default function TrainerSidebar(){
+    
+    const navigate = useNavigate();
 
     const navLink = [
         {
@@ -26,7 +28,7 @@ export default function TrainerSidebar(){
         text: "Payments"
     },
     {
-        url: "/",
+        url: "#",
         text: "Chats"
     }
 ]
@@ -37,7 +39,7 @@ export default function TrainerSidebar(){
           <h1 className='logo'>ElevFit</h1>
         </div>
         <div className='flex flex-col gap-3 uppercase'>
-            <span className='w-full py-3 bg-[#ddf600] text-slate-900 font-semibold  text-lg text-center'>dashboard</span>
+            <span onClick={()=>navigate("/trainer/dashboard")} className='w-full py-3 bg-[#ddf600] hover:bg-[#ebff3a] text-slate-900 font-semibold hover:font-bold text-lg text-center'>dashboard</span>
             {navLink.map((item)=>(
                 <Link key={item.text} className='font-semibold border-b border-green-700 text-[#dff51c] hover:font-bold text-center' to={item.url}>
                             {item.text}

@@ -1,3 +1,4 @@
+import { NotificationDb } from "../models/notificationModel.js";
 import { SessionsDb } from "../models/sessionModel.js";
 import { UserDb } from "../models/userModel.js";
 
@@ -106,6 +107,14 @@ export const UserbookSession = async (req, res) => {
 
     session.bookedUsers.push(userId);
     await session.save();
+
+    const user = await UserDb.findById(userId);
+
+    await NotificationDb.create({
+    userId: session.trainerId,
+    message: `${user.name} booked your session: ${session.title}`,
+    type: "booking"
+});
 
     res.status(201).json({ message: "Session booked successfully!" });
   } catch (error) {

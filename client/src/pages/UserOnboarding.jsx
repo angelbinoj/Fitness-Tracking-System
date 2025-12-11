@@ -51,7 +51,7 @@ const handleSubmitOnboarding = async () => {
     );
 
     localStorage.setItem("user", JSON.stringify(res.data.user));
-    navigate("/user/dashboard");
+    navigate("/client/dashboard");
 
   } catch (error) {
     console.log(error?.response?.data?.error);

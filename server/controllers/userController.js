@@ -28,7 +28,23 @@ export const findTrainers =async(req,res)=>{
         res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
     }
 
-}
+} 
+
+// Approve Trainer
+export const approveTrainer = async (req, res) => {
+  try {
+    const trainer = await UserDb.findById(req.params.id);
+    if (!trainer) return res.status(404).json({ error: "Trainer not found" });
+
+    trainer.status = "approved"; // update status
+    await trainer.save();
+
+    res.json({ message: "Trainer approved successfully", trainer });
+  } catch (error) {
+    res.status(500).json({ error:error.message || "Internal Server Error" });
+  }
+};
+
 
 export const findAssignedClients = async (req, res) => {
   try {

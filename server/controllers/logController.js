@@ -1,4 +1,5 @@
 import { UserLogDb } from "../models/logsModel.js";
+import { NotificationDb } from "../models/notificationModel.js";
 
 
 export const createOrUpdateLog = async (req, res) => {
@@ -41,6 +42,12 @@ export const createOrUpdateLog = async (req, res) => {
       }
 
       await userLog.save();
+      await NotificationDb.create({
+        userId: trainerId,
+        message: `${req.user.name} added/updated a workout log today.`,
+        type: "log"
+    });
+
       return res
         .status(200)
         .json({ message: "Today's log saved successfully", userLog });
@@ -61,6 +68,12 @@ export const createOrUpdateLog = async (req, res) => {
     });
 
     await newLog.save();
+    await NotificationDb.create({
+        userId: trainerId,
+        message: `${req.user.name} added/updated a workout log today.`,
+        type: "log"
+    });
+
     return res
       .status(200)
       .json({ message: "Log created successfully", userLog: newLog });

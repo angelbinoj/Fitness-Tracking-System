@@ -18,6 +18,13 @@ const UserSchema = new mongoose.Schema({
     default: "client",
   },
 
+   status: {
+  type: String,
+  enum: ["pending", "approved", "rejected"],
+  default: "approved",  // FOR CLIENTS
+},
+
+
   // Client Profile Info
   fitnessGoal: { type: String, enum: ["gain", "lose", "maintain", 'rehabilitation'] },
   focusArea: [String], // ["Abs", "Glutes"]

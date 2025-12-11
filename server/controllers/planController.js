@@ -1,3 +1,4 @@
+import { NotificationDb } from "../models/notificationModel.js";
 import { PlanDb } from "../models/plansModel.js";
 import { UserDb } from "../models/userModel.js";
 
@@ -24,6 +25,13 @@ export const createPlan= async(req,res)=>{
             userId, trainerId, fitnessGoal: user.fitnessGoal, focusArea: user.focusArea, workout, nutrition, duration
         })
         await Plan.save();
+
+        await NotificationDb.create({
+    userId: userId,
+    message: `${trainerId} has created a workout plan for you.`,
+    type: "plan"
+});
+
         if(Plan){
             return res.status(200).json({message:"Workout Plan created successfully",Plan: Plan});
         }

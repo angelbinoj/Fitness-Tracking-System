@@ -10,7 +10,7 @@ function TrainerInfo() {
   const [error, setError] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
-const trainerId = user.assignedTrainer;
+  const trainerId = user.assignedTrainer;
 
   useEffect(() => {
     const fetchTrainerDetails = async () => {
@@ -22,7 +22,6 @@ const trainerId = user.assignedTrainer;
             withCredentials: true,
           }
         );
-        console.log(data.profile);            
         setTrainer(data.profile);
         if (data.profile.profilePic) setPreview(data.profile.profilePic);
       } catch (err) {
@@ -36,59 +35,51 @@ const trainerId = user.assignedTrainer;
 
   if (!trainer) {
     return (
-      <div className="flex justify-center items-center h-screen text-xl font-semibold">
+      <div className="flex justify-center items-center min-h-screen text-lg sm:text-xl font-semibold px-4 text-center">
         {error || "Loading trainer information..."}
       </div>
     );
   }
 
   return (
-    <div className="flex justify-center items-center h-full">
-      <div className="flex flex-col mx-auto my-10 items-center bg-[#e7ebd3] shadow-lg border border-[#a3b30f] rounded-md font-medium w-3/5 pb-10">
+    <div className="flex justify-center items-start bg-green-50 min-h-screen py-6 px-4 sm:px-6 md:px-10">
+      <div className="flex flex-col items-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 bg-[#e7ebd3] shadow-lg border border-[#a3b30f] rounded-2xl pb-10">
         
-        <h1 className="text-3xl mt-8 font-bold text-slate-900 uppercase">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl mt-8 font-bold text-slate-900 uppercase text-center">
           Trainer Information
         </h1>
 
+        {/* Trainer Avatar */}
         <div className="flex flex-col items-center mt-5">
-          <div className="w-32 h-32 bg-gray-300 border-slate-100 border-2 rounded-full overflow-hidden">
-            {preview ? (
-              <img src={preview} alt="trainer" className="w-full h-full object-cover" />
-            ) : (
-              <img src={avatar} alt="avatar" className="w-full h-full object-cover" />
-            )}
+          <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-300 border-2 border-slate-100 rounded-full overflow-hidden">
+            <img
+              src={preview || avatar}
+              alt="trainer"
+              className="w-full h-full object-cover"
+            />
           </div>
-
-          <h2 className="text-2xl mt-3 font-bold uppercase">{trainer.name}</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl mt-3 font-bold uppercase text-green-900 text-center">
+            {trainer.name}
+          </h2>
         </div>
 
-        <div className="flex flex-col gap-5 w-10/12 mt-8 text-lg">
-
-          <div className="flex justify-between bg-white px-4 py-3 rounded-md shadow">
-            <span className="font-semibold">Email</span>
-            <span>{trainer.email}</span>
-          </div>
-
-          <div className="flex justify-between bg-white px-4 py-3 rounded-md shadow">
-            <span className="font-semibold">Contact</span>
-            <span>{trainer.contact}</span>
-          </div>
-
-          <div className="flex justify-between bg-white px-4 py-3 rounded-md shadow">
-            <span className="font-semibold">Specialization</span>
-            <span>{trainer.trainerInfo.specialization}</span>
-          </div>
-
-          <div className="flex justify-between bg-white px-4 py-3 rounded-md shadow">
-            <span className="font-semibold">Experience</span>
-            <span>{trainer.trainerInfo.experience}</span>
-          </div>
-
-          <div className="flex justify-between bg-white px-4 py-3 rounded-md shadow">
-            <span className="font-semibold">Availability</span>
-            <span>{trainer.trainerInfo.availability}</span>
-          </div>
-
+        {/* Trainer Info Cards */}
+        <div className="flex flex-col gap-4 sm:gap-5 w-full sm:w-10/12 mt-8 text-sm sm:text-base md:text-lg">
+          {[
+            { label: "Email", value: trainer.email },
+            { label: "Contact", value: trainer.contact },
+            { label: "Specialization", value: trainer.trainerInfo.specialization },
+            { label: "Experience", value: trainer.trainerInfo.experience },
+            { label: "Availability", value: trainer.trainerInfo.availability },
+          ].map((info, index) => (
+            <div
+              key={index}
+              className="flex flex-col sm:flex-row justify-between bg-white px-4 py-3 rounded-xl shadow hover:shadow-lg transition-shadow duration-300"
+            >
+              <span className="font-semibold text-green-800">{info.label}</span>
+              <span className="mt-1 sm:mt-0">{info.value}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

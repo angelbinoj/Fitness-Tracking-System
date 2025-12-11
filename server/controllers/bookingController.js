@@ -1,4 +1,5 @@
 import { BookingsDb } from "../models/bookingModel.js";
+import { NotificationDb } from "../models/notificationModel.js";
 import { UserDb } from "../models/userModel.js";
 
 
@@ -40,6 +41,12 @@ export const CreateBooking = async(req,res)=>{
            { trainer.assignedClients.push(client._id); } 
         await client.save();
          await trainer.save(); 
+
+         await NotificationDb.create({
+    userId: trainer._id,
+    message: `New booking request from ${client.name}`,
+    type: "booking"
+});
 
     res.status(201).json({message: "Booking request sent",booking});
 

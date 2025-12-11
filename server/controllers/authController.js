@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { UserDb } from "../models/userModel.js";
 import crypto from 'crypto';;
 import { transporter } from '../utilities/nodemailer.js';
+import { NotificationDb } from "../models/notificationModel.js";
 
 
 
@@ -10,9 +11,9 @@ import { transporter } from '../utilities/nodemailer.js';
 
 export const UserRegister =async(req,res)=>{
     try {
-        const {name,email,contact,age,gender,password,confirmPassword} = req.body;
+        const {name,email,contact,age,role,gender,password,confirmPassword} = req.body;
 
-        if(!name || !email || !contact || !age || !gender || !password || !confirmPassword){
+        if(!name || !email || !role || !contact || !age || !gender || !password || !confirmPassword){
             return res.status(400).json({error:"All fields are required!"})
         }
 
@@ -29,11 +30,29 @@ export const UserRegister =async(req,res)=>{
           return res.status(400).json({error:"Email already exists!"})
         }
         const profilePic = req.file ? req.file.path : undefined;
-        
+
+
         const user= new UserDb({
-          name,email,contact,age,gender,password: hashedPassword, profilePic
+          name,email,contact,age,gender,role, password: hashedPassword, profilePic, status: role === "trainer" ? "pending" : "approved"
         });
-        await user.save()
+        await user.save();
+
+        // Send notification to admin when a new user registers
+const admins = await UserDb.find({ role: "admin" }, "_id");
+
+if (admins.length > 0) {
+  const notifications = admins.map(admin => {
+    const userType = user.role === "trainer" ? "trainer" : "client";
+    return {
+      userId: admin._id,
+      message: `New ${userType} registered: ${user.name}${userType === "trainer" ? ". Waiting for approval." : ""}`,
+      type: "registration"
+    };
+  });
+
+  await NotificationDb.insertMany(notifications);
+}
+
         if(user){
             return res.status(200).json({message:"User created successfully",User:user})
         }

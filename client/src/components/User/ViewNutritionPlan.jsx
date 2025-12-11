@@ -1,85 +1,99 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
-
 const ViewNutritionPlan = () => {
+  const [nutritionPlan, setNutritionPlan] = useState({});
+  const [viewPlan, setViewPlan] = useState(false);
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user._id;
 
-    const [nutritionPlan, setnutritionPlan] = useState({});
-    const [viewPlan, setViewPlan] = useState(false);
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user._id;
-
-    const fetchnutritionPlan = async () => {
-        const { data } = await axios.get(
-            `${import.meta.env.VITE_API_URL}/plan/${userId}`,
-            {
-                headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true,
-            }
-        );
-        console.log(data.Plan);
-        setnutritionPlan(data.Plan);
-        setViewPlan(nutritionPlan !== null);
+  const fetchNutritionPlan = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/plan/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      setNutritionPlan(data.Plan);
+      setViewPlan(data.Plan != null);
+    } catch (err) {
+      console.error(err);
+      setViewPlan(false);
     }
+  };
 
-    useEffect(() => {
-        fetchnutritionPlan();
+  useEffect(() => {
+    fetchNutritionPlan();
+  }, []);
 
-    }, [])
-
-
+  if (!viewPlan) {
     return (
-        <div className="h-full">
-            {viewPlan ? (
-                <div className="px-10 py-5 flex flex-col gap-2">
-                    <div className="bg-gradient-to-br from-green-200 to-gray-300 border-green-400 border-4 rounded-md">
-                        <li className=" w-full flex justify-around items-center gap-3 uppercase p-4 border border-slate-200">
-                            <span className="text-center font-bold text-lg">Fitness goal : {nutritionPlan.fitnessGoal}</span>
-                            <span className="text-center font-bold text-lg">FocusArea : {nutritionPlan.focusArea.join(",")}</span>
-                            <span className="text-center font-bold text-lg">Total Duration : {nutritionPlan.duration}</span>
-                        </li>
-                    </div>
-                    <div className="bg-gradient-to-br from-green-200 to-gray-300 border-green-400 border-4 rounded-md">
-                        <div className=" w-full grid grid-cols-[20%_80%] border border-slate-200">
-                            <div className="flex flex-col h-full justify-center items-center font-bold text-lg border-r-4 border-green-400 px-3 text-center">TargetCaloriesPerDay- {nutritionPlan.nutrition.targetCaloriesPerDay}</div>
-                            <div>
-                                <div className="grid grid-cols-[40%_60%] border-b-4 border-green-400">
-                                    <span className="text-center uppercase font-bold text-lg p-2 border-r-4 border-green-400">Meal Type</span>
-                                    <span className="text-center uppercase font-bold text-lg p-2">options</span>
-                                </div>
-                                {nutritionPlan?.nutrition?.meals.map((m, index) => (
-                                    <li key={index} className="grid grid-cols-[40%_60%]">
-                                        <span className="text-center uppercase font-bold text-lg p-10 border-r-2 border-b-2 border-slate-50"> {m.mealType}</span>
-                                        <span className="text-center border-b-2 border-slate-50 p-10">
-                                            {m.options.map((o, i) => (
-                                                <pre key={i}
-                                                    className="capitalize flex justify-center items-center  font-semibold"
-                                                >
-                                                    {o.item} - <span className="font-bold">{o.calories}</span>
-                                                </pre>
-                                            ))}
-                                        </span>
-                                    </li>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <div className="bg-gradient-to-br from-green-100 to-gray-200 p-6 h-full flex justify-center items-center rounded-xl">
-                    <div className="border-2 w-2/4 p-10 rounded-xl bg-slate-100 border-white shadow-lg text-center">
-                        <h2 className="text-2xl font-bold text-green-900">No Nutrition Plan Assigned Yet!</h2>
-                        <p className="mt-2 text-gray-700 text-lg">
-                            Your nutrition plan isn't available yet. Please check back soon once your trainer adds it.
-                        </p>
-
-                    </div >
-                </div >
-            )}
+      <div className="bg-green-50 p-4 sm:p-6 min-h-screen flex justify-center items-center">
+        <div className="border-2 w-full sm:w-3/4 md:w-1/2 p-6 sm:p-10 rounded-2xl bg-slate-100 shadow-lg text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-green-900 mb-4">
+            No Nutrition Plan Assigned Yet!
+          </h2>
+          <p className="text-gray-700 text-base sm:text-lg">
+            Your nutrition plan isn't available yet. Please check back soon once your trainer adds it.
+          </p>
         </div>
-    )
-}
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 bg-green-50 min-h-screen flex flex-col gap-6">
+      
+      {/* Plan Overview */}
+      <div className="bg-green-100 border-4 border-green-400 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <span className="text-sm sm:text-base md:text-lg font-bold uppercase text-green-900">
+          Fitness Goal: {nutritionPlan.fitnessGoal}
+        </span>
+        <span className="text-sm sm:text-base md:text-lg font-bold uppercase text-green-900">
+          Focus Area: {nutritionPlan.focusArea.join(", ")}
+        </span>
+        <span className="text-sm sm:text-base md:text-lg font-bold uppercase text-green-900">
+          Duration: {nutritionPlan.duration}
+        </span>
+      </div>
+
+      {/* Nutrition Plan */}
+      <div className="bg-green-100 border-4 border-green-400 rounded-2xl overflow-x-auto">
+        <div className="min-w-[700px]">
+          {/* Target Calories */}
+          <div className="grid grid-cols-[25%_75%] border-b-4 border-green-400">
+            <div className="flex justify-center items-center font-bold text-lg border-r-4 border-green-400 p-3 text-center">
+              Target Calories Per Day: {nutritionPlan.nutrition.targetCaloriesPerDay}
+            </div>
+            <div>
+              {/* Header */}
+              <div className="grid grid-cols-[40%_60%] border-b-4 border-green-400">
+                <span className="text-center uppercase font-bold text-lg p-2 border-r-4 border-green-400">Meal Type</span>
+                <span className="text-center uppercase font-bold text-lg p-2">Options</span>
+              </div>
+              {/* Meal Items */}
+              {nutritionPlan?.nutrition?.meals.map((m, index) => (
+                <div key={index} className="grid grid-cols-[40%_60%] border-b border-green-300">
+                  <span className="text-center uppercase font-bold text-base sm:text-lg p-4 border-r border-green-300 flex justify-center items-center">{m.mealType}</span>
+                  <span className="text-center p-4 border-green-300 flex flex-col gap-1">
+                    {m.options.map((o, i) => (
+                      <div key={i} className="capitalize flex justify-center items-center font-semibold">
+                        {o.item} - <span className="font-bold">{o.calories}</span>
+                      </div>
+                    ))}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+};
 
 export default ViewNutritionPlan;

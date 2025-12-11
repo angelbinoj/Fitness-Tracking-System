@@ -93,7 +93,7 @@ const handleSubmitOnboarding = async () => {
 
   try {
     const res = await axios.put(
-      `https://fitness-system-backend.vercel.app/api/auth/Updatedetails/${user._id}`,
+      `${import.meta.env.VITE_API_URL}/auth/Updatedetails/${user._id}`,
       form,
       { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
     );

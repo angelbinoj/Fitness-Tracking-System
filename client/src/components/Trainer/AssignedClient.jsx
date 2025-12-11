@@ -53,83 +53,100 @@ const AssignedClient = () => {
   }, []);
 
   return (
-    <div className="h-full">
-      {viewClients ? (
-        <div className="bg-gradient-to-br from-green-50 to-gray-100 p-6 h-full rounded-xl">
-          <h3 className="text-4xl font-semibold mt-6 capitalize text-green-800 border-l-4 border-green-600 pl-3">
-            Below is the list of Users
-          </h3>
+    <div className="min-h-screen">
+  {viewClients ? (
+    <div className="bg-gradient-to-br from-green-50 to-gray-100 p-4 md:p-8 rounded-xl h-full">
+      <h3 className="text-3xl md:text-4xl font-semibold mt-4 text-green-800 border-l-4 border-green-600 pl-3">
+        Assigned Clients
+      </h3>
 
-          <div className="grid grid-cols-1 gap-5 mt-5">
-            {assignedClients.map((user) => (
-              <div
-                key={user._id}
-                className="bg-white shadow-xl p-5 rounded-xl border border-gray-300 flex gap-5 justify-between items-center hover:shadow-2xl hover:scale-[1.01] transition-all bg-gradient-to-r from-white to-green-50"
-              >
-                <img
-                  src={user.profilePic || "https://via.placeholder.com/100"}
-                  alt="user"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-green-500 shadow-md"
-                />
+      <div className="grid grid-cols-1 gap-6 mt-6">
+        {assignedClients.map((user) => (
+          <div
+            key={user._id}
+            className="bg-white shadow-lg p-5 md:p-6 rounded-xl border border-gray-200
+                       hover:shadow-2xl transition-all duration-200"
+          >
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
 
-                <div className="flex w-3/4 justify-between">
-                  <div>
+              {/* Profile Image */}
+              <img
+                src={user.profilePic || "https://via.placeholder.com/100"}
+                alt="user"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-green-500 shadow-md"
+              />
+
+              {/* Details Section */}
+              <div className="flex flex-col md:flex-row w-full justify-between gap-4">
+
+                {/* Basic Info */}
+                <div className="flex-1">
                   <h4 className="text-xl font-bold capitalize text-gray-900">
                     {user.name}
                   </h4>
-                    <p className=" text-gray-700 capitalize">Age: {user.age} | Gender: {user.gender}</p>
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-gray-800">Fitness Details</h5>
-                    <p className=" text-gray-700 capitalize">Goal: {user.fitnessGoal}</p>
-                    <p className="capitalize text-gray-700">
-                      Focus Area: {user.focusArea?.join(", ")}
-                    </p>
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-gray-800">Health & Metrics</h5>
-                    <p className="capitalize text-gray-700">
-                      Health Issues: {user.healthIssues || "Not mentioned"}
-                    </p>
-                    <p className="capitalize text-gray-700">
-                      Height: {user.profileMetrics?.height} cm | Weight: {user.profileMetrics?.weight} kg
-                    </p>
-                  </div>
+                  <p className="text-gray-700 capitalize mt-1">
+                    Age: {user.age} | Gender: {user.gender}
+                  </p>
                 </div>
 
+                {/* Fitness Details */}
+                <div className="flex-1">
+                  <h5 className="font-bold text-gray-800 mb-1">Fitness Details</h5>
+                  <p className="text-gray-700 capitalize">Goal: {user.fitnessGoal}</p>
+                  <p className="capitalize text-gray-700">
+                    Focus Area: {user.focusArea?.join(", ") || "Not specified"}
+                  </p>
+                </div>
 
-                {user.hasPlan ? (
-                  <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold shadow-md transition-all"
-                    onClick={() => navigate(`/trainer/viewPlan/${user._id}`)}
-                  >
-                    View Plan
-                  </button>
-                ) : (
-                  <button
-                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-semibold shadow-md transition-all"
-                    onClick={() =>  navigate(`/trainer/createPlan/${user._id}`)}
-                  >
-                    Assign Plan
-                  </button>
-                )}
+                {/* Health Info */}
+                <div className="flex-1">
+                  <h5 className="font-bold text-gray-800 mb-1">Health & Metrics</h5>
+                  <p className="capitalize text-gray-700">
+                    Health Issues: {user.healthIssues || "Not mentioned"}
+                  </p>
+                  <p className="capitalize text-gray-700">
+                    Height: {user.profileMetrics?.height} cm | Weight: {user.profileMetrics?.weight} kg
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Action Button */}
+            <div className="mt-4 flex justify-center md:justify-end">
+              {user.hasPlan ? (
+                <button
+                  className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-semibold shadow-md transition-all"
+                  onClick={() => navigate(`/trainer/viewPlan/${user._id}`)}
+                >
+                  View Plan
+                </button>
+              ) : (
+                <button
+                  className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl font-semibold shadow-md transition-all"
+                  onClick={() => navigate(`/trainer/createPlan/${user._id}`)}
+                >
+                  Assign Plan
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="bg-gradient-to-br from-green-100 to-gray-200 p-6 h-full flex justify-center items-center rounded-xl">
-          <div className="border-2 w-2/4 p-10 rounded-xl bg-slate-100 border-white shadow-lg text-center">
-            <h2 className="text-2xl font-bold text-green-900">No Clients Yet!</h2>
-            <p className="mt-2 text-gray-700 text-lg">
-              You don't have any assigned clients yet. Once users choose you as their trainer,
-              their profiles, workout details, and scheduling options will appear here.
-              Stay active and ready to guide new clients on their fitness journey.
-            </p>
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
+  ) : (
+    <div className="bg-gradient-to-br from-green-100 to-gray-200 p-6 flex justify-center items-center rounded-xl h-full min-h-[70vh]">
+      <div className="border w-full md:w-2/3 lg:w-1/2 p-8 md:p-10 rounded-xl bg-white shadow-lg text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-green-900">
+          No Clients Yet!
+        </h2>
+        <p className="mt-3 text-gray-700 text-base md:text-lg leading-relaxed">
+          You currently don't have any assigned clients. Once users select you as their trainer,
+          their details, fitness goals, and health profiles will appear here.
+        </p>
+      </div>
+    </div>
+  )}
+</div>
   );
 };
 

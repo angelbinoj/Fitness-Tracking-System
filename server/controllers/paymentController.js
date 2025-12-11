@@ -1,5 +1,7 @@
 import Stripe from "stripe";
 import { PaymentDb } from "../models/paymentModel.js";
+import { NotificationDb } from "../models/notificationModel.js";
+import { UserDb } from "../models/userModel.js";
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -72,6 +74,22 @@ export const updatePayment = async (req, res) => {
           ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
           : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
+
+    await NotificationDb.create({
+    userId: trainerId,
+    message: `${req.user.name} made a payment of $${amount}.`,
+    type: "payment"
+});
+
+const admins = await UserDb.find({ role: "admin" }, "_id");
+if (admins.length > 0) {
+    const adminNotifications = admins.map(admin => ({
+        userId: admin._id,
+        message: `${req.user.name} made a payment of $${amount}.`,
+        type: "payment"
+    }));
+    await NotificationDb.insertMany(adminNotifications);
+}
 
     res.status(200).json({ success: true, payment: newPayment });
 

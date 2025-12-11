@@ -42,6 +42,7 @@ import AdminCalendarPage from './components/Admin/AdminCalendarPage';
 import BookSession from './components/User/BookSession';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import PendingApproval from './pages/pendingApprovalPage';
 
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
 
         {/* User Dashboard */}
         <Route element={<ProtectedRoute allowedRoles={["client"]} ><UserLayout /></ProtectedRoute>}>
-          <Route path="/user/dashboard" element={<UserDashboard/>} />
+          <Route path="/client/dashboard" element={<UserDashboard/>} />
           <Route path='/user/updateProfile' element={<UserUpdateProfile/>}/>
           <Route path='/trainer' element={<TrainerInfo/>}/>
           <Route path='/paymentPlans' element={<PaymentPlans/>}/>
@@ -91,6 +92,7 @@ function App() {
           <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage/>} />
         </Route>
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
+        <Route path="/trainer/pendingApproval" element={<ProtectedRoute allowedRoles={["trainer"]} ><PendingApproval /></ProtectedRoute>} />
 
         {/* Admin Dashboard */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]}><AdminLayout /></ProtectedRoute>}>

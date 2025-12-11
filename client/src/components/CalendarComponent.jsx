@@ -27,11 +27,6 @@ const CalendarComponent = ({ events }) => {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow">
-      {events.length === 0 ? (
-        <p className="text-center text-gray-600 font-semibold">
-          No sessions available
-        </p>
-      ) : (
         <Calendar
           localizer={localizer}
           events={events}
@@ -49,7 +44,6 @@ const CalendarComponent = ({ events }) => {
             },
           })}
         />
-      )}
     </div>
   );
 };

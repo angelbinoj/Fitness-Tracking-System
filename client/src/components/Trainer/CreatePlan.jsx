@@ -21,7 +21,6 @@ const CreatePlan = () => {
           withCredentials: true,
         }
       );
-      console.log(client.data.profile);
       setClientData(client.data.profile);
     } catch (err) {
       console.error(err.response?.data);
@@ -30,19 +29,18 @@ const CreatePlan = () => {
 
   useEffect(() => {
     fetchClientDetail();
-  }, [id]); 
+  }, [id]);
 
   const [workout, setWorkout] = useState([]);
   const [nutrition, setNutrition] = useState({
     targetCaloriesPerDay: "",
-    meals: []
+    meals: [],
   });
-
 
   const addWorkoutDay = () => {
     setWorkout([
       ...workout,
-      { day: "", exerciseType: "", exercises: [""], caloriesBurned: "" }
+      { day: "", exerciseType: "", exercises: [""], caloriesBurned: "" },
     ]);
   };
 
@@ -55,7 +53,7 @@ const CreatePlan = () => {
   const addMeal = () => {
     setNutrition({
       ...nutrition,
-      meals: [...nutrition.meals, { mealType: "", options: [{ item: "", calories: "" }] }]
+      meals: [...nutrition.meals, { mealType: "", options: [{ item: "", calories: "" }] }],
     });
   };
 
@@ -65,64 +63,71 @@ const CreatePlan = () => {
     setNutrition(copy);
   };
 
-
   const handleSubmit = async () => {
-  if (workout.length === 0 && nutrition.meals.length === 0) {
-    setMessage("Please assign at least one plan");
-    setMsgColor("text-red-600");
-    return;
-  }
+    if (workout.length === 0 && nutrition.meals.length === 0) {
+      setMessage("Please assign at least one plan");
+      setMsgColor("text-red-600");
+      return;
+    }
 
-  try {
-    const data = await axios.post(
-      `${import.meta.env.VITE_API_URL}/plan/${id}`,
-      { workout, nutrition, duration },
-      { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
-    );
-    console.log(data);
-    
-    setMessage("Plans assigned successfully!");
-    setMsgColor("text-green-600");
-    setTimeout(() => navigate(`/trainer/viewPlan/${id}`), 1500);
+    try {
+      const data = await axios.post(
+        `${import.meta.env.VITE_API_URL}/plan/${id}`,
+        { workout, nutrition, duration },
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+      );
 
-  } catch (err) {
-    console.error(err);
-    setMessage("Something went wrong");
-  }
-};
-
+      setMessage("Plans assigned successfully!");
+      setMsgColor("text-green-700");
+      setTimeout(() => navigate(`/trainer/viewPlan/${id}`), 1500);
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong");
+    }
+  };
 
   return (
-    <div className="py-6 px-10 flex flex-col gap-5">
+    <div className="py-6 px-6 md:px-14 bg-green-50 min-h-screen flex flex-col gap-6">
 
-    <div className="bg-gradient-to-br from-green-200 to-gray-300 border-green-400 border-4 rounded-md">
-        <li className="w-full flex justify-between items-center gap-3 uppercase p-4">
-          <span className="font-bold text-lg">Fitness Goal: {clientData.fitnessGoal}</span>
-          <span className="font-bold text-lg">
-            FocusArea: {clientData?.focusArea?.join(", ")}
-          </span>
-          <span className="font-bold text-lg">Duration: 
-            <input type="text" name="duration"
-             className="w-44 mx-2 rounded-lg font-medium px-2 border border-green-400"
-             value={duration}
+      {/* Client Info */}
+      <div className="bg-white border border-green-300 rounded-xl shadow-md p-5">
+        <div className="flex flex-col md:flex-row justify-between gap-4 text-lg">
+          <p><span className="font-bold">Fitness Goal:</span> {clientData.fitnessGoal}</p>
+          <p>
+            <span className="font-bold">Focus Area:</span>{" "}
+            {clientData?.focusArea?.join(", ")}
+          </p>
+          <p className="font-bold flex gap-2 items-center">
+            Duration:
+            <input
+              type="text"
+              value={duration}
               onChange={(e) => setDuration(e.target.value)}
-              required
-              /></span>
-        </li>
+              className="border border-green-400 rounded-lg px-2 py-1 w-40"
+            />
+          </p>
+        </div>
       </div>
 
-      <div className="bg-white border rounded-xl p-4 flex flex-col gap-3 shadow">
+      {/* Workout Section */}
+      <div className="bg-white border border-green-300 rounded-xl shadow-lg p-5 flex flex-col gap-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">Workout Plan</h2>
-          <button onClick={addWorkoutDay} className="px-3 py-1 bg-green-600 text-white rounded-lg">
+          <h2 className="text-xl font-bold text-green-700">Workout Plan</h2>
+          <button
+            onClick={addWorkoutDay}
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded-lg"
+          >
             + Add Day
           </button>
         </div>
 
         {workout.map((item, index) => (
-          <div key={index} className="p-3 border rounded-md flex flex-col gap-2 bg-slate-200">
+          <div
+            key={index}
+            className="p-4 bg-green-100 border border-green-300 rounded-lg flex flex-col gap-3"
+          >
             <input
-              className="border p-2 rounded"
+              className="border rounded-lg p-2"
               placeholder="Day (e.g., Monday)"
               value={item.day}
               onChange={(e) => {
@@ -130,11 +135,10 @@ const CreatePlan = () => {
                 copy[index].day = e.target.value;
                 setWorkout(copy);
               }}
-              required
             />
 
             <input
-              className="border p-2 rounded"
+              className="border rounded-lg p-2"
               placeholder="Exercise Type"
               value={item.exerciseType}
               onChange={(e) => {
@@ -142,11 +146,10 @@ const CreatePlan = () => {
                 copy[index].exerciseType = e.target.value;
                 setWorkout(copy);
               }}
-              required
             />
 
             <input
-              className="border p-2 rounded"
+              className="border rounded-lg p-2"
               placeholder="Calories Burned"
               type="number"
               value={item.caloriesBurned}
@@ -155,13 +158,12 @@ const CreatePlan = () => {
                 copy[index].caloriesBurned = e.target.value;
                 setWorkout(copy);
               }}
-              required
             />
 
             {item.exercises.map((exercise, i) => (
               <input
                 key={i}
-                className="border p-2 rounded"
+                className="border rounded-lg p-2 bg-white"
                 placeholder="Exercise"
                 value={exercise}
                 onChange={(e) => {
@@ -173,8 +175,8 @@ const CreatePlan = () => {
             ))}
 
             <button
-              className="bg-gray-400 px-2 py-1 text-white font-semibold rounded text-sm"
               onClick={() => addExercise(index)}
+              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm w-fit"
             >
               + Add Exercise
             </button>
@@ -182,27 +184,35 @@ const CreatePlan = () => {
         ))}
       </div>
 
-      <div className="bg-white border rounded-xl p-4 flex flex-col gap-3 shadow">
+      {/* Nutrition Section */}
+      <div className="bg-white border border-green-300 rounded-xl shadow-lg p-5 flex flex-col gap-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">Nutrition Plan</h2>
-          <button onClick={addMeal} className="px-3 py-1 bg-green-600 text-white rounded-lg">
+          <h2 className="text-xl font-bold text-green-700">Nutrition Plan</h2>
+          <button
+            onClick={addMeal}
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+          >
             + Add Meal
           </button>
         </div>
 
         <input
-          className="border p-2 rounded bg-white"
+          className="border rounded-lg p-2 bg-white"
           placeholder="Daily Target Calories"
           type="number"
           value={nutrition.targetCaloriesPerDay}
-          onChange={(e) => setNutrition({ ...nutrition, targetCaloriesPerDay: e.target.value })}
-          required
+          onChange={(e) =>
+            setNutrition({ ...nutrition, targetCaloriesPerDay: e.target.value })
+          }
         />
 
         {nutrition.meals.map((meal, index) => (
-          <div key={index} className="p-3 border rounded-md bg-slate-200 flex flex-col gap-2">
+          <div
+            key={index}
+            className="p-4 rounded-lg bg-green-100 border border-green-300 flex flex-col gap-3"
+          >
             <input
-              className="border p-2 rounded"
+              className="border rounded-lg p-2"
               placeholder="Meal Type (Breakfast / Lunch)"
               value={meal.mealType}
               onChange={(e) => {
@@ -210,13 +220,12 @@ const CreatePlan = () => {
                 copy.meals[index].mealType = e.target.value;
                 setNutrition(copy);
               }}
-              required
             />
 
             {meal.options.map((opt, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={i} className="flex gap-3">
                 <input
-                  className="border p-2 rounded w-1/2"
+                  className="border rounded-lg p-2 w-1/2"
                   placeholder="Item"
                   value={opt.item}
                   onChange={(e) => {
@@ -226,7 +235,7 @@ const CreatePlan = () => {
                   }}
                 />
                 <input
-                  className="border p-2 rounded w-1/2"
+                  className="border rounded-lg p-2 w-1/2"
                   placeholder="Calories"
                   type="number"
                   value={opt.calories}
@@ -240,8 +249,8 @@ const CreatePlan = () => {
             ))}
 
             <button
-              className="bg-gray-400 px-2 py-1 text-white font-semibold rounded text-sm"
               onClick={() => addMealOption(index)}
+              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm w-fit"
             >
               + Add Option
             </button>
@@ -250,14 +259,12 @@ const CreatePlan = () => {
       </div>
 
       {message && (
-  <p className={`text-center text-lg font-semibold my-2 ${msgColor}`}>
-    {message}
-  </p>
-)}
+        <p className={`text-center text-lg font-bold ${msgColor}`}>{message}</p>
+      )}
 
       <button
         onClick={handleSubmit}
-        className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold text-lg"
+        className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-xl font-bold text-lg mt-2 shadow-md"
       >
         Assign Plan
       </button>
@@ -266,5 +273,3 @@ const CreatePlan = () => {
 };
 
 export default CreatePlan;
-
-
