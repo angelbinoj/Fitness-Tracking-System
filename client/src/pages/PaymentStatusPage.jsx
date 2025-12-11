@@ -21,7 +21,7 @@ const PaymentStatusPage = () => {
 
     setTimeout(() => {
       if (isSuccess) {
-        navigate("/user/dashboard");
+        navigate("/client/dashboard");
       } else {
         navigate("/paymentPlans");
       }

@@ -75,13 +75,13 @@ const ViewAllPayments = () => {
                 <td className="p-2 sm:p-3 border border-green-200 text-center text-sm sm:text-base">
                   <span className="inline-flex items-center gap-1 whitespace-nowrap">
                     <BiRupee />
-                    {p.platformCommission}
+                    {p.trainerShare}
                   </span>
                 </td>
                 <td className="p-2 sm:p-3 border border-green-200 text-center text-sm sm:text-base">
                   <span className="inline-flex items-center gap-1 whitespace-nowrap">
                     <BiRupee />
-                    {p.trainerShare}
+                    {p.platformCommission}
                   </span>
                 </td>
                 <td className="p-2 sm:p-3 border border-green-200 text-sm sm:text-base">{p.createdAt?.slice(0, 10)}</td>
