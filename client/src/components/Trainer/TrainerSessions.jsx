@@ -30,10 +30,6 @@ const TrainerSessions = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleTimeChange = (time) => {
-    setForm({ ...form, time });
-  };
-
   const handleSubmit = async () => {
     try {
       if (!form.date || !form.time) {
@@ -153,7 +149,7 @@ const TrainerSessions = () => {
           />
 
           <TimePicker
-            onChange={handleTimeChange}
+            onChange={handleChange}
             value={form.time}
             disableClock={true}
             clearIcon={null}
