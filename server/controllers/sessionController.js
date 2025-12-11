@@ -3,25 +3,29 @@ import { SessionsDb } from "../models/sessionModel.js";
 import { UserDb } from "../models/userModel.js";
 
 
-export const createSession = async(req,res)=>{
-    try {
-        const {date, time, title, duration} = req.body;
-        if(!date || !time || !title){
-            return res.status(400).json({error:"All fields are required!"})
-        }
-        const trainerId =req.user.id;
-        const dateTimeString = `${date}T${time}:00`;
-        const dateTime = new Date(dateTimeString);
-
-        const session = new SessionsDb({trainerId,title,dateTime,duration});
-        await session.save();
-        if(session){
-            return res.status(201).json({message: "Session created successfully!", Session: session});
-        }
-    } catch (error) {
-        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+export const createSession = async (req, res) => {
+  try {
+    const { date, time, title, duration } = req.body;
+    if (!date || !time || !title) {
+      return res.status(400).json({ error: "All fields are required!" });
     }
-}
+
+    const trainerId = req.user.id;
+    const dateTime = new Date(`${date}T${time}:00`);
+
+    const session = new SessionsDb({ trainerId, title, dateTime, duration });
+    await session.save();
+
+    return res.status(201).json({
+      message: "Session created successfully!",
+      Session: session
+    });
+
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
 
 export const getTrainerSessions = async(req,res)=>{
     try {
@@ -40,38 +44,41 @@ export const getTrainerSessions = async(req,res)=>{
 
 export const updateSession = async (req, res) => {
   try {
-    const trainerId= req.user.id;
+    const trainerId = req.user.id;
     const sessionId = req.params.id;
+
     const session = await SessionsDb.findById(sessionId);
     if (!session) {
       return res.status(404).json({ error: "No session found!" });
     }
-    if(session.trainerId.toString() !== trainerId){
-        return res.status(404).json({ error: "You have no access to update this session!" });
-    }
-    if(session.status === "Completed"){
-    return res.status(400).json({ error: "Cannot update a completed session!" });
-}
 
-    const updatedData = req.body;
-    const { date, time } = updatedData;
-if (date && time) {
-  session.dateTime = new Date(`${date}T${time}:00`);
-}
-     await SessionsDb.findByIdAndUpdate(
-      sessionId,
-      updatedData,
-      { new: true }
-    );
+    if (session.trainerId.toString() !== trainerId) {
+      return res.status(404).json({ error: "You have no access to update this session!" });
+    }
+
+    if (session.status === "Completed") {
+      return res.status(400).json({ error: "Cannot update a completed session!" });
+    }
+
+    const updatedData = { ...req.body };
+
+    if (updatedData.date && updatedData.time) {
+      updatedData.dateTime = new Date(`${updatedData.date}T${updatedData.time}:00`);
+    }
+
+    await SessionsDb.findByIdAndUpdate(sessionId, updatedData, { new: true });
 
     res.json({
       message: "Session updated successfully!",
     });
 
   } catch (error) {
-    res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    res
+      .status(error.status || 500)
+      .json({ error: error.message || "Internal Server Error" });
   }
 };
+
 
 export const cancelSession = async(req,res)=>{
     try {

@@ -37,13 +37,10 @@ const TrainerSessions = () => {
         return;
       }
 
-      const dateTime = new Date(`${form.date}T${form.time}`);
-      const dateTimeUTC = new Date(dateTime.getTime() - dateTime.getTimezoneOffset() * 60000);
-
       if (editingId) {
         await axios.put(
           `${import.meta.env.VITE_API_URL}/session/trainer/${editingId}`,
-          { title: form.title, duration: form.duration, dateTime: dateTimeUTC },
+          { title: form.title, duration: form.duration, date: form.date, time: form.time },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessage("Session updated successfully!");
@@ -51,7 +48,7 @@ const TrainerSessions = () => {
       } else {
         await axios.post(
           `${import.meta.env.VITE_API_URL}/session/trainer/create`,
-          { title: form.title, duration: form.duration, dateTime: dateTimeUTC },
+          { title: form.title, duration: form.duration, date: form.date, time: form.time },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessage("Session created successfully!");
@@ -83,7 +80,7 @@ const TrainerSessions = () => {
     setForm({
       title: session.title,
       date: dt.toISOString().split("T")[0],
-      time: dt.toISOString().split("T")[1].slice(0, 5),
+      time: dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }),
       duration: session.duration,
     });
   };
@@ -112,7 +109,6 @@ const TrainerSessions = () => {
   return (
     <div className="p-6 md:p-10 bg-green-50 min-h-screen">
 
-      {/* MESSAGE */}
       {message && (
         <div className="bg-green-200 border border-green-400 text-green-800 px-5 py-3 rounded-lg mb-4 text-center font-medium shadow">
           {message}
@@ -123,7 +119,6 @@ const TrainerSessions = () => {
         Manage Sessions
       </h1>
 
-      {/* FORM SECTION */}
       <div className="bg-white border border-green-300 rounded-xl shadow-md p-6 max-w-4xl mx-auto mb-10">
         <h2 className="font-semibold text-xl mb-4 text-green-700">
           {editingId ? "Edit Session" : "Create New Session"}
@@ -189,7 +184,6 @@ const TrainerSessions = () => {
         </div>
       </div>
 
-      {/* CALENDAR BUTTON */}
       <div className="w-full flex justify-center mb-10">
         <button
           onClick={() => navigate("/trainer/sessionCalender")}
@@ -199,7 +193,6 @@ const TrainerSessions = () => {
         </button>
       </div>
 
-      {/* SESSION LIST */}
       {sessions.length === 0 ? (
         <div className="text-center p-10 bg-white border border-green-200 rounded-xl shadow-md max-w-xl mx-auto">
           <h2 className="text-2xl font-bold text-green-800">No Sessions Created Yet</h2>
@@ -226,10 +219,13 @@ const TrainerSessions = () => {
                   <td className="border px-3 py-2">
                     {(() => {
                       const dt = new Date(s.dateTime);
-                      return `${dt.toISOString().split("T")[0]} ${dt
-                        .toISOString()
-                        .split("T")[1]
-                        .slice(0, 5)}`;
+                      const date = dt.toISOString().split("T")[0];
+                      const time = dt.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      });
+                      return `${date} ${time}`;
                     })()}
                   </td>
                   <td className="border px-3 py-2">{s.duration} min</td>
@@ -240,10 +236,11 @@ const TrainerSessions = () => {
                     <button
                       disabled={s.status === "Completed"}
                       onClick={() => handleEdit(s)}
-                      className={`px-4 py-1 rounded-lg shadow ${s.status === "Completed"
+                      className={`px-4 py-1 rounded-lg shadow ${
+                        s.status === "Completed"
                           ? "bg-gray-300 text-gray-600"
                           : "bg-blue-600 text-white hover:bg-blue-700"
-                        }`}
+                      }`}
                     >
                       Edit
                     </button>
@@ -251,10 +248,11 @@ const TrainerSessions = () => {
                     <button
                       disabled={s.status === "Completed"}
                       onClick={() => handleCancel(s._id)}
-                      className={`px-4 py-1 rounded-lg shadow ${s.status === "Completed"
+                      className={`px-4 py-1 rounded-lg shadow ${
+                        s.status === "Completed"
                           ? "bg-gray-300 text-gray-600"
                           : "bg-red-600 text-white hover:bg-red-700"
-                        }`}
+                      }`}
                     >
                       Cancel
                     </button>
