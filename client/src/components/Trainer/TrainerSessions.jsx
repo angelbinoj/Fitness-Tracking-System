@@ -149,11 +149,11 @@ const TrainerSessions = () => {
           />
 
           <TimePicker
-            onChange={handleChange}
+            onChange={(value) => setForm({ ...form, time: value })}
             value={form.time}
             disableClock={true}
             clearIcon={null}
-            format="hh:mm a"
+            format="HH:mm"
             className="w-full md:w-40 bg-white border border-green-400 rounded-lg"
           />
 
@@ -240,11 +240,10 @@ const TrainerSessions = () => {
                     <button
                       disabled={s.status === "Completed"}
                       onClick={() => handleEdit(s)}
-                      className={`px-4 py-1 rounded-lg shadow ${
-                        s.status === "Completed"
+                      className={`px-4 py-1 rounded-lg shadow ${s.status === "Completed"
                           ? "bg-gray-300 text-gray-600"
                           : "bg-blue-600 text-white hover:bg-blue-700"
-                      }`}
+                        }`}
                     >
                       Edit
                     </button>
@@ -252,11 +251,10 @@ const TrainerSessions = () => {
                     <button
                       disabled={s.status === "Completed"}
                       onClick={() => handleCancel(s._id)}
-                      className={`px-4 py-1 rounded-lg shadow ${
-                        s.status === "Completed"
+                      className={`px-4 py-1 rounded-lg shadow ${s.status === "Completed"
                           ? "bg-gray-300 text-gray-600"
                           : "bg-red-600 text-white hover:bg-red-700"
-                      }`}
+                        }`}
                     >
                       Cancel
                     </button>
