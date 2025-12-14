@@ -95,7 +95,7 @@ function AdminUpdateProfile() {
 
   return (
     <div className="flex justify-center items-center py-4 px-4 bg-[#f4f9f0] min-h-screen">
-      <div className="flex flex-col mx-auto items-center bg-white shadow-lg border border-green-300 rounded-lg font-medium w-full sm:w-4/5 md:w-3/5 lg:w-1/2 p-8">
+      <div className="flex flex-col mx-auto items-center bg-white shadow-lg border border-green-300 rounded-lg font-medium w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-8">
 
         <h1 className="text-3xl my-6 font-bold text-green-800 uppercase text-center">
           {!isEditable ? "Profile" : "Update Profile"}
@@ -129,7 +129,7 @@ function AdminUpdateProfile() {
           <label className="font-semibold text-lg uppercase flex flex-col">
             Full Name:
             <input
-              className={`h-10 mt-1 w-full text-base rounded-md ps-4 bg-gray-100 ${
+              className={`h-10 mt-1 w-full text-base rounded-md ps-4 capitalize bg-gray-100 ${
                 isEditable ? "border-2 border-green-600" : "border border-transparent"
               }`}
               type="text"

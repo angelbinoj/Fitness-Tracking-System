@@ -1,11 +1,14 @@
 import { UserLogDb } from "../models/logsModel.js";
 import { NotificationDb } from "../models/notificationModel.js";
+import { UserDb } from "../models/userModel.js";
 
 
 export const createOrUpdateLog = async (req, res) => {
   try {
     const { trainerId, workout, nutrition, energyLevel, notes } = req.body;
     const userId = req.user.id;
+    const userName = await UserDb.find({ userId })
+          .populate("name");
 
     if (!workout || !nutrition) {
       return res.status(400).json({ error: "All fields are required!" });
@@ -44,7 +47,7 @@ export const createOrUpdateLog = async (req, res) => {
       await userLog.save();
       await NotificationDb.create({
         userId: trainerId,
-        message: `${req.user.name} added/updated a workout log today.`,
+        message: `${userName} added/updated a workout log today.`,
         type: "log"
     });
 
@@ -70,7 +73,7 @@ export const createOrUpdateLog = async (req, res) => {
     await newLog.save();
     await NotificationDb.create({
         userId: trainerId,
-        message: `${req.user.name} added/updated a workout log today.`,
+        message: `${userName} added/updated a workout log today.`,
         type: "log"
     });
 

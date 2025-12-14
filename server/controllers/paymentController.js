@@ -75,9 +75,12 @@ export const updatePayment = async (req, res) => {
           : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
 
+    const userName = await UserDb.find({ userId })
+      .populate("name");
+
     await NotificationDb.create({
     userId: trainerId,
-    message: `${req.user.name} made a payment of $${amount}.`,
+    message: `${userName} made a payment of $${amount}.`,
     type: "payment"
 });
 

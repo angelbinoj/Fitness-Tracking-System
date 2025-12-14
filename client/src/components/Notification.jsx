@@ -17,7 +17,6 @@ export default function Notification() {
       const data = res.data;
       setNotifications(data.notifications);
       setUnreadCount(data.unreadCount);
-      console.log(data);
     } catch (err) {
       console.error(err);
     }

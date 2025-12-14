@@ -45,7 +45,7 @@ function TrainerList() {
         Trainer List
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {trainers.map((trainer) => (
           <div
   key={trainer._id}

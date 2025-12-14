@@ -129,7 +129,7 @@ function UserUpdateProfile() {
           <label className="font-semibold text-lg uppercase flex flex-col">
             Full Name:
             <input
-              className={`h-10 mt-1 w-full text-base rounded-md ps-4 bg-gray-100 ${
+              className={`h-10 mt-1 w-full text-base rounded-md ps-4 capitalize bg-gray-100 ${
                 isEditable ? "border-2 border-green-600" : "border border-transparent"
               }`}
               type="text"

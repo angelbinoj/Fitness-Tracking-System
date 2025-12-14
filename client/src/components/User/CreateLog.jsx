@@ -51,7 +51,7 @@ const CreateLog = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-6 p-4 sm:p-6 md:p-10 bg-green-400 rounded-2xl shadow-lg">
+    <div className="max-w-4xl mx-auto m-6 p-4 sm:p-6 md:p-10 bg-green-400 rounded-2xl shadow-lg">
       <h2 className="text-2xl sm:text-3xl font-bold text-center uppercase mb-6 text-green-900">
         Today's Fitness Log
       </h2>

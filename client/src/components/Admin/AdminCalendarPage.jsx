@@ -23,6 +23,7 @@ const AdminCalendarPage = () => {
 
             return {
               title: s.title,
+              trainer: s.trainerId?.name || "Trainer",
               start,
               end,
               allDay: false,

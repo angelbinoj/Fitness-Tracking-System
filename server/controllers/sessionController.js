@@ -11,7 +11,11 @@ export const createSession = async (req, res) => {
     }
 
     const trainerId = req.user.id;
-    const dateTime = new Date(`${date}T${time}:00`);
+
+    // Convert to UTC to avoid timezone issues
+    const [year, month, day] = date.split('-').map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
+    const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));
 
     const session = new SessionsDb({ trainerId, title, dateTime, duration });
     await session.save();
@@ -25,22 +29,6 @@ export const createSession = async (req, res) => {
     res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
   }
 };
-
-
-export const getTrainerSessions = async(req,res)=>{
-    try {
-        const trainerId= req.user.id;
-
-        const session = await SessionsDb.find({trainerId});
-        if(session.length === 0){
-            return res.status(400).json({ error: "No sessions found!" });
-        }
-    
-        return res.status(201).json({message: "Sessions fetched successfully!", Sessions: session});
-    } catch (error) {
-        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
-    }
-}
 
 export const updateSession = async (req, res) => {
   try {
@@ -63,7 +51,9 @@ export const updateSession = async (req, res) => {
     const updatedData = { ...req.body };
 
     if (updatedData.date && updatedData.time) {
-      updatedData.dateTime = new Date(`${updatedData.date}T${updatedData.time}:00`);
+      const [year, month, day] = updatedData.date.split('-').map(Number);
+      const [hours, minutes] = updatedData.time.split(':').map(Number);
+      updatedData.dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));
     }
 
     await SessionsDb.findByIdAndUpdate(sessionId, updatedData, { new: true });
@@ -78,6 +68,22 @@ export const updateSession = async (req, res) => {
       .json({ error: error.message || "Internal Server Error" });
   }
 };
+
+
+export const getTrainerSessions = async(req,res)=>{
+    try {
+        const trainerId= req.user.id;
+
+        const session = await SessionsDb.find({trainerId});
+        if(session.length === 0){
+            return res.status(400).json({ error: "No sessions found!" });
+        }
+    
+        return res.status(201).json({message: "Sessions fetched successfully!", Sessions: session});
+    } catch (error) {
+        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    }
+}
 
 
 export const cancelSession = async(req,res)=>{
@@ -145,19 +151,30 @@ export const getUserSessions = async(req,res)=>{
     }
 }
 
-export const getUpcomingSessions = async(req,res)=>{
-    try {
-        const sessions = await SessionsDb.find({
-      status: 'Upcoming'
-    }).sort({ dateTime: 1 });
+export const getUpcomingSessions = async (req, res) => {
+  try {
+    const sessions = await SessionsDb.find({
+      status: "Upcoming"
+    })
+      .populate("trainerId", "name")
 
-       if(sessions.length === 0){
-    return res.status(400).json({ error: "No sessions found!" });
-}
-    
-        return res.status(201).json({message: "Upcoming Sessions fetched successfully!", Sessions: sessions});
-    } catch (error) {
-        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    if (!sessions.length) {
+      return res.status(200).json({
+        message: "No upcoming sessions",
+        Sessions: []
+      });
     }
-}
+
+    return res.status(200).json({
+      message: "Upcoming Sessions fetched successfully!",
+      Sessions: sessions
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message || "Internal Server Error"
+    });
+  }
+};
+
 

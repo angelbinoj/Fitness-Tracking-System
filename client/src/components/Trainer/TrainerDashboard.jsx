@@ -1,12 +1,106 @@
 import { useEffect, useState } from "react";
 import Notification from "../Notification";
+import axios from "axios";
+import TrainerProgressChart from "./TrainerProgressChart";
+import MiniCalendar from "../MiniCalendar";
 
 const TrainerDashboard = () => {
   const [trainer, setTrainer] = useState(null);
+  const [earnings, setEarnings] = useState('');
+  const [bookingsCount, setBookingsCount] = useState('');
+  const [events, setEvents] = useState([]);
+  const [chartData, setChartData] = useState({
+    labels: [],
+    earnings: [],
+    clients: []
+  });
+
+  const token = localStorage.getItem('token');
+
+  const fetchTrainerSessions = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/session/trainer`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const upcoming = res.data.Sessions
+      .filter(s => s.status === "Upcoming")
+      .map(s => {
+        const start = new Date(s.dateTime);
+        const end = new Date(
+          start.getTime() + (s.duration || 60) * 60000
+        );
+
+        return {
+          title: s.title,
+          start,
+          end
+        };
+      });
+
+    setEvents(upcoming);
+  };
+
+  const fetchDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/payment/trainerPayments`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      const total = data.payments.reduce(
+        (sum, payment) => sum + (payment.trainerShare || 0),
+        0
+      );
+      setEarnings(total);
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/session/trainer`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      const bookings = res.data.Sessions.map((s) => {
+        return s.bookedUsers.length
+      })
+      const totalBookings = bookings.reduce(
+        (sum, booking) => sum + (booking || 0),
+        0
+      );
+      setBookingsCount(totalBookings);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchTrainerProgress = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/trainer/progress`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true
+        }
+      );
+
+      setChartData(data);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setTrainer(storedUser);
+    fetchDetails();
+    fetchTrainerProgress();
+    fetchTrainerSessions();
   }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,8 +119,6 @@ const TrainerDashboard = () => {
     window.location.href = "/trainer/pendingApproval";
     return null;
   }
-
-  console.log(user.status);
 
   if (!trainer) return <p>Loading...</p>;
 
@@ -66,29 +158,32 @@ const TrainerDashboard = () => {
                 <h2 className="text-white text-2xl font-bold mb-4">OVERVIEW</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-[#e8f442] text-center p-6 rounded-2xl">
-                    <h3 className="font-bold text-sm text-[#28a745] mb-2">Total Clients</h3>
+                    <h3 className="font-bold text-[#28a745] mb-2">Total Clients</h3>
                     <p className="text-5xl font-bold text-[#4a4a4a]">{trainer.assignedClients.length}</p>
                   </div>
 
                   <div className="bg-[#e8f442] text-center p-6 rounded-2xl">
-                    <h3 className="font-bold text-sm text-[#28a745] mb-2">Total Bookings</h3>
-                    <p className="text-5xl font-bold text-[#4a4a4a]">11</p>
+                    <h3 className="font-bold text-[#28a745] mb-2">Total Bookings</h3>
+                    <p className="text-5xl font-bold text-[#4a4a4a]">{bookingsCount}</p>
                   </div>
 
                   <div className="bg-[#e8f442] text-center p-6 rounded-2xl">
-                    <h3 className="font-bold text-sm text-[#28a745] mb-2">Total Earnings</h3>
-                    <p className="text-5xl font-bold text-[#4a4a4a]">54K</p>
+                    <h3 className="font-bold text-[#28a745] mb-2">Total Earnings</h3>
+                    <p className="text-5xl font-bold text-[#4a4a4a]">{earnings}</p>
                   </div>
                 </div>
               </section>
 
-              <section className="bg-[#f5f5e8] border-2 border-gray-300 p-6 rounded-2xl min-h-[400px]">
-                <h2 className="font-bold text-2xl mb-4 text-black">Earning's Chart</h2>
-                <div className="w-full h-64 flex items-center justify-center text-gray-400">
-                  <div className="text-center">
-                    <p className="text-lg">Chart will be implemented here</p>
-                  </div>
+              <section className="bg-[#f5f5e8] border-2 border-gray-300 p-6 rounded-2xl min-h-[300px]">
+                <h2 className="font-bold text-2xl mb-4 text-black">Progress Chart</h2>
+                <div className="w-full h-64">
+                  <TrainerProgressChart
+                    labels={chartData.labels}
+                    earnings={chartData.earnings}
+                    clients={chartData.clients}
+                  />
                 </div>
+
               </section>
             </div>
           ) : (
@@ -102,31 +197,49 @@ const TrainerDashboard = () => {
             </div>
           )}
         </div>
+        <div className="lg:w-96 bg-[#8fa894] rounded-2xl p-5">
+          <section className="bg-[#f5f5e8] border-2 border-gray-200 rounded-2xl p-4">
+            <h3 className="font-bold text-xl mb-3">CALENDAR</h3>
+            <p className="border-b border-gray-400 mb-3 pb-1 text-sm">
+              Upcoming Sessions
+            </p>
+            <MiniCalendar events={events} />
+          </section>
 
-        <div className="lg:w-80 bg-[#8fa894] rounded-2xl p-6">
-          <h3 className="text-white text-xl font-bold mb-6 text-center">CALENDER</h3>
-          <div className="mb-6">
-            <div className="grid grid-cols-4 gap-3 mb-6">
-              {/* <div className="bg-white rounded-full w-12 h-12 opacity-70"></div>
-              <div className="bg-white rounded-full w-12 h-12 opacity-70"></div>
-              <div className="bg-white rounded-full w-12 h-12 opacity-70"></div>
-              <div className="bg-white rounded-full w-12 h-12 opacity-70"></div>
-              <div className="bg-white rounded-full w-12 h-12 opacity-70"></div> */}
-            </div>
-          </div>
-          
-          <div className="border-t-2 border-white/30 pt-6">
-            <h4 className="text-white text-lg font-bold mb-4">Training Schedule</h4>
-            {/* <div className="space-y-3">
-              <div className="bg-white/20 h-8 rounded"></div>
-              <div className="bg-white/20 h-8 rounded"></div>
-              <div className="bg-white/20 h-8 rounded"></div>
-              <div className="bg-white/20 h-8 rounded"></div>
-            </div> */}
-          </div>
+         <div className="pt-10">
+  <h4 className="text-[#fffffb] text-lg border-b border-[#f5f5e8] font-bold mb-4">
+    My Assigned Role
+  </h4>
+
+  <div className="space-y-3 text-sm">
+    {/* Role */}
+    <div className="bg-white/30 border border-white/30 rounded-xl px-4 py-3">
+      <p className="text-[#fffffb] text-xs uppercase tracking-wide">
+        Role
+      </p>
+      <p className="text-white text-base font-semibold">
+        {trainer.trainerInfo.specialization} Trainer
+      </p>
+    </div>
+
+    {/* Schedule */}
+    <div className="bg-white/30 border border-white/30 rounded-xl px-4 py-3">
+      <p className="text-[#ffffff] text-xs uppercase tracking-wide">
+        Assigned Schedule
+      </p>
+      <p className="text-white text-base font-semibold">
+        {trainer.trainerInfo.availability}
+      </p>
+    </div>
+  </div>
+</div>
+
+
         </div>
       </div>
     </div>
+
+
   );
 };
 

@@ -15,6 +15,24 @@ export const findUsers =async(req,res)=>{
 
 }
 
+export const findRecentUsers =async(req,res)=>{
+    try {
+        const users = await UserDb.find()
+        .sort({ createdAt: -1 })
+            .limit(5);
+
+        if(users){
+            return res.status(200).json({message:"Recent Users fetched successfully",RecentUsers:users})
+        }else{
+            return res.status(400).json({error:error.message || "No users Found"})
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(error.status || 500).json({error:error.message || "Internal Server Error"})
+    }
+
+}
+
 export const findTrainers =async(req,res)=>{
     try {
         const trainers = await UserDb.find({ role: "trainer" });

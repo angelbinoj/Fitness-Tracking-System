@@ -6,7 +6,6 @@ function ClientList(){
 
   const [users,setUsers] =useState([]);
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const fetchUsers= async()=>{
     try {
@@ -15,7 +14,6 @@ function ClientList(){
             withCredentials: true,
           }         
         );
-        console.log(data.Users)
         setUsers(data.Users);
   
     } catch (error) {

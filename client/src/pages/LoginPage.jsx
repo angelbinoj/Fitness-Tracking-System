@@ -101,7 +101,7 @@ function LoginPage() {
 
           <div
             onClick={() => navigate("/forgotPassword")}
-            className="text-right text-green-900 hover:text-green-700 hover:underline cursor-pointer text-sm"
+            className="text-right text-green-900 hover:text-green-700 hover:underline hover:font-medium cursor-pointer text-sm"
           >
             Forgot Password?
           </div>

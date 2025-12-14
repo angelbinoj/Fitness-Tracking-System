@@ -17,6 +17,10 @@ const TrainerSessions = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSessions(data.Sessions || []);
+      console.log(sessions.map((s)=>(
+        s.dateTime
+      )));
+      
     } catch (err) {
       console.error(err);
     }
@@ -77,10 +81,13 @@ const TrainerSessions = () => {
   const handleEdit = (session) => {
     setEditingId(session._id);
     const dt = new Date(session.dateTime);
+    const date = dt.toISOString().split("T")[0];
+    const fullTime = dt.toISOString().split("T")[1]; 
+    const time = fullTime.slice(0, 5)
     setForm({
       title: session.title,
-      date: dt.toISOString().split("T")[0],
-      time: dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }),
+      date: date,
+      time: time,
       duration: session.duration,
     });
   };
@@ -132,7 +139,7 @@ const TrainerSessions = () => {
             name="title"
             value={form.title}
             onChange={handleChange}
-            className="border border-green-400 rounded-lg px-3 py-2 w-full md:w-52"
+            className="border border-green-400 rounded-lg px-3 py-2 w-full md:w-52 focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <input
@@ -140,7 +147,7 @@ const TrainerSessions = () => {
             name="date"
             value={form.date}
             onChange={handleChange}
-            className="border border-green-400 rounded-lg px-3 py-2 w-full md:w-44"
+            className="border border-green-400 rounded-lg px-3 py-2 w-full md:w-44 focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <TimePicker
@@ -149,7 +156,7 @@ const TrainerSessions = () => {
             disableClock={true}
             clearIcon={null}
             format="HH:mm"
-            className="w-full md:w-40 bg-white border border-green-400 rounded-lg"
+            className="w-full md:w-40 bg-white border border-green-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <input
@@ -158,7 +165,7 @@ const TrainerSessions = () => {
             name="duration"
             value={form.duration}
             onChange={handleChange}
-            className="border border-green-400 rounded-lg px-3 py-2 w-28"
+            className="border border-green-400 rounded-lg px-3 py-2 w-28 focus:outline-none focus:ring-2 focus:ring-green-400"
           />
 
           <button
@@ -220,12 +227,9 @@ const TrainerSessions = () => {
                     {(() => {
                       const dt = new Date(s.dateTime);
                       const date = dt.toISOString().split("T")[0];
-                      const time = dt.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      });
-                      return `${date} ${time}`;
+                     const fullTime = dt.toISOString().split("T")[1]; 
+                     const time = fullTime.slice(0, 5);
+                      return `${date} - ${time}`;
                     })()}
                   </td>
                   <td className="border px-3 py-2">{s.duration} min</td>

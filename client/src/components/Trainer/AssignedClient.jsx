@@ -53,9 +53,9 @@ const AssignedClient = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="h-screen">
   {viewClients ? (
-    <div className="bg-gradient-to-br from-green-50 to-gray-100 p-4 md:p-8 rounded-xl h-full">
+    <div className="bg-gradient-to-br from-green-50 to-gray-100 p-4 md:p-8 rounded-xl min-h-screen">
       <h3 className="text-3xl md:text-4xl font-semibold mt-4 text-green-800 border-l-4 border-green-600 pl-3">
         Assigned Clients
       </h3>
