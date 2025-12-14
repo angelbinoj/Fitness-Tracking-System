@@ -58,7 +58,7 @@ export default function Notification() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-50">
+        <div className="absolute md:right-0 mt-1 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-50">
           {notifications.length === 0 ? (
             <div className="p-4 text-center text-gray-500 dark:text-gray-400">
               No notifications

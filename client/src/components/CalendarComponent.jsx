@@ -6,7 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
 
 const CalendarComponent = ({ events }) => {
-  // Custom event component: only show title
+
   const CustomEvent = ({ event }) => (
     <div
       style={{

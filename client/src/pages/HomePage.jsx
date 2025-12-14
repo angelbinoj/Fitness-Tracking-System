@@ -91,7 +91,7 @@ export default function HomePage() {
                 through fitness, discipline, and wellness.
               </p>
             </div>        
-            <div className="bg-white p-6 sm:p-8 rounded-xl shadow border">
+            <div className="bg-[#fdfff2] p-6 sm:p-8 rounded-xl shadow border">
               <h3 className="text-green-900 font-bold text-lg sm:text-xl">OUR MISSION</h3>
               <p className="text-gray-700 mt-2 sm:mt-3 leading-relaxed text-sm sm:text-base">
                 To empower individuals with tailored fitness solutions that build confidence,

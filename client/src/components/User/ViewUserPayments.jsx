@@ -60,8 +60,11 @@ const ViewUserPayments = () => {
             {payments.map((p) => (
               <tr key={p._id} className="bg-green-100 hover:bg-green-200 transition">
                 <td className="p-2 sm:p-3 border border-black">{p.plan}</td>
-                <td className="p-2 sm:p-3 border-b border-black flex justify-center items-center gap-1">
-                  <BiRupee /> {p.amount}
+                <td className="p-2 sm:p-3 border border-black">
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                    <BiRupee />
+                    {p.amount}
+                  </span>
                 </td>
                 <td className="p-2 sm:p-3 border border-black">{p.startDate?.slice(0, 10)}</td>
                 <td className="p-2 sm:p-3 border border-black">{p.expiryDate?.slice(0, 10)}</td>
