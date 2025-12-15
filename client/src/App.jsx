@@ -43,6 +43,9 @@ import BookSession from './components/User/BookSession';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import PendingApproval from './pages/pendingApprovalPage';
+import ChatPage from './pages/ClientChatPage';
+import ClientChatPage from './pages/ClientChatPage';
+import TrainerChatPage from './pages/TrainerChatPage';
 
 
 function App() {
@@ -75,6 +78,7 @@ function App() {
           <Route path="/user/viewPayments" element={<ViewUserPayments/>} />
           <Route path="/user/sessions" element={<BookSession/>} />
           <Route path="/user/sessionCalender" element={<ClientCalendarPage/>} />
+          <Route path="/user/chat" element={<ClientChatPage/>} />
           </Route>
           <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
@@ -90,6 +94,7 @@ function App() {
           <Route path="/trainer/viewPayments" element={<ViewTrainerPayments/>} />
           <Route path="/trainer/sessions" element={<TrainerSessions/>} />
           <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage/>} />
+          <Route path="/trainer/chat/:id" element={<TrainerChatPage/>} />
         </Route>
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
         <Route path="/trainer/pendingApproval" element={<ProtectedRoute allowedRoles={["trainer"]} ><PendingApproval /></ProtectedRoute>} />

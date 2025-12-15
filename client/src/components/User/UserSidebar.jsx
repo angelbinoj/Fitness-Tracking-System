@@ -41,7 +41,7 @@ export default function UserSidebar(){
         text: "Payments"
     },
     {
-        url: "#",
+        url: "/user/chat",
         text: "Chats"
     }
 ]

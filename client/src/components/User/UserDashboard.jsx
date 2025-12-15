@@ -11,6 +11,8 @@ const UserDashboard = () => {
   const token = localStorage.getItem("token");
   const [progress, setProgress] = useState(null);
   const [events, setEvents] = useState([]);
+const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchClientSessions = async () => {
@@ -40,7 +42,6 @@ const UserDashboard = () => {
     return <Navigate to="/user/onboarding" />;
   }
 
-  const navigate = useNavigate();
   const trainerAssigned = user.assignedTrainer;
 
   const [viewTrainerSelection, setViewTrainerSelection] = useState(!trainerAssigned);
@@ -110,7 +111,8 @@ const UserDashboard = () => {
       }
     };
 
-    if (trainerAssigned) fetchProgress();
+    if (trainerAssigned)
+       fetchProgress();
   }, [trainerAssigned]);
 
   return (
