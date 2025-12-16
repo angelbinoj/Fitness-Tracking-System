@@ -12,7 +12,7 @@ const PaymentStatusPage = () => {
     const planInfo = JSON.parse(localStorage.getItem("paymentInfo"));
 
   if (isSuccess && planInfo) {
-    axios.post(
+     axios.post(
       `${import.meta.env.VITE_API_URL}/payment/update`,
       { ...planInfo },
       { headers: { Authorization: `Bearer ${token}` } }

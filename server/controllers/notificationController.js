@@ -40,3 +40,35 @@ export const markAllAsRead = async (req, res) => {
     }
 };
 
+export const createChatNotification = async (req, res) => {
+  try {
+    const { receiverId } = req.body;
+
+    await NotificationDb.create({
+      userId: receiverId,
+      message: "New chat message received",
+      type: "chat",
+      isRead: false
+    });
+
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getAllNotifications = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const notifications = await NotificationDb.find({ userId })
+            .sort({ createdAt: -1 })
+
+        return res.status(200).json({
+            notifications
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message || "Internal Server Error" });
+    }
+};

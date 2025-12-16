@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { PaymentDb } from "../models/paymentModel.js";
+import { WithdrawalDb } from "../models/withdrawalModel.js";
 import { NotificationDb } from "../models/notificationModel.js";
 import { UserDb } from "../models/userModel.js";
 
@@ -54,6 +55,7 @@ export const updatePayment = async (req, res) => {
   try {
     const { userId, trainerId, plan, amount } = req.body;
 
+
     const platformCommission = amount * 0.1;
     const trainerShare = amount - platformCommission;
 
@@ -74,13 +76,11 @@ export const updatePayment = async (req, res) => {
           ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
           : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
-
-    const userName = await UserDb.find({ userId })
-      .populate("name");
-
+      
+const user = await UserDb.findById(userId);
     await NotificationDb.create({
     userId: trainerId,
-    message: `${userName} made a payment of $${amount}.`,
+    message: `${user.name} made a payment of $${amount}.`,
     type: "payment"
 });
 
@@ -88,7 +88,7 @@ const admins = await UserDb.find({ role: "admin" }, "_id");
 if (admins.length > 0) {
     const adminNotifications = admins.map(admin => ({
         userId: admin._id,
-        message: `${req.user.name} made a payment of $${amount}.`,
+        message: `${user.name} made a payment of $${amount}.`,
         type: "payment"
     }));
     await NotificationDb.insertMany(adminNotifications);
@@ -151,5 +151,39 @@ export const getAllPayments = async (req, res) => {
     res.status(200).json({ success: true, payments });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const withdrawAmount = async (req, res) => {
+  try {
+    const trainerId = req.user.id;
+    const { amount } = req.body;
+
+    await WithdrawalDb.create({
+      trainerId,
+      amount,
+    });
+
+    await NotificationDb.create({
+      userId: trainerId,
+      message: `₹${amount} withdrawn successfully`,
+      type: "withdrawal",
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getTrainerWithdrawals = async (req, res) => {
+  try {
+     const trainerId = req.user.id;
+
+  const withdrawals = await WithdrawalDb.find({ trainerId });
+
+  res.json({ withdrawals });
+  } catch (error) {
+     res.status(500).json({ error: err.message });
   }
 };

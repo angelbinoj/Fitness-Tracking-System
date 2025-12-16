@@ -3,58 +3,71 @@ import Notification from "../Notification";
 import { useEffect, useState } from "react";
 import AdminProgressChart from "./AdminProgressChart";
 import MiniCalendar from "../MiniCalendar";
+import { IoStar } from "react-icons/io5";
 
 function AdminDashboard() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem('token');
+   const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
   const [clients, setClients] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
   const [events, setEvents] = useState([]);
+  const [reviews, setReviews] = useState([]); // ✅ NEW
+
   const [chartData, setChartData] = useState({
     labels: [],
     users: [],
-    earnings: []
+    earnings: [],
   });
 
+  /* ---------------- Fetch Admin Progress ---------------- */
   const fetchAdminProgress = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/admin/progress`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true
+        withCredentials: true,
       }
     );
     setChartData(data);
   };
 
+  /* ---------------- Fetch Calendar Events ---------------- */
   const fetchCalendarEvents = async () => {
-  try {
-    const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/session/admin`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/session/admin`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    const upcoming = (res.data?.Sessions || [])
-      .filter(s => s.status === "Upcoming")
-      .map(s => {
-        const start = new Date(s.dateTime);
-        const end = new Date(
-          new Date(s.dateTime).getTime() + (s.duration || 60) * 60000
-        );
-        return { title: s.title, trainer: s.trainerId?.name || "Trainer", start, end, allDay: false };
-      });
+      const upcoming = (res.data?.Sessions || [])
+        .filter((s) => s.status === "Upcoming")
+        .map((s) => {
+          const start = new Date(s.dateTime);
+          const end = new Date(
+            new Date(s.dateTime).getTime() + (s.duration || 60) * 60000
+          );
+          return {
+            title: s.title,
+            trainer: s.trainerId?.name || "Trainer",
+            start,
+            end,
+            allDay: false,
+          };
+        });
 
-    setEvents(upcoming);
-    
-  } catch (err) {
-    console.error(err);
-  }
-};
+      setEvents(upcoming);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  /* ---------------- Fetch Admin Details ---------------- */
   const fetchDetails = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`,
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/users`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -73,17 +86,29 @@ function AdminDashboard() {
         { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       setRecentUsers(response.data.RecentUsers);
-
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
+
+  /* ---------------- Fetch Latest Reviews (NEW) ---------------- */
+  const fetchLatestReviews = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/review/latest`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setReviews(data.reviews);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     fetchDetails();
     fetchAdminProgress();
     fetchCalendarEvents();
+    fetchLatestReviews(); // ✅ NEW
   }, []);
 
   return (
@@ -199,12 +224,43 @@ function AdminDashboard() {
 
 
         {/* Reviews Section */}
-        <div className="bg-[#1e6b3e] rounded-2xl p-6 text-white h-full">
-          <h2 className="text-xl font-bold mb-4">REVIEWS</h2>
+        <div className="bg-[#528e7a]
+ rounded-2xl p-6 text-white">
+          <h2 className="text-xl font-bold mb-4">
+            Latest Reviews / Feedbacks
+          </h2>
 
-          <div className="flex items-center justify-center h-40 text-white/70 text-sm">
-            No reviews yet
-          </div>
+          {reviews.length === 0 ? (
+            <div className="flex items-center justify-center h-40 text-white/70 text-sm">
+              No reviews yet
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {reviews.map((r) => (
+                <li
+                  key={r._id}
+                  className="bg-white/90 rounded-xl px-4 py-3 flex justify-between items-center text-gray-800"
+                >
+                  <span className="font-medium truncate">
+                    {r.clientId?.name}
+                  </span>
+
+                  <span
+                    className={`px-3 py-1 rounded-full flex items-center gap-1 font-bold text-sm
+                      ${
+                        r.rating >= 4
+                          ? "bg-green-100 text-green-700"
+                          : r.rating === 3
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                  >
+                    {r.rating} <IoStar />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
       </div>

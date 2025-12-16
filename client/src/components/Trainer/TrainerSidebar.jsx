@@ -32,8 +32,8 @@ export default function TrainerSidebar(){
         text: "Payments"
     },
     {
-        url: "#",
-        text: "Chats"
+        url: "/trainer/feedbacks",
+        text: "Feedbacks"
     }
 ]
 

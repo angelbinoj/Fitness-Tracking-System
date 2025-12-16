@@ -66,6 +66,19 @@ export default function ClientChat({ userId, trainerId }) {
     });
 
     setMessage("");
+
+   const notification= await axios.post(
+  `${import.meta.env.VITE_API_URL}/notification/create`,
+  {
+    receiverId: trainerId
+  },
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+);
+console.log(notification);
+
+
   };
 
   return (

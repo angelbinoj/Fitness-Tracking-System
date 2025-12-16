@@ -16,7 +16,7 @@ export default function AdminSidebar(){
         { url: "/trainerList", text: "View Trainers" },
         { url: "/admin/sessionCalender", text: "Sessions" },
         { url: "/admin/viewAllPayments", text: "Payments" },
-        { url: "#", text: "Reports" }
+        { url: "/admin/reports", text: "Reports" }
     ];
 
     return (

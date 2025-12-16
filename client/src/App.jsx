@@ -46,6 +46,10 @@ import PendingApproval from './pages/pendingApprovalPage';
 import ChatPage from './pages/ClientChatPage';
 import ClientChatPage from './pages/ClientChatPage';
 import TrainerChatPage from './pages/TrainerChatPage';
+import TrainerWithdraw from './pages/TrainerWithdraw';
+import ClientReview from './components/User/ClientReview';
+import TrainerFeedback from './components/Trainer/TrainerFeedback';
+import AdminReport from './components/Admin/AdminReport';
 
 
 function App() {
@@ -79,6 +83,7 @@ function App() {
           <Route path="/user/sessions" element={<BookSession/>} />
           <Route path="/user/sessionCalender" element={<ClientCalendarPage/>} />
           <Route path="/user/chat" element={<ClientChatPage/>} />
+          <Route path="/user/review" element={<ClientReview/>} />
           </Route>
           <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
@@ -95,7 +100,9 @@ function App() {
           <Route path="/trainer/sessions" element={<TrainerSessions/>} />
           <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage/>} />
           <Route path="/trainer/chat/:id" element={<TrainerChatPage/>} />
+           <Route path="/trainer/feedbacks" element={<TrainerFeedback/>} />
         </Route>
+          <Route path="/trainer/withdraw" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerWithdraw /></ProtectedRoute>} />
         <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
         <Route path="/trainer/pendingApproval" element={<ProtectedRoute allowedRoles={["trainer"]} ><PendingApproval /></ProtectedRoute>} />
 
@@ -107,8 +114,7 @@ function App() {
           <Route path="/clientList" element={<ClientList/>} />
           <Route path="/admin/viewAllPayments" element={<ViewAllPayments/>} />
           <Route path="/admin/sessionCalender" element={<AdminCalendarPage/>} />
-          {/* <Route path="/admin/users" element={<ManageUsers />} />
-          <Route path="/admin/trainers" element={<ManageTrainers />} /> */}
+          <Route path="/admin/reports" element={<AdminReport/>} />
         </Route> 
 
       </Routes>

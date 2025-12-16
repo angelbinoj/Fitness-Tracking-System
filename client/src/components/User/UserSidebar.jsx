@@ -43,6 +43,10 @@ export default function UserSidebar(){
     {
         url: "/user/chat",
         text: "Chats"
+    },
+    {
+        url: "/user/review",
+        text: "Rate Us"
     }
 ]
 
