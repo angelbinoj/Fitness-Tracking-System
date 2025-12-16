@@ -68,7 +68,7 @@ export default function TrainerChat({ userId, trainerId }) {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-green-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <div className="w-full max-w-md bg-white rounded-xl shadow flex flex-col h-[90vh]">
 
         <div className="bg-green-500 text-white text-center py-3 font-semibold">

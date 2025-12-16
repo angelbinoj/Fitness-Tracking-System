@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
@@ -43,16 +43,21 @@ import BookSession from './components/User/BookSession';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import PendingApproval from './pages/pendingApprovalPage';
-import ChatPage from './pages/ClientChatPage';
 import ClientChatPage from './pages/ClientChatPage';
 import TrainerChatPage from './pages/TrainerChatPage';
 import TrainerWithdraw from './pages/TrainerWithdraw';
 import ClientReview from './components/User/ClientReview';
 import TrainerFeedback from './components/Trainer/TrainerFeedback';
 import AdminReport from './components/Admin/AdminReport';
+import { loadTheme } from './utils/theme.js';
 
 
 function App() {
+
+  useEffect(() => {
+    loadTheme();
+  }, []);
+  
   return (
     <Routes>
 

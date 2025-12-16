@@ -28,9 +28,9 @@ function ClientList(){
 
 
     return(
-        <div className="bg-gradient-to-br from-green-50 to-gray-100 p-6 h-full rounded-xl">
+        <div className=" p-6 min-h-screen rounded-xl">
         
-          <h3 className="text-4xl font-semibold mt-6 capitalize text-green-800 border-l-4 border-green-600 pl-3">
+          <h3 className="text-4xl font-semibold mt-6 capitalize text-green-800 dark:text-green-500 border-l-4 border-green-600 pl-3">
              Below is the list of users
           </h3>
         

@@ -31,8 +31,8 @@ const ViewWorkoutPlan = () => {
 
   if (!viewPlan) {
     return (
-      <div className="bg-green-50 p-4 sm:p-6 min-h-screen flex justify-center items-center">
-        <div className="border-2 w-full sm:w-3/4 md:w-1/2 p-6 sm:p-10 rounded-2xl bg-slate-100 shadow-lg text-center">
+      <div className=" p-4 sm:p-6 min-h-screen flex justify-center items-center">
+        <div className="border-2 w-full sm:w-3/4 md:w-1/2 p-6 sm:p-10 rounded-2xl bg-slate-100 dark:bg-green-50 shadow-lg text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-900 mb-4">
             No Workout Plan Assigned Yet!
           </h2>
@@ -45,7 +45,7 @@ const ViewWorkoutPlan = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 bg-green-50 min-h-screen flex flex-col gap-6">
+    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10  min-h-screen flex flex-col gap-6">
       
       {/* Plan Overview */}
       <div className="bg-green-100 border-4 border-green-400 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4">

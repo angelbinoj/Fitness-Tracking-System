@@ -162,15 +162,15 @@ const UserDashboard = () => {
   return (
     <div className="h-full">
       {viewTrainerSelection ? (
-        <div className="bg-gradient-to-br from-green-50 to-gray-100 p-6 h-full rounded-xl">
-          <h2 className="text-3xl font-bold text-gray-900 flex gap-1">
+        <div className=" p-6 h-full rounded-xl">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-green-50 flex gap-1">
             Welcome, {user.name} <GiHand className="text-[#f7ac5c] text-4xl" />
           </h2>
-          <p className="mt-2 text-gray-700 text-lg leading-relaxed">
+          <p className="mt-2 text-gray-700 dark:text-slate-50 text-lg leading-relaxed">
             You don't have a trainer assigned yet. Choosing a trainer will help you achieve your fitness goals with personalized workout sessions, nutrition guidance, and expert monitoring.
             <br /> Explore our certified trainers below and book the one that fits your goals best!
           </p>
-          <h3 className="text-2xl font-semibold mt-6 text-green-800 border-l-4 border-green-600 pl-3"> Available Trainers </h3>
+          <h3 className="text-2xl font-semibold mt-6 text-green-800 dark:text-green-500 border-l-4 border-green-600 pl-3"> Available Trainers </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
             {trainers.map((trainer) => (
               <div key={trainer._id}
@@ -188,8 +188,8 @@ const UserDashboard = () => {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen bg-white p-4 md:p-6 lg:p-8">
-          <div className="bg-[#1e6b3e] rounded-lg p-4 mb-6 flex items-center justify-between">
+        <div className="min-h-screen p-4 md:p-6 lg:p-8">
+          <div className="bg-[#1e6b3e] dark:bg-[#159148] rounded-lg p-4 mb-6 flex items-center justify-between">
             <div className="flex-1"></div>
             <div className="flex items-center gap-7">
               <div className="relative cursor-pointer" onClick={() => navigate("/user/chat")}>
@@ -221,7 +221,7 @@ const UserDashboard = () => {
           <div className="space-y-6">
             <div className="bg-[#e8f442] rounded-2xl p-6 md:p-8">
               <div className="flex flex-col lg:flex-row gap-6">
-                <div className="bg-[#2d7a45] rounded-2xl p-6 w-full lg:w-64">
+                <div className="bg-[#2d7a45] dark:bg-[#159148] rounded-2xl p-6 w-full lg:w-64">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-gray-300 rounded-full w-24 h-24 mb-4 overflow-hidden">
                       {user.profilePic ? (

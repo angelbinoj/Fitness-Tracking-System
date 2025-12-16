@@ -22,14 +22,14 @@ const TrainerFeedback = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-green-50 p-4 sm:p-6 md:p-10">
-      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-6 text-center">
+    <div className="min-h-screen p-4 sm:p-6 md:p-10">
+      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 dark:text-green-500 mb-6 text-center">
         Client Feedback
       </h2>
 
       {reviews.length === 0 ? (
         <div className="flex justify-center items-center min-h-[60vh]">
-          <div className="bg-white border border-green-200 shadow-lg rounded-xl p-6 sm:p-10 text-center max-w-md w-full">
+          <div className="bg-white dark:bg-green-50 border border-green-200 shadow-lg rounded-xl p-6 sm:p-10 text-center max-w-md w-full">
             <p className="text-gray-700 text-base sm:text-lg">
               No reviews or feedbacks yet.
             </p>
@@ -40,7 +40,7 @@ const TrainerFeedback = () => {
           {reviews.map((r) => (
             <li
               key={r._id}
-              className="bg-white w-full flex flex-col  md:flex-row justify-between items-center p-6 rounded-xl shadow-md border border-green-200"
+              className="bg-white dark:bg-green-50 w-full flex flex-col  md:flex-row justify-between items-center p-6 rounded-xl shadow-md border border-green-200"
             >
               <p className="text-green-900 font-semibold ">
                 Client Name:{" "}

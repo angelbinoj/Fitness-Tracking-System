@@ -61,8 +61,8 @@ const ViewTrainerPayments = () => {
 
   if (!payments || payments.length === 0) {
     return (
-      <div className="bg-green-50 p-6 min-h-screen flex justify-center items-center">
-        <div className="bg-white border border-green-200 shadow-lg rounded-xl p-6 sm:p-10 max-w-full sm:max-w-xl text-center">
+      <div className=" p-6 min-h-screen flex justify-center items-center">
+        <div className="bg-white dark:bg-green-50 border border-green-200 shadow-lg rounded-xl p-6 sm:p-10 max-w-full sm:max-w-xl text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-900">
             No Payments Received Yet!
           </h2>
@@ -75,7 +75,7 @@ const ViewTrainerPayments = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 md:p-10 bg-green-50">
+    <div className="min-h-screen p-4 sm:p-6 md:p-10">
 
       <div className="flex flex-col md:flex-row justify-between items-center bg-green-200 border border-green-400 shadow-md rounded-xl p-4 sm:p-6 mb-4 gap-4">
         <div className="text-center md:text-left">
@@ -93,9 +93,9 @@ const ViewTrainerPayments = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row justify-end items-center mb-8 gap-4">
-        <div className="text-green-900 border-4 rounded-lg p-2 border-green-600 font-semibold text-lg">
+        <div className="text-green-900 dark:text-green-500 border-4 rounded-lg p-2 border-green-600 dark:border-green-500 font-semibold text-lg">
           Available Balance:
-          <span className="ml-2 font-bold text-green-800">
+          <span className="ml-2 font-bold text-green-800 dark:text-green-500">
             ₹{availableBalance}
           </span>
         </div>
@@ -109,7 +109,7 @@ const ViewTrainerPayments = () => {
         </button>
       </div>
 
-      <h2 className="text-xl sm:text-2xl font-bold text-green-800 mb-4">
+      <h2 className="text-xl sm:text-2xl font-bold text-green-800 dark:text-green-500 mb-4">
         Withdrawal History
       </h2>
 
@@ -143,7 +143,7 @@ const ViewTrainerPayments = () => {
       )}
 
 
-      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-6">
+      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 dark:text-green-500 mb-6">
         Payment History
       </h2>
 

@@ -27,7 +27,7 @@ const ViewAllPayments = () => {
 
   if (!payments || payments.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-screen p-4 bg-green-50">
+      <div className="flex justify-center items-center min-h-screen p-4">
         <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg border border-green-200 max-w-md text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-red-900">No Payments Found!</h2>
           <p className="mt-4 text-gray-700 text-sm sm:text-base">
@@ -40,8 +40,8 @@ const ViewAllPayments = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 bg-green-50 min-h-screen">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-800 my-6 sm:my-8 text-center md:text-left">
+    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 min-h-screen">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-800 dark:text-green-400 my-6 sm:my-8 text-center md:text-left">
         Payment History
       </h2>
 

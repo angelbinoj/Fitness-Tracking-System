@@ -43,10 +43,10 @@ const UserLogsList = () => {
   }, [viewClients]);
 
   return (
-    <div className="min-h-screen p-6 md:p-10 bg-green-50">
+    <div className="min-h-screen p-6 md:p-10">
       {viewClients ? (
         <div>
-          <h3 className="text-4xl font-semibold mt-6 text-green-800 border-l-4 border-green-600 pl-3">
+          <h3 className="text-4xl font-semibold mt-6 text-green-800 dark:text-green-500 border-l-4 border-green-600 pl-3">
             Users with Logs
           </h3>
 
@@ -100,7 +100,7 @@ const UserLogsList = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center mt-16">
-          <div className="bg-white border border-green-200 shadow-lg rounded-xl p-10 max-w-xl text-center">
+          <div className="dark:bg-green-50 border border-green-200 shadow-lg rounded-xl p-10 max-w-xl text-center">
             <h2 className="text-2xl font-bold text-green-800">
               No client logs available yet!
             </h2>

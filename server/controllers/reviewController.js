@@ -14,7 +14,7 @@ export const createReview = async (req, res) => {
 
     await NotificationDb.create({
       userId: trainerId,
-      message: `New review from ${client.name}: ${rating}`,
+      message: `${client.name} has added a rating of ${rating}`,
       type: "review",
     });
 

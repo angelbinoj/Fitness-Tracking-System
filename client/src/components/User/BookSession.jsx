@@ -46,7 +46,7 @@ const BookSession = () => {
   }, [message]);
 
   return (
-    <div className="min-h-screen w-full bg-green-50 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen w-full p-4 sm:p-6 md:p-8">
       {sessions.length === 0 ? (
         <div className="bg-green-100 p-6 h-full flex justify-center items-center rounded-xl shadow-md">
           <div className="w-full sm:w-3/4 md:w-2/3 p-6 sm:p-10 rounded-xl flex flex-col bg-white border border-green-200 shadow-xl text-center">
@@ -65,7 +65,7 @@ const BookSession = () => {
           )}
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <h1 className="text-2xl sm:text-3xl font-bold text-green-800 text-center md:text-left">
+            <h1 className="text-2xl sm:text-3xl font-bold text-green-800 dark:text-green-500 text-center md:text-left">
               Available Sessions
             </h1>
             <button

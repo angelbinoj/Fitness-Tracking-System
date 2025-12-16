@@ -42,7 +42,7 @@ const ClientReview = ({ }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
+    <div className="min-h-screen flex items-center justify-center  p-4">
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-green-800 mb-4 text-center">Rate Your Trainer</h2>
 

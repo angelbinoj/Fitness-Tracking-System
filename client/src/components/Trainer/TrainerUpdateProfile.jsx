@@ -94,8 +94,8 @@ function TrainerUpdateProfile() {
   };
 
   return (
-    <div className="flex justify-center items-center py-4 px-4 bg-[#f4f9f0] min-h-screen">
-      <div className="flex flex-col mx-auto items-center bg-white shadow-lg border border-green-300 rounded-lg font-medium w-full sm:w-4/5 md:w-3/5 lg:w-1/2 p-8">
+    <div className="flex justify-center items-center py-4 px-4 min-h-screen">
+      <div className="flex flex-col mx-auto items-center bg-white dark:bg-green-50 shadow-lg border border-green-300 rounded-lg font-medium w-full sm:w-4/5 md:w-3/5 lg:w-1/2 p-8">
 
         <h1 className="text-3xl my-6 font-bold text-green-800 uppercase text-center">
           {!isEditable ? "Profile" : "Update Profile"}

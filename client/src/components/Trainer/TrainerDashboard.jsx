@@ -125,8 +125,8 @@ const TrainerDashboard = () => {
   const hasClients = trainer.assignedClients && trainer.assignedClients.length > 0;
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-6 lg:p-8">
-      <div className="bg-[#1e6b3e] rounded-lg p-4 mb-6 flex items-center justify-between">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8">
+      <div className="bg-[#1e6b3e] dark:bg-[#28a745] rounded-lg p-4 mb-6 flex items-center justify-between">
         <div className="flex-1"></div>
         <div className="flex items-center gap-4">
           <Notification />
@@ -145,10 +145,10 @@ const TrainerDashboard = () => {
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black dark:text-slate-50">
             Welcome Back, <span className="text-[#d8e700] capitalize">{trainer.name}</span>
           </h1>
-          <p className="text-[#7fb069] text-lg font-medium mb-6">
+          <p className="text-[#7fb069] dark:text-[#86c46a] text-lg font-medium mb-6">
             Let's help your clients stay on track today!"
           </p>
 

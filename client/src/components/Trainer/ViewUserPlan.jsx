@@ -26,7 +26,7 @@ const ViewUserPlan = () => {
 
   if (!plan) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-green-50 p-4">
+      <div className="flex justify-center items-center min-h-screen  p-4">
         <h2 className="text-xl sm:text-2xl font-bold text-red-600 text-center">
           No plan found
         </h2>
@@ -35,8 +35,8 @@ const ViewUserPlan = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 bg-green-50 min-h-screen">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-900 mb-6 sm:mb-10 text-center md:text-left">
+    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10  min-h-screen">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-900 dark:text-green-500 mb-6 sm:mb-10 text-center md:text-left">
         Client Plan Overview
       </h2>
 
@@ -48,7 +48,7 @@ const ViewUserPlan = () => {
       </div>
 
       {/* Workout Plan */}
-      <h3 className="text-xl sm:text-2xl font-bold mb-4 text-green-800">Workout Plan</h3>
+      <h3 className="text-xl sm:text-2xl font-bold mb-4 text-green-800 dark:text-green-500">Workout Plan</h3>
       <div className="flex flex-col gap-4">
         {plan.workout.map((w, i) => (
           <div
@@ -64,8 +64,8 @@ const ViewUserPlan = () => {
       </div>
 
       {/* Nutrition Plan */}
-      <h3 className="text-xl sm:text-2xl font-bold mt-8 mb-4 text-green-800">Nutrition Plan</h3>
-      <p className="font-semibold text-green-700 mb-3">Target Calories: {plan.nutrition.targetCaloriesPerDay}</p>
+      <h3 className="text-xl sm:text-2xl font-bold mt-8 mb-4 text-green-800 dark:text-green-500">Nutrition Plan</h3>
+      <p className="font-semibold text-green-700 dark:text-green-400 mb-3">Target Calories: {plan.nutrition.targetCaloriesPerDay}</p>
       <div className="flex flex-col gap-4">
         {plan.nutrition.meals.map((m, i) => (
           <div

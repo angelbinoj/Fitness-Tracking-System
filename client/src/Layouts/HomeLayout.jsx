@@ -7,7 +7,7 @@ function HomeLayout() {
     return (
         <>
             <Navbar />
-            <main className='mt-40 md:mt-32  z-20'> 
+            <main className='mt-36 md:mt-20 pt-4 md:pt-10 z-20 bg-white dark:bg-slate-950'> 
                 <Outlet />
             </main>
             <Footer />

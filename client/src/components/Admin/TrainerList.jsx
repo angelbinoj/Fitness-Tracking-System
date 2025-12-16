@@ -40,8 +40,8 @@ function TrainerList() {
   }, []);
 
   return (
-    <div className="bg-green-50 min-h-screen p-6">
-      <h1 className="text-3xl font-bold text-green-800 mb-6 border-l-4 border-green-600 pl-3">
+    <div className=" min-h-screen p-6">
+      <h1 className="text-3xl font-bold text-green-800 dark:text-green-500 mb-6 border-l-4 border-green-600 pl-3">
         Trainer List
       </h1>
 

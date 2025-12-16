@@ -94,8 +94,8 @@ const AssignedClient = () => {
   return (
     <div className="h-screen">
       {viewClients ? (
-        <div className="bg-gradient-to-br from-green-50 to-gray-100 p-4 md:p-8 rounded-xl min-h-screen">
-          <h3 className="text-3xl md:text-4xl font-semibold mt-4 text-green-800 border-l-4 border-green-600 pl-3">
+        <div className="p-4 md:p-8 rounded-xl min-h-screen">
+          <h3 className="text-3xl md:text-4xl font-semibold mt-4 text-green-800 dark:text-green-500 border-l-4 border-green-600 pl-3">
             Assigned Clients
           </h3>
 
@@ -103,7 +103,7 @@ const AssignedClient = () => {
             {assignedClients.map((user) => (
               <div
                 key={user._id}
-                className="bg-white shadow-lg p-5 md:p-6 rounded-xl border border-gray-200 hover:shadow-2xl transition-all duration-200"
+                className="bg-white dark:bg-green-50 shadow-lg p-5 md:p-6 rounded-xl border border-gray-200 hover:shadow-2xl transition-all duration-200"
               >
                 <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                   <img
@@ -185,7 +185,7 @@ const AssignedClient = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-green-100 to-gray-200 p-6 flex justify-center items-center rounded-xl h-full min-h-[70vh]">
+        <div className=" p-6 flex justify-center items-center rounded-xl h-full min-h-[70vh]">
           <div className="border w-full md:w-2/3 lg:w-1/2 p-8 md:p-10 rounded-xl bg-white shadow-lg text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-green-900">
               No Clients Yet!

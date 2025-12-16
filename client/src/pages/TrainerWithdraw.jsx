@@ -53,7 +53,7 @@ const TrainerWithdraw = () => {
   };
 
   return (
-    <div className="min-h-screen bg-green-50 flex justify-center items-center p-4">
+    <div className="min-h-screen bg-green-50 dark:bg-slate-900 flex justify-center items-center p-4">
       <div className="bg-white border border-green-200 shadow-lg rounded-xl p-6 sm:p-8 w-full max-w-md">
 
         {loading ? (

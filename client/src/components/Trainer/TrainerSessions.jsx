@@ -114,7 +114,7 @@ const TrainerSessions = () => {
   }, [message]);
 
   return (
-    <div className="p-6 md:p-10 bg-green-50 min-h-screen">
+    <div className="p-6 md:p-10  min-h-screen">
 
       {message && (
         <div className="bg-green-200 border border-green-400 text-green-800 px-5 py-3 rounded-lg mb-4 text-center font-medium shadow">
@@ -122,7 +122,7 @@ const TrainerSessions = () => {
         </div>
       )}
 
-      <h1 className="text-3xl font-bold mb-8 text-green-800 text-center tracking-wide">
+      <h1 className="text-3xl font-bold mb-8 text-green-800 dark:text-green-500 text-center tracking-wide">
         Manage Sessions
       </h1>
 
@@ -202,12 +202,12 @@ const TrainerSessions = () => {
 
       {sessions.length === 0 ? (
         <div className="text-center p-10 bg-white border border-green-200 rounded-xl shadow-md max-w-xl mx-auto">
-          <h2 className="text-2xl font-bold text-green-800">No Sessions Created Yet</h2>
-          <p className="text-gray-600 mt-2">Start creating sessions for your clients.</p>
+          <h2 className="text-2xl font-bold text-green-800 dark:text-green-500">No Sessions Created Yet</h2>
+          <p className="text-gray-600 dark:text-white mt-2">Start creating sessions for your clients.</p>
         </div>
       ) : (
         <div className="overflow-x-auto bg-white border border-green-300 rounded-xl shadow-lg p-4">
-          <h2 className="text-xl font-bold mb-4 text-green-800">Your Sessions</h2>
+          <h2 className="text-xl font-bold mb-4 text-green-800 dark:text-green-500">Your Sessions</h2>
           <table className="w-full border-collapse">
             <thead className="bg-green-200 text-green-900">
               <tr>

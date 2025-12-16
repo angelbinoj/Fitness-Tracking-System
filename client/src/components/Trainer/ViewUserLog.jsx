@@ -41,8 +41,8 @@ const ViewUserLogs = () => {
   }
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 bg-green-50 min-h-screen">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-900 mb-6 sm:mb-10 text-center md:text-left">
+    <div className="px-4 sm:px-6 md:px-10 py-6 sm:py-10 min-h-screen">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-900  dark:text-green-500 mb-6 sm:mb-10 text-center md:text-left">
         User Logs
       </h2>
 
@@ -50,7 +50,7 @@ const ViewUserLogs = () => {
         {logs.map((log, index) => (
           <div
             key={index}
-            className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-lg border border-green-200 hover:shadow-xl transition-shadow duration-300"
+            className="bg-white dark:bg-green-50 p-4 sm:p-6 md:p-8 rounded-2xl shadow-lg border border-green-200 hover:shadow-xl transition-shadow duration-300"
           >
             <p className="text-lg sm:text-xl font-bold text-green-700 mb-2">{log.date}</p>
 

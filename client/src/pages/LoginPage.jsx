@@ -53,7 +53,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-green-100 flex flex-col items-center px-4">
+    <div className="min-h-screen bg-green-100 dark:bg-slate-900 flex flex-col items-center px-4">
       {/* Back Home Button */}
       <div className="mt-8 w-full max-w-md">
         <Link to='/'>

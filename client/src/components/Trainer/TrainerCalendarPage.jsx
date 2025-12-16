@@ -41,8 +41,8 @@ const TrainerCalendarPage = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-green-50 flex justify-center py-10 px-4">
-      <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-6 border border-green-200">
+    <div className="w-full min-h-screen  flex justify-center py-10 px-4">
+      <div className="w-full max-w-5xl bg-slate-50 shadow-lg rounded-2xl p-6 border border-green-200">
 
         {/* Header */}
         <h1 className="text-3xl font-bold mb-4 text-green-800">

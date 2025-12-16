@@ -78,7 +78,7 @@ const CreatePlan = () => {
       );
 
       setMessage("Plans assigned successfully!");
-      setMsgColor("text-green-700");
+      setMsgColor("text-green-600");
       setTimeout(() => navigate(`/trainer/viewPlan/${id}`), 1500);
     } catch (err) {
       console.error(err);
@@ -87,7 +87,7 @@ const CreatePlan = () => {
   };
 
   return (
-    <div className="py-6 px-6 md:px-14 bg-green-50 min-h-screen flex flex-col gap-6">
+    <div className="py-6 px-6 md:px-14  min-h-screen flex flex-col gap-6">
 
       {/* Client Info */}
       <div className="bg-white border border-green-300 rounded-xl shadow-md p-5">

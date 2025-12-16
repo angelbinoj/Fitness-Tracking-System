@@ -159,6 +159,8 @@ export const withdrawAmount = async (req, res) => {
     const trainerId = req.user.id;
     const { amount } = req.body;
 
+    const trainer = await UserDb.findById(trainerId);
+
     await WithdrawalDb.create({
       trainerId,
       amount,
@@ -169,6 +171,16 @@ export const withdrawAmount = async (req, res) => {
       message: `₹${amount} withdrawn successfully`,
       type: "withdrawal",
     });
+
+    const admins = await UserDb.find({ role: "admin" }, "_id");
+if (admins.length > 0) {
+    const adminNotifications = admins.map(admin => ({
+        userId: admin._id,
+        message: `${trainer.name} made a withdrawal of $${amount}.`,
+        type: "withdrawal"
+    }));
+    await NotificationDb.insertMany(adminNotifications);
+}
 
     res.json({ success: true });
   } catch (err) {

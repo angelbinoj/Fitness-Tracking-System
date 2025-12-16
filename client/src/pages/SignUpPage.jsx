@@ -96,7 +96,7 @@ function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-green-100 flex flex-col items-center pb-4 px-4">
+    <div className="min-h-screen bg-green-100 dark:bg-slate-900 flex flex-col items-center pb-4 px-4">
       
       {/* Back to Home */}
       <div className="mt-4 w-full max-w-lg">

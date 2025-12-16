@@ -24,8 +24,8 @@ const ViewUserPayments = () => {
 
   if (!payments || payments.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-green-200 to-gray-300 p-6 min-h-screen flex justify-center items-center rounded-xl">
-        <div className="border-2 w-full sm:w-3/4 md:w-2/5 p-10 rounded-xl flex flex-col bg-slate-100 border-white shadow-lg text-center">
+      <div className="p-6 min-h-screen flex justify-center items-center rounded-xl">
+        <div className="border-2 w-full sm:w-3/4 md:w-2/5 p-10 rounded-xl flex flex-col bg-slate-100 dark:bg-green-50 border-white shadow-lg text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-900">No Payments Yet!</h2>
           <p className="mt-3 text-gray-700 text-base sm:text-lg">
             You haven't made any payments yet. Once you subscribe to a plan, your payment transactions
@@ -38,7 +38,7 @@ const ViewUserPayments = () => {
 
   return (
     <div className="py-6 px-4 sm:px-6 md:px-10 min-h-screen">
-      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-6 text-center md:text-left">
+      <h2 className="text-2xl sm:text-3xl font-bold text-green-800 dark:text-green-500 mb-6 text-center md:text-left">
         Payment History
       </h2>
 

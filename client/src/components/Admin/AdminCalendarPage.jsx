@@ -40,8 +40,8 @@ const AdminCalendarPage = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-green-50 flex justify-center py-10 px-4">
-      <div className="w-full max-w-5xl bg-white shadow-xl rounded-2xl p-6 border border-green-200">
+    <div className="w-full min-h-screen  flex justify-center py-10 px-4">
+      <div className="w-full max-w-5xl bg-slate-50 shadow-xl rounded-2xl p-6 border border-green-200">
         <h1 className="text-3xl font-bold mb-6 text-green-700">
           All Upcoming Sessions
         </h1>

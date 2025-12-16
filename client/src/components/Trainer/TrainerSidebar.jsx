@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import '../../App.css';
+import ThemeToggle from '../ThemeToggle';
 
 export default function TrainerSidebar(){
     
@@ -61,6 +62,7 @@ export default function TrainerSidebar(){
                    >
                        <div className={`text-[#dff51c] ${open ? "block w-[20px]" : "hidden"} font-bold text-2xl hover:font-extrabold`}><RxCross2 /></div>
                    </div>
+                    <ThemeToggle className="fixed left-1 top-1"/>
                            <h1 className='logo'>ElevFit</h1>
                        </div>
        

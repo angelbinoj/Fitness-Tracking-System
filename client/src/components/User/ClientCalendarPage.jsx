@@ -46,8 +46,8 @@ const ClientCalendarPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-green-50 flex justify-center items-start py-10 px-4">
-      <div className="w-full md:w-4/5 lg:w-3/5 bg-white shadow-xl rounded-xl p-6 border border-green-200">
+    <div className="min-h-screen w-full flex justify-center items-start py-10 px-4">
+      <div className="w-full md:w-4/5 lg:w-3/5 bg-slate-50 shadow-xl rounded-xl p-6 border border-green-200">
 
         <h1 className="text-3xl font-bold mb-6 text-green-800 text-center md:text-left">
           Your Sessions

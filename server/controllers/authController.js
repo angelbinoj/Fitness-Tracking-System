@@ -45,7 +45,7 @@ if (admins.length > 0) {
     const userType = user.role === "trainer" ? "trainer" : "client";
     return {
       userId: admin._id,
-      message: `New ${userType} registered: ${user.name}${userType === "trainer" ? ". Waiting for approval." : ""}`,
+      message: `New ${userType} registered: ${user.name}`,
       type: "registration"
     };
   });

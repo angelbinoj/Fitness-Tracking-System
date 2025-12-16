@@ -36,7 +36,7 @@ export default function HomePage() {
   return (
     <>
       {/* banner section */}
-      <div className="mt-6 sm:mt-10 mx-4 sm:mx-8 lg:mx-16 bg-[#0f4d0f] bg-gradient-to-r from-[#0f4d0f] to-[#0b3a0b]
+      <div className="mt-6 sm:mt-10 mx-4 sm:mx-8 lg:mx-16 bg-gradient-to-r from-[#0f4d0f] to-[#0b3a0b] dark:from-[#3f6100] dark:to-[#cbe351] 
             px-6 sm:px-10 lg:px-14 pt-5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10">
         <div className="md:w-1/2 w-full">
           <h1 className="text-[#f0ffa8] text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase font-extrabold leading-tight">
@@ -68,7 +68,7 @@ export default function HomePage() {
       <div id="about" className='my-8 sm:my-12 lg:my-16 mx-4 sm:mx-8 lg:mx-16 px-4 sm:px-6 lg:px-10 h-fit grid grid-cols-1 lg:grid-cols-2 gap-8'>
         <div className='uppercase flex flex-col lg:ps-20 mt-6 items-start gap-5 sm:gap-7'>
           <span className='bg-[#d8f002] px-3 py-1 rounded-full font-bold text-sm sm:text-base'>about us</span>
-          <h1 className="text-green-950 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+          <h1 className="text-green-950 dark:text-green-50 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
             The <span className='text-[#D7EF00]'>power</span><br />
             behind your<br />
             vision
@@ -76,7 +76,7 @@ export default function HomePage() {
         </div>
         <div className='flex flex-col justify-center gap-4'>
           <div>
-            <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-800 dark:text-green-100 text-sm sm:text-base leading-relaxed">
               ElevFit is dedicated to helping you achieve your fitness and wellness goals through
               expert coaching, personalized workout plans, and smart progress tracking.
               We support you every step of the way in building a healthier lifestyle.
@@ -103,8 +103,8 @@ export default function HomePage() {
       </div>
 
       {/* service section */}
-      <div id='service' className="mt-8 sm:mt-12 lg:mt-16 px-3 sm:px-6 flex justify-center">
-        <div className="w-full max-w-6xl relative rounded-3xl overflow-hidden">
+      <div id='service' className="mt-8 sm:mt-12 lg:mt-16 px-3 sm:px-6 flex justify-center ">
+        <div className="w-full max-w-6xl relative rounded-3xl overflow-hidden shadow-md shadow-slate-50">
           
           <img src={service}
                className="w-full h-[400px] sm:h-[500px] object-cover object-top" />
@@ -148,13 +148,13 @@ export default function HomePage() {
       </div>
 
       {/* trainers section */}
-      <div id="trainers" className='m-4 sm:m-8 lg:m-16 p-4 sm:p-6 lg:p-10'>
+      <div id="trainers" className='mx-3 lg:mx-auto p-4 sm:p-6 lg:p-12'>
         <div className='text-center flex-col'>
           <h1 className='text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase'>your fitness<br/>
           <span className='text-[#CDE115]'>goals, their expertise</span></h1>
-          <p className='text-sm sm:text-base lg:text-lg my-3 sm:my-4 text-black font-serif px-4'>Through personalized coaching, cutting edge techniques, and unwavering support,<br className="hidden sm:block"/> we'll help you achieve the fitness goals you've always dreamed of.</p>
+          <p className='text-sm sm:text-base lg:text-lg my-3 sm:my-4 text-black dark:text-slate-50 font-serif px-4'>Through personalized coaching, cutting edge techniques, and unwavering support,<br className="hidden sm:block"/> we'll help you achieve the fitness goals you've always dreamed of.</p>
         </div>
-        <div className='mx-0 sm:mx-8 lg:mx-24 my-6 sm:my-8 lg:my-10'>
+        <div className='mx-0 sm:mx-8 lg:mx-24 '>
           <span className='bg-[#d8f002] px-3 sm:px-4 py-1.5 sm:py-2 text-base sm:text-lg rounded-full uppercase font-bold'>meet our trainers</span>
           <div className='my-6 sm:my-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5'>
             {images.map((trainer, index) => (

@@ -35,14 +35,14 @@ function TrainerInfo() {
 
   if (!trainer) {
     return (
-      <div className="flex justify-center items-center min-h-screen text-lg sm:text-xl font-semibold px-4 text-center">
+      <div className="flex justify-center items-center min-h-screen dark:text-white text-lg sm:text-xl font-semibold px-4 text-center">
         {error || "Loading trainer information..."}
       </div>
     );
   }
 
   return (
-    <div className="flex justify-center items-start bg-green-50 min-h-screen py-6 px-4 sm:px-6 md:px-10">
+    <div className="flex justify-center items-start min-h-screen py-6 px-4 sm:px-6 md:px-10">
       <div className="flex flex-col items-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2 bg-[#e7ebd3] shadow-lg border border-[#a3b30f] rounded-2xl pb-10">
         
         <h1 className="text-2xl sm:text-3xl md:text-4xl mt-8 font-bold text-slate-900 uppercase text-center">

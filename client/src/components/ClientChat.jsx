@@ -82,7 +82,7 @@ console.log(notification);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-green-100 p-2">
+    <div className="flex justify-center items-center min-h-screen p-2">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md flex flex-col h-[90vh]">
 
         <div className="bg-green-500 text-white text-center py-3 rounded-t-xl font-semibold">

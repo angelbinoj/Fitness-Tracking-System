@@ -30,7 +30,7 @@ const AdminReport = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-green-100 p-4 sm:p-6 md:p-10 space-y-8">
+    <div className="min-h-screen p-4 sm:p-6 md:p-10 space-y-8">
 
       <div className="bg-white border border-gray-300 rounded-2xl p-4 sm:p-6 shadow-sm">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
@@ -46,7 +46,7 @@ const AdminReport = () => {
             {reviews.map((r) => (
               <li
                 key={r._id}
-                className="border bg-green-50 border-gray-200 rounded-lg p-3 sm:p-4 text-sm sm:text-base"
+                className="border bg-green-50 dark:bg-slate-200 border-gray-200 rounded-lg p-3 sm:p-4 text-sm sm:text-base"
               >
                 <p className="text-gray-800 flex gap-1">
                   <span className="font-semibold capitalize">Client:{" "}
@@ -93,7 +93,7 @@ const AdminReport = () => {
             {notifications.map((n) => (
               <li
                 key={n._id}
-                className="border bg-green-50 border-gray-200 rounded-lg p-3 sm:p-4 text-sm sm:text-base"
+                className="border bg-green-50 dark:bg-slate-200 border-gray-200 rounded-lg p-3 sm:p-4 text-sm sm:text-base"
               >
                 <p className="text-gray-700">
                   {n.message}
