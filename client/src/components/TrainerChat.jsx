@@ -6,9 +6,8 @@ import {
   query,
   orderBy,
   serverTimestamp,
-  doc,
   updateDoc,
-  setDoc
+  getDocs
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -17,83 +16,73 @@ export default function TrainerChat({ userId, trainerId }) {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
-  // unique chat id
   const chatId = `${userId}_${trainerId}`;
 
-  // receive messages (real-time)
   useEffect(() => {
     const q = query(
       collection(db, "chats", chatId, "messages"),
       orderBy("timestamp")
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setMessages(snapshot.docs.map((doc) => doc.data()));
+    const unsub = onSnapshot(q, snap => {
+      setMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     });
 
-    return () => unsubscribe();
+    return () => unsub();
   }, [chatId]);
 
-  // reset unread count when trainer opens chat
+  // ✅ mark unread messages as read (ESSENTIAL)
   useEffect(() => {
-  const resetUnreadCount = async () => {
-    const chatDocRef = doc(db, "chats", chatId);
-    try {
-      await setDoc(chatDocRef, { unreadCount: 0 }, { merge: true });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  resetUnreadCount();
-}, [chatId]);
+    const markRead = async () => {
+      const snap = await getDocs(
+        collection(db, "chats", chatId, "messages")
+      );
 
+      snap.docs.forEach(d => {
+        const data = d.data();
+        if (data.senderId === userId && data.seenByTrainer === false) {
+          updateDoc(d.ref, { seenByTrainer: true });
+        }
+      });
+    };
 
-  // auto scroll to latest message
+    markRead();
+  }, [chatId]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // send message
   const sendMessage = async () => {
-    if (message.trim() === "") return;
+    if (!message.trim()) return;
 
     await addDoc(collection(db, "chats", chatId, "messages"), {
       senderId: trainerId,
       text: message,
       timestamp: serverTimestamp(),
+      seenByTrainer: true,
+      seenByClient: false
     });
 
     setMessage("");
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-green-100 p-2">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-md flex flex-col h-[90vh]">
+    <div className="flex justify-center items-center min-h-screen bg-green-100">
+      <div className="w-full max-w-md bg-white rounded-xl shadow flex flex-col h-[90vh]">
 
-        {/* Header */}
-        <div className="bg-green-500 text-white text-center py-3 rounded-t-xl font-semibold text-lg">
+        <div className="bg-green-500 text-white text-center py-3 font-semibold">
           Chat with Client
         </div>
 
-        {/* Welcome Content */}
-        <div className="px-4 py-2 text-gray-700 text-sm bg-green-200 border-b border-green-200">
-          Hello! Messages from your client will appear here. You can reply and guide them.
-        </div>
-
-        {/* Messages */}
-        <div className="flex-1 p-3 overflow-y-auto space-y-2">
-          {messages.length === 0 && (
-            <div className="text-center text-gray-400 text-sm mt-5">
-              No messages yet. Say hi! 
-            </div>
-          )}
-          {messages.map((msg, index) => (
+        <div className="flex-1 p-3 overflow-y-auto">
+          {messages.map(msg => (
             <div
-              key={index}
-              className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm 
+              key={msg.id}
+              className={`mb-2 px-4 py-2 rounded-xl text-sm max-w-[70%]
                 ${msg.senderId === trainerId
-                  ? "bg-green-500 text-white ml-auto rounded-br-sm"
-                  : "bg-green-100 text-gray-800 mr-auto rounded-bl-sm"
+                  ? "bg-green-500 text-white ml-auto"
+                  : "bg-green-100 text-black"
                 }`}
             >
               {msg.text}
@@ -102,23 +91,22 @@ export default function TrainerChat({ userId, trainerId }) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input */}
-        <div className="flex items-center gap-2 p-3 bg-green-200 rounded-b-xl">
+        <div className="p-3 bg-green-200 flex gap-2">
           <input
-            type="text"
-            placeholder="Type a message..."
+            className="flex-1 px-4 py-2 rounded-full"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            className="flex-1 px-4 py-2 rounded-full outline-none text-sm focus:ring-2 focus:ring-green-300"
+            onChange={e => setMessage(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && sendMessage()}
+            placeholder="Type a message..."
           />
           <button
             onClick={sendMessage}
-            className="bg-green-600 text-white px-4 py-2 rounded-full text-sm hover:bg-green-700 transition-colors"
+            className="bg-green-600 text-white px-4 py-2 rounded-full"
           >
             Send
           </button>
         </div>
+
       </div>
     </div>
   );

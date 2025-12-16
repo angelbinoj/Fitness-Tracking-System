@@ -5,14 +5,51 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Notification from "../Notification";
 import ClientProgressChart from "./ClientProgressChart";
 import MiniCalendar from "../MiniCalendar";
+import { FaComments } from "react-icons/fa";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from "../../firebase";
+
 
 const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const [progress, setProgress] = useState(null);
   const [events, setEvents] = useState([]);
-const navigate = useNavigate();
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user?.assignedTrainer) return;
+
+    const chatId = `${user._id}_${user.assignedTrainer}`;
+
+    const q = query(
+      collection(db, "chats", chatId, "messages")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let count = 0;
+
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (
+          data.senderId !== user._id &&
+          data.seenByClient === false
+        ) {
+          count++;
+        }
+      });
+
+      setUnreadChatCount(count);
+      console.log(chatId);
+    });
+
+    return () => unsubscribe();
+    
+  }, [user]);
   
+
 
   useEffect(() => {
     const fetchClientSessions = async () => {
@@ -106,13 +143,20 @@ const navigate = useNavigate();
           }
         );
         setProgress(res.data);
+        
       } catch (error) {
-        console.log("Progress error:", error);
+  console.log("Progress error status:", error.response?.status);
+  console.log("Progress error data:", error.response?.data);
+  console.log("Progress error message:", error.message);
+
+  // 👇 allow "no progress" UI to render
+  setProgress({ labels: [], actual: [], target: 0 });
+
       }
     };
-
+    
     if (trainerAssigned)
-       fetchProgress();
+      fetchProgress();
   }, [trainerAssigned]);
 
   return (
@@ -147,8 +191,18 @@ const navigate = useNavigate();
         <div className="min-h-screen bg-white p-4 md:p-6 lg:p-8">
           <div className="bg-[#1e6b3e] rounded-lg p-4 mb-6 flex items-center justify-between">
             <div className="flex-1"></div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-7">
+              <div className="relative cursor-pointer" onClick={() => navigate("/user/chat")}>
+                <FaComments className="text-white text-xl w-9 h-9" />
+                {unreadChatCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                    {unreadChatCount}
+                  </span>
+                )}
+              </div>
+
               <Notification />
+
               <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
                 <span className="text-[#1e6b3e] font-medium capitalize">{user.name}</span>
                 <div className="bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center overflow-hidden">
@@ -245,15 +299,23 @@ const navigate = useNavigate();
                 <h3 className="text-2xl font-bold mb-4 text-black">Progress Chart</h3>
 
                 <div className="bg-white rounded-xl p-4 h-72 shadow-inner border">
-                  {progress ? (
-                    <ClientProgressChart
-                      labels={progress.labels}
-                      actual={progress.actual}
-                      target={progress.target}
-                    />
-                  ) : (
-                    <p className="text-center text-gray-600">Loading progress...</p>
-                  )}
+                  {!progress ? (
+  <p className="text-center text-gray-600">Loading progress...</p>
+) : !Array.isArray(progress.labels) ||
+  !Array.isArray(progress.actual) ||
+  progress.labels.length === 0 ||
+  progress.actual.length === 0 ? (
+  <div className="flex items-center justify-center h-full text-gray-500 font-medium">
+    Start logging to see your progress
+  </div>
+) : (
+  <ClientProgressChart
+    labels={progress.labels}
+    actual={progress.actual}
+    target={progress.target}
+  />
+)}
+
                 </div>
               </div>
 

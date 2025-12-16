@@ -217,7 +217,7 @@ const TrainerDashboard = () => {
       <p className="text-[#fffffb] text-xs uppercase tracking-wide">
         Role
       </p>
-      <p className="text-white text-base font-semibold">
+      <p className="text-white text-base font-semibold capitalize">
         {trainer.trainerInfo.specialization} Trainer
       </p>
     </div>
@@ -227,7 +227,7 @@ const TrainerDashboard = () => {
       <p className="text-[#ffffff] text-xs uppercase tracking-wide">
         Assigned Schedule
       </p>
-      <p className="text-white text-base font-semibold">
+      <p className="text-white text-base font-semibold capitalize">
         {trainer.trainerInfo.availability}
       </p>
     </div>
