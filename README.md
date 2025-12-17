@@ -7,7 +7,7 @@ A **Full Stack MERN-based web application** designed to help users track their f
 ## 🔗 Live Links (VERCEL)
 
 * **Frontend (Client Application):**
-  👉 *[Add your deployed frontend URL here](https://fitness-system-frontend.vercel.app/)*
+  👉 *https://fitness-system-frontend.vercel.app/*
 
 * **Backend (API Server):**
   👉 *https://fitness-system-backend.vercel.app/*
