@@ -12,7 +12,6 @@ export const createSession = async (req, res) => {
 
     const trainerId = req.user.id;
 
-    // Convert to UTC to avoid timezone issues
     const [year, month, day] = date.split('-').map(Number);
     const [hours, minutes] = time.split(':').map(Number);
     const dateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));

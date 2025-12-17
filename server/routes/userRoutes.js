@@ -9,7 +9,6 @@ export const userRouter = express.Router();
 
 userRouter.use(authMiddleWare);
 userRouter.use(authorizeRole(["client"]));
-// userRouter.get('/dashboard', UserDashboard);
 userRouter.get('/profile',getProfile);
 userRouter.put('/profile', upload.single('profilePic') ,updateProfile);
 userRouter.get('/trainers',findTrainers);

@@ -8,7 +8,7 @@ console.log("Stripe key:", import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const PaymentPlans = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const trainerId = user?.assignedTrainer;
-  const token =localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const plans = [
     {
@@ -34,45 +34,45 @@ const PaymentPlans = () => {
     },
   ];
 
-const handleCheckout = async (plan) => {
-  const stripe = await stripePromise;
-  if (!stripe) return console.error("Stripe failed to initialize");
+  const handleCheckout = async (plan) => {
+    const stripe = await stripePromise;
+    if (!stripe) return console.error("Stripe failed to initialize");
 
-  try {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/payment/makePayment`,
-      {
-        userId: user._id,
-        trainerId,
-        plan: plan.name,
-        amount: plan.price,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/payment/makePayment`,
+        {
+          userId: user._id,
+          trainerId,
+          plan: plan.name,
+          amount: plan.price,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      localStorage.setItem(
+        "paymentInfo",
+        JSON.stringify({
+          userId: user._id,
+          trainerId,
+          plan: plan.name,
+          amount: plan.price,
+        })
+      );
+
+      console.log("Stripe session data:", data);
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.log("No sessionId returned from backend");
       }
-    );
-
-    localStorage.setItem(
-      "paymentInfo",
-      JSON.stringify({
-        userId: user._id,
-        trainerId,
-        plan: plan.name,
-        amount: plan.price,
-      })
-    );
-
-    console.log("Stripe session data:", data);
-
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      console.log("No sessionId returned from backend");
+    } catch (err) {
+      console.error("Payment request failed:", err);
     }
-  } catch (err) {
-    console.error("Payment request failed:", err);
-  }
-};
+  };
 
 
 

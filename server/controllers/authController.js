@@ -37,7 +37,6 @@ export const UserRegister =async(req,res)=>{
         });
         await user.save();
 
-        // Send notification to admin when a new user registers
 const admins = await UserDb.find({ role: "admin" }, "_id");
 
 if (admins.length > 0) {

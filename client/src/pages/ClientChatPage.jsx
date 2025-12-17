@@ -10,7 +10,7 @@ export default function ClientChatPage() {
     const userId = user._id;
     const trainerId = user.assignedTrainer;
     console.log(trainerId);
-    
+
 
     const navigate = useNavigate();
     const [payments, setPayments] = useState([]);
@@ -33,23 +33,23 @@ export default function ClientChatPage() {
         fetchPayments();
     }, [])
 
-if (payments.length === 0) {
-    return (
-        <div className="bg-green-50 p-4 sm:p-6 min-h-screen flex justify-center items-center">
-            <div className="border-2 w-full sm:w-3/4 lg:w-1/2 p-6 sm:p-10 rounded-2xl bg-[#eeffb5ee] shadow-lg flex flex-col justify-center items-center">
-                <h2 className="text-2xl sm:text-3xl font-bold text-green-900 mb-4">
-                    Complete Payment To Access Chat
-                </h2>
-                <button
-                    onClick={() => navigate("/paymentPlans")}
-                    className="mt-6 flex justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold uppercase text-lg shadow-md transition-all"
-                >
-                    Make Payment
-                </button>
+    if (payments.length === 0) {
+        return (
+            <div className="bg-green-50 p-4 sm:p-6 min-h-screen flex justify-center items-center">
+                <div className="border-2 w-full sm:w-3/4 lg:w-1/2 p-6 sm:p-10 rounded-2xl bg-[#eeffb5ee] shadow-lg flex flex-col justify-center items-center">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-green-900 mb-4">
+                        Complete Payment To Access Chat
+                    </h2>
+                    <button
+                        onClick={() => navigate("/paymentPlans")}
+                        className="mt-6 flex justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold uppercase text-lg shadow-md transition-all"
+                    >
+                        Make Payment
+                    </button>
+                </div>
             </div>
-        </div>
-    );
-}
+        );
+    }
 
-return <ClientChat userId={userId} trainerId={trainerId} />;
+    return <ClientChat userId={userId} trainerId={trainerId} />;
 }

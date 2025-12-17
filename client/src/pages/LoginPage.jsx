@@ -54,7 +54,6 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen bg-green-100 dark:bg-slate-900 flex flex-col items-center px-4">
-      {/* Back Home Button */}
       <div className="mt-8 w-full max-w-md">
         <Link to='/'>
           <button className="uppercase bg-green-700 hover:bg-green-800 text-white font-semibold rounded-full px-6 py-2 flex items-center gap-2">
@@ -62,8 +61,6 @@ function LoginPage() {
           </button>
         </Link>
       </div>
-
-      {/* Login Form */}
       <div className="flex flex-col mx-auto mt-10 items-center bg-white border border-green-400 rounded-lg shadow-md w-full max-w-md p-8">
         <h1 className="text-2xl font-bold text-green-900 text-center mb-4">Sign in to ElevFit</h1>
         <p className="text-center text-green-800 mb-6">

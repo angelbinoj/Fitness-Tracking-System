@@ -9,7 +9,6 @@ export const trainerRouter= express.Router();
 
 trainerRouter.use(authMiddleWare);
 trainerRouter.use(authorizeRole(["trainer"]));
-// trainerRouter.get('/dashboard', TrainerDashboard);
 trainerRouter.get('/profile',getProfile);
 trainerRouter.put('/profile',upload.single('profilePic'), updateProfile);
 trainerRouter.get('/clients',findAssignedClients);

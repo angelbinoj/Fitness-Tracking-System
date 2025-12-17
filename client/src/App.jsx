@@ -57,72 +57,72 @@ function App() {
   useEffect(() => {
     loadTheme();
   }, []);
-  
+
   return (
     <Routes>
 
-        {/* Public Pages */}
-        <Route element={<HomeLayout/>}>
+      {/* Public Pages */}
+      <Route element={<HomeLayout />}>
         <Route path="/" element={<HomePage />} />
-        </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/logout" element={<Logout/>} />
-        <Route path="/forgotPassword" element={<ForgotPassword/>} />
-        <Route path="/resetPassword/:token" element={<ResetPassword/>} />
-        
+      </Route>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/logout" element={<Logout />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword/:token" element={<ResetPassword />} />
 
-        {/* User Dashboard */}
-        <Route element={<ProtectedRoute allowedRoles={["client"]} ><UserLayout /></ProtectedRoute>}>
-          <Route path="/client/dashboard" element={<UserDashboard/>} />
-          <Route path='/user/updateProfile' element={<UserUpdateProfile/>}/>
-          <Route path='/trainer' element={<TrainerInfo/>}/>
-          <Route path='/paymentPlans' element={<PaymentPlans/>}/>
-          <Route path="/payment/success" element={<PaymentStatusPage/>} />
-          <Route path="/payment/cancel" element={<PaymentStatusPage />} />
-          <Route path="/user/logs" element={<ViewLogs/>} />
-          <Route path="/user/createLog" element={<CreateLog/>} />
-          <Route path="/user/workoutPlan" element={<ViewWorkoutPlan/>} />
-          <Route path="/user/nutritionPlan" element={<ViewNutritionPlan/>} />
-          <Route path="/user/viewPayments" element={<ViewUserPayments/>} />
-          <Route path="/user/sessions" element={<BookSession/>} />
-          <Route path="/user/sessionCalender" element={<ClientCalendarPage/>} />
-          <Route path="/user/chat" element={<ClientChatPage/>} />
-          <Route path="/user/review" element={<ClientReview/>} />
-          </Route>
-          <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
-        {/* Trainer Dashboard */}
-        <Route element={<ProtectedRoute allowedRoles={["trainer"]}><TrainerLayout /></ProtectedRoute>}>
-          <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
-          <Route path='/trainer/updateProfile' element={<TrainerUpdateProfile/>}/>
-          <Route path="/trainer/clients" element={<AssignedClient/>} />
-          <Route path="/trainer/createPlan/:id" element={<CreatePlan/>} />
-          <Route path="/trainer/viewPlan/:id" element={<ViewUserPlan/>} />
-          <Route path="/trainer/client/logs" element={<UserLogsList/>} />
-          <Route path="/trainer/viewLog/:id" element={<ViewUserLogs />} />
-          <Route path="/trainer/viewPayments" element={<ViewTrainerPayments/>} />
-          <Route path="/trainer/sessions" element={<TrainerSessions/>} />
-          <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage/>} />
-          <Route path="/trainer/chat/:id" element={<TrainerChatPage/>} />
-           <Route path="/trainer/feedbacks" element={<TrainerFeedback/>} />
-        </Route>
-          <Route path="/trainer/withdraw" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerWithdraw /></ProtectedRoute>} />
-        <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
-        <Route path="/trainer/pendingApproval" element={<ProtectedRoute allowedRoles={["trainer"]} ><PendingApproval /></ProtectedRoute>} />
+      {/* User Dashboard */}
+      <Route element={<ProtectedRoute allowedRoles={["client"]} ><UserLayout /></ProtectedRoute>}>
+        <Route path="/client/dashboard" element={<UserDashboard />} />
+        <Route path='/user/updateProfile' element={<UserUpdateProfile />} />
+        <Route path='/trainer' element={<TrainerInfo />} />
+        <Route path='/paymentPlans' element={<PaymentPlans />} />
+        <Route path="/payment/success" element={<PaymentStatusPage />} />
+        <Route path="/payment/cancel" element={<PaymentStatusPage />} />
+        <Route path="/user/logs" element={<ViewLogs />} />
+        <Route path="/user/createLog" element={<CreateLog />} />
+        <Route path="/user/workoutPlan" element={<ViewWorkoutPlan />} />
+        <Route path="/user/nutritionPlan" element={<ViewNutritionPlan />} />
+        <Route path="/user/viewPayments" element={<ViewUserPayments />} />
+        <Route path="/user/sessions" element={<BookSession />} />
+        <Route path="/user/sessionCalender" element={<ClientCalendarPage />} />
+        <Route path="/user/chat" element={<ClientChatPage />} />
+        <Route path="/user/review" element={<ClientReview />} />
+      </Route>
+      <Route path="/user/onboarding" element={<ProtectedRoute allowedRoles={["client"]} ><UserOnboarding /></ProtectedRoute>} />
 
-        {/* Admin Dashboard */}
-        <Route element={<ProtectedRoute allowedRoles={["admin"]}><AdminLayout /></ProtectedRoute>}>
-          <Route path="/admin/dashboard" element={<AdminDashboard/>} />
-          <Route path='/admin/updateProfile' element={<AdminUpdateProfile/>}/>
-          <Route path="/trainerList" element={<TrainerList/>} />
-          <Route path="/clientList" element={<ClientList/>} />
-          <Route path="/admin/viewAllPayments" element={<ViewAllPayments/>} />
-          <Route path="/admin/sessionCalender" element={<AdminCalendarPage/>} />
-          <Route path="/admin/reports" element={<AdminReport/>} />
-        </Route> 
+      {/* Trainer Dashboard */}
+      <Route element={<ProtectedRoute allowedRoles={["trainer"]}><TrainerLayout /></ProtectedRoute>}>
+        <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
+        <Route path='/trainer/updateProfile' element={<TrainerUpdateProfile />} />
+        <Route path="/trainer/clients" element={<AssignedClient />} />
+        <Route path="/trainer/createPlan/:id" element={<CreatePlan />} />
+        <Route path="/trainer/viewPlan/:id" element={<ViewUserPlan />} />
+        <Route path="/trainer/client/logs" element={<UserLogsList />} />
+        <Route path="/trainer/viewLog/:id" element={<ViewUserLogs />} />
+        <Route path="/trainer/viewPayments" element={<ViewTrainerPayments />} />
+        <Route path="/trainer/sessions" element={<TrainerSessions />} />
+        <Route path="/trainer/sessionCalender" element={<TrainerCalendarPage />} />
+        <Route path="/trainer/chat/:id" element={<TrainerChatPage />} />
+        <Route path="/trainer/feedbacks" element={<TrainerFeedback />} />
+      </Route>
+      <Route path="/trainer/withdraw" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerWithdraw /></ProtectedRoute>} />
+      <Route path="/trainer/onboarding" element={<ProtectedRoute allowedRoles={["trainer"]} ><TrainerOnboarding /></ProtectedRoute>} />
+      <Route path="/trainer/pendingApproval" element={<ProtectedRoute allowedRoles={["trainer"]} ><PendingApproval /></ProtectedRoute>} />
 
-      </Routes>
+      {/* Admin Dashboard */}
+      <Route element={<ProtectedRoute allowedRoles={["admin"]}><AdminLayout /></ProtectedRoute>}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path='/admin/updateProfile' element={<AdminUpdateProfile />} />
+        <Route path="/trainerList" element={<TrainerList />} />
+        <Route path="/clientList" element={<ClientList />} />
+        <Route path="/admin/viewAllPayments" element={<ViewAllPayments />} />
+        <Route path="/admin/sessionCalender" element={<AdminCalendarPage />} />
+        <Route path="/admin/reports" element={<AdminReport />} />
+      </Route>
+
+    </Routes>
   );
 }
 

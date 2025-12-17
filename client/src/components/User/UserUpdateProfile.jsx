@@ -83,7 +83,7 @@ function UserUpdateProfile() {
 
         setAlertMessage(data.message || "Profile updated successfully!");
         setAlertColor("text-green-700");
-         setShowAlert(true);
+        setShowAlert(true);
         setTimeout(() => setShowAlert(false), 1000);
       }
     } catch (error) {
@@ -129,9 +129,8 @@ function UserUpdateProfile() {
           <label className="font-semibold text-lg uppercase flex flex-col">
             Full Name:
             <input
-              className={`h-10 mt-1 w-full text-base rounded-md ps-4 capitalize bg-gray-100 ${
-                isEditable ? "border-2 border-green-600" : "border border-transparent"
-              }`}
+              className={`h-10 mt-1 w-full text-base rounded-md ps-4 capitalize bg-gray-100 ${isEditable ? "border-2 border-green-600" : "border border-transparent"
+                }`}
               type="text"
               name="name"
               value={userData.name}
@@ -144,9 +143,8 @@ function UserUpdateProfile() {
             <label className="font-semibold text-lg uppercase flex flex-col w-full">
               Email:
               <input
-                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${
-                  isEditable ? "border-2 border-green-600" : "border border-transparent"
-                }`}
+                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${isEditable ? "border-2 border-green-600" : "border border-transparent"
+                  }`}
                 type="email"
                 name="email"
                 value={userData.email}
@@ -158,9 +156,8 @@ function UserUpdateProfile() {
             <label className="font-semibold text-lg uppercase flex flex-col w-full">
               Contact:
               <input
-                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${
-                  isEditable ? "border-2 border-green-600" : "border border-transparent"
-                }`}
+                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${isEditable ? "border-2 border-green-600" : "border border-transparent"
+                  }`}
                 type="text"
                 name="contact"
                 value={userData.contact}
@@ -174,9 +171,8 @@ function UserUpdateProfile() {
             <label className="font-semibold text-lg uppercase flex flex-col w-full">
               Age:
               <input
-                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${
-                  isEditable ? "border-2 border-green-600" : "border border-transparent"
-                }`}
+                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${isEditable ? "border-2 border-green-600" : "border border-transparent"
+                  }`}
                 type="number"
                 name="age"
                 value={userData.age}
@@ -188,9 +184,8 @@ function UserUpdateProfile() {
             <label className="font-semibold text-lg uppercase flex flex-col w-full">
               Gender:
               <select
-                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${
-                  isEditable ? "border-2 border-green-600" : "border border-transparent"
-                }`}
+                className={`h-10 mt-1 text-base rounded-md ps-4 bg-gray-100 ${isEditable ? "border-2 border-green-600" : "border border-transparent"
+                  }`}
                 name="gender"
                 value={userData.gender}
                 disabled={!isEditable}
@@ -211,11 +206,10 @@ function UserUpdateProfile() {
           <div className="mt-4 flex justify-center">
             <button
               onClick={enableEdit}
-              className={`text-white uppercase text-lg py-2 px-5 rounded-md transition shadow ${
-                !isEditable
+              className={`text-white uppercase text-lg py-2 px-5 rounded-md transition shadow ${!isEditable
                   ? "bg-green-500 hover:bg-green-600"
                   : "bg-green-700 hover:bg-green-800"
-              }`}
+                }`}
             >
               {!isEditable ? "Update" : "Save"}
             </button>

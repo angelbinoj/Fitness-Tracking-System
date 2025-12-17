@@ -22,7 +22,6 @@ export default function AdminSidebar(){
 
     return (
         <>
-            {/* Thin full-height hamburger strip - visible only on mobile */}
             <div 
                 className="md:hidden fixed left-0 top-0 h-screen bg-[#0f5707] flex items-center justify-center cursor-pointer z-50"
                 onClick={() => setOpen(!open)}

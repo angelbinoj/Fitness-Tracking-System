@@ -61,5 +61,3 @@ export const isClientAssignedToTrainer = async (req, res, next) => {
          return res.status(403).json({ message: 'Access denied. You do not have the required permissions!' });
     }
 };
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFyeWFAZ21haWwuY29tIiwicm9sZSI6InRyYWluZXIiLCJpZCI6IjY5MWM5YzRmNjAyYzM2ZjA4MWQ3YzE2ZiIsImlhdCI6MTc2MzQ4MjgyMiwiZXhwIjoxNzYzNTY5MjIyfQ.kBGUQRMF79LEn3qfNNxN7ADNANyswiAq26iKlmp-_98

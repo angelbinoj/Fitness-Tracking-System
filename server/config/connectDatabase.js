@@ -3,12 +3,11 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
     try {
-        // Await the connection call itself and let the parent try/catch handle it
         await mongoose.connect(process.env.MONGODB_URL);
         console.log("Database connected successfully");
         
     } catch (error) {
         console.log("Database connection failed", error.message);
-        throw error; // Re-throw the error so startServer catch block catches it
+        throw error;
     }
 };

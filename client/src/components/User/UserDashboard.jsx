@@ -149,7 +149,6 @@ const UserDashboard = () => {
   console.log("Progress error data:", error.response?.data);
   console.log("Progress error message:", error.message);
 
-  // 👇 allow "no progress" UI to render
   setProgress({ labels: [], actual: [], target: 0 });
 
       }

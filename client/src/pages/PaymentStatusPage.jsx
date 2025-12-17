@@ -11,13 +11,13 @@ const PaymentStatusPage = () => {
   useEffect(() => {
     const planInfo = JSON.parse(localStorage.getItem("paymentInfo"));
 
-  if (isSuccess && planInfo) {
-     axios.post(
-      `${import.meta.env.VITE_API_URL}/payment/update`,
-      { ...planInfo },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-  }
+    if (isSuccess && planInfo) {
+      axios.post(
+        `${import.meta.env.VITE_API_URL}/payment/update`,
+        { ...planInfo },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    }
 
     setTimeout(() => {
       if (isSuccess) {
