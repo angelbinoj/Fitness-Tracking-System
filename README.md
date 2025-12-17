@@ -10,7 +10,7 @@ A **Full Stack MERN-based web application** designed to help users track their f
   👉 *[Add your deployed frontend URL here](https://fitness-system-frontend.vercel.app/)*
 
 * **Backend (API Server):**
-  👉 *[Add your deployed backend URL here](https://fitness-system-backend.vercel.app/)*
+  👉 *https://fitness-system-backend.vercel.app/*
 
 > ℹ️ Both **frontend and backend are maintained in the same repository**, organized into separate folders.
 
@@ -31,7 +31,6 @@ The system supports **three roles**:
 * **Client (User)** – tracks fitness, books trainers, and makes payments
 * **Trainer** – manages clients, workout plans, and progress
 
----
 
 ## 🎯 Objectives
 
@@ -70,4 +69,3 @@ The system supports **three roles**:
 **Angel Binoj**
 Full Stack Developer (MERN)
 
----
