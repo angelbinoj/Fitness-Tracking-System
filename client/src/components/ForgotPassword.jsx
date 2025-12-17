@@ -26,7 +26,6 @@ function ForgotPassword() {
       setColor("text-green-700");
       setLoading(false);
 
-      // Optional: auto navigate after few seconds
       setTimeout(() => navigate("/login"), 3000);
 
     } catch (err) {
@@ -37,7 +36,7 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-green-200 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-green-200 dark:bg-slate-900 px-4">
       <div className="bg-slate-50 shadow-lg rounded-lg p-8 w-full max-w-md border border-green-200">
         <h2 className="text-3xl font-bold text-center text-green-800">
           Forgot Password
